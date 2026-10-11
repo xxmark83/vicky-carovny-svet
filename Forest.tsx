@@ -27,7 +27,7 @@ export function Landscape({low,game}:{low:boolean;game:Game}){
  transformed.x+=sin(vickyTime*1.3+position.y*2.0)*0.035;`);
  shader.fragmentShader='varying vec3 vickyWorld;\nuniform vec3 vickyHero;\n'+shader.fragmentShader;shader.fragmentShader=shader.fragmentShader.replace('#include <clipping_planes_fragment>',`#include <clipping_planes_fragment>
  vec3 axis=cameraPosition-vickyHero;float len2=dot(axis,axis);float t=dot(vickyWorld-vickyHero,axis)/max(len2,0.01);float gap=distance(vickyWorld,vickyHero+axis*t);
- if((distance(vickyWorld,cameraPosition)<3.5||(t>0.05&&t<1.03&&gap<2.7&&vickyWorld.y>vickyHero.y-0.4))&&mod(floor(gl_FragCoord.x)+floor(gl_FragCoord.y)*2.0,5.0)>0.0)discard;`);};m.customProgramCacheKey=()=>`vicky-foliage-${surface}-2`;m.needsUpdate=true;}},[materials,uniforms]);
+ if((distance(vickyWorld,cameraPosition)<3.5||(t>0.05&&t<1.03&&gap<2.7&&vickyWorld.y>vickyHero.y-1.5))&&mod(floor(gl_FragCoord.x)+floor(gl_FragCoord.y)*2.0,5.0)>0.0)discard;`);};m.customProgramCacheKey=()=>`vicky-foliage-${surface}-3`;m.needsUpdate=true;}},[materials,uniforms]);
  useFrame(()=>{uniforms.hero.value.set(game.player.x,game.floor(game.player)+game.player.y+1.2,game.player.z);uniforms.time.value=game.elapsed+game.portalTime;});
  useEffect(()=>()=>Object.values(materials).forEach(m=>{m.map?.dispose();m.dispose();}),[materials]);return <><Ground materials={materials}/>{chunks.map(chunk=><Cubes key={chunk.key} blocks={chunk.blocks} material={materials[chunk.surface]} castShadow={chunk.surface==='bark'||chunk.surface==='leaf'||chunk.surface==='stone'}/>)}</>;
 }
