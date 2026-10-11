@@ -26,3 +26,11 @@
 
 @media(max-width:600px) and (orientation:portrait){.objective{top:214px;bottom:auto;left:14px;max-width:190px}.interact{bottom:300px}}
 @media(min-width:601px) and (orientation:portrait){.objective{top:205px;bottom:auto;left:24px}}
+
+.flight-tools{position:absolute;right:22px;top:210px;display:flex;flex-direction:column;align-items:flex-end;gap:7px;pointer-events:auto}.flight-toggle{display:flex;gap:9px;align-items:center;border:1px solid #e4c679;background:#173d34e8;color:#fff5ce;padding:11px 14px;border-radius:14px;font-weight:800;box-shadow:0 5px 20px #142a2844}.flight-toggle kbd{opacity:.6}.orbit-pad{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:126px;height:65px;border:1px solid #e5d8a955;border-radius:15px;background:#173d34ad;color:#eee8c6;touch-action:none;cursor:grab;user-select:none}.orbit-pad span{font-size:9px;letter-spacing:1px}.reset-camera{background:#173d34a0;border:0;border-radius:7px;padding:5px 8px;color:#fff5d4;font-size:10px}.altitude{font-size:10px;background:#173d34dc;color:#fff1b6;padding:6px 8px;border-radius:6px}
+@media(max-width:700px){.flight-tools{right:12px;top:170px;gap:5px}.flight-toggle{padding:9px 10px;font-size:12px}.orbit-pad{width:106px;height:55px}.altitude{max-width:130px;font-size:9px;text-align:center}.reset-camera{font-size:9px}}
+@media(max-height:600px){.flight-tools{top:85px;right:16px;gap:4px}.orbit-pad{width:105px;height:43px;flex-direction:row}.orbit-pad span{font-size:8px;width:40px}.flight-toggle{padding:7px 10px}.altitude{max-width:160px;font-size:9px}.reset-camera{font-size:8px}.minimap-button{display:none}}
+
+@media(max-width:700px){.minimap-button{display:none}}
+
+@media(min-width:701px) and (min-height:601px){.flight-tools{top:390px}}

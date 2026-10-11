@@ -1,28 +1,44 @@
-# Ďalší upgrade: stále iba level 1 — Čarovný les
+# Ďalší upgrade: Čarovný les 1.4
 
-Hodnotenie vyjadruje očakávaný prínos pre zážitok Vicky, nie percentuálnu zhodu s referenčným obrázkom. Návrhy nižšie ešte nie sú implementované. Verzia 1.2 už obsahuje hustý textúrovaný les, nízku kameru, terasy, vodopád, potok, hrady, Auriho, nové modely nepriateľov a príbeh troch svetiel.
+Stále iba level 1. Tento návrh nadväzuje na hotovú verziu 1.3: chôdza +40 %, voľný let, otáčanie kamery, kopce, lúky, jemnejší terén, svetlo/tiene a tri adaptované postavičky. Nové svety, stavanie domu ani obchod nie sú súčasťou návrhu.
 
-| Poradie | Návrh | Prínos / 10 | Konkrétny výsledok |
-|---|---|---:|---|
-| 1 | Kvalitnejšia Vicky a animácie | 10 | Pôvodný ručne doladený 3D model, mäkší tvar tváre, pramene copu, výraz pri náleze diamantu, prirodzený beh, 3 rozdielne údery a oslava. |
-| 2 | Súboje s rozdielnymi nepriateľmi | 9 | Zelený humanoid útočí zblízka, štvornohá príšerka nabíja viditeľný magický výbuch, kostlivec vystrelí pomalý odraziteľný projektil. Farebné varovanie a jasná chvíľa na protiútok. |
-| 3 | Tajomstvo za vodopádom | 9 | Krátka odbočka v existujúcom lese, 3 runy na jednoduchej hádanke, svetlušková jaskyňa a vizuálna odmena pre vlka. Bez ďalšieho levelu a bez predĺženia povinného hrania. |
-| 4 | Živá príroda a lepšia kompozícia | 9 | Vietor v listoch a tráve, motýle, vtáky, kvalitnejšie skalné previsy, prirodzenejšie skupiny stromov, odstupňované vodopády, výhľady na hrad. Ručne doladiť kľúčové čistinky. |
-| 5 | Silnejší osobný príbeh | 9 | Krátky úvodný let Auriho, pomenovaný vlk, reakcie na každú svätyňu a krátke stretnutie s Aurim pri poklade. Žiadne dlhé textové prestávky. |
-| 6 | Výraznejší finálny strážca | 8 | Dve jasné fázy, praskajúce fialové kúzlo, premena na priateľského strážcu po víťazstve. Zachovať čitateľnosť útokov a možnosť zopakovať boj. |
-| 7 | Priestorový zvuk lesa | 8 | Potok hlasnejší pri vode, vtáky nad korunami, kroky podľa povrchu, krátke hudobné témy svätýň; jednoduchý vypínač zvuku. |
-| 8 | Pomoc pri prvom hraní | 8 | Prvé útoky spomalené, vlk ukáže odbočku, pomoc sa zobrazí až po opakovanom neúspechu; možnosť jemnejšej obtiažnosti. |
+Skóre vyjadruje očakávaný prínos pre zážitok Vicky (10 = najväčší). Je to návrhové hodnotenie, nie meraná grafická zhoda s obrázkom.
 
-## Odporúčaný balík 1.3
+| Poradie | Upgrade | Konkrétny výsledok | Prínos | Náročnosť |
+|---|---|---|---:|---|
+| 1 | Vicky s kvalitnejšími animáciami | Plynulý beh, rozbeh, zastavenie, tri rôzne švihy, let s vystretými rukami, pristátie, výrazy radosti a únavy; dlhší prameňový cop s modrou gumičkou | 10/10 | vysoká |
+| 2 | Odlišné správanie strážcov | Kravička sa rozbehne po označenej čiare, panda chráni slabší chrbát, modrý strážca vysiela pomalé preskočiteľné vlny; zelená príšerka sa priblíži, kostlivec drží odstup | 10/10 | stredná až vysoká |
+| 3 | Ručne komponované scenérie | Osem lúk dostane vlastnú tvár: brezový háj, ružová záhrada, veľké korene, machové balvany, kvetinový svah, jazierko, skalná vyhliadka a záhrada pokladu | 9/10 | vysoká |
+| 4 | Vlk ako skutočný partner | Vyčuchá stopu, pozrie na Vicky, zavolá pri skrytom mieste, obíde kmeň a most, počká pod letiacou Vicky; voliteľné pohladkanie | 9/10 | stredná až vysoká |
+| 5 | Malý príbeh počas hry | Tri krátke stretnutia s Aurim, reakcie na nájdené miesta, zmena lesa po každej svätyni; každá replika sa dá preskočiť a nezastaví hráča nadlho | 9/10 | stredná |
+| 6 | Tajomstvo za vodopádom | Jedna malá preskúmateľná jaskyňa v rovnakej mape, svetielkujúce huby, stopa vlka a dobrovoľný kvetinový venček; nezmení hlavný cieľ 10 diamantov | 9/10 | stredná |
+| 7 | Pútavejší čarovný let | Vietor v cope, jemné naklonenie do zákrut, krátka zlatá stopa, 3 dobrovoľné vzdušné oblúky a jasná značka bezpečného pristátia | 9/10 | stredná |
+| 8 | Svetlo a živá príroda | Slnečné lúče cez koruny, drobné motýle, pohyb trávy a lístia, jemná hmla pri vode; zlaté svetlo po prebudení svätýň | 9/10 | stredná až vysoká |
+| 9 | Zvuková atmosféra | Potok podľa vzdialenosti, šušťanie stromov, kroky na tráve/dreve/kameni, krídla Auriho, jemná hudba a samostatné ovládanie hudby/efektov | 8/10 | stredná |
+| 10 | Boss s dvoma fázami | Strážca najprv strieda kruh/vlnu; po polovici zdravia oživí tri korene, ktoré Vicky zruší mečom. Vlk označí bezpečné miesto; finále otvorí poklad svetelnou oslavou | 9/10 | vysoká |
+| 11 | Kamera a orientácia | Plynulé priehľadné prekrytie vegetácie pri zakrytí Vicky, otočná mapa so smerom pohľadu, citlivosť kamery v nastavení, jasný ukazovateľ výšky a pristátia | 9/10 | stredná |
+| 12 | Ladenie na skutočnom iPhone/iPade | Zmerať plynulosť, spotrebu pamäte a zahrievanie počas celého levelu; nastaviť vzdialenosť detailu, tiene a počet efektov podľa výsledkov | 10/10 | stredná; vyžaduje zariadenie |
 
-Najprv body 1, 2 a 4. Tie prinesú najväčší rozdiel pri každej sekunde hrania: lepšiu postavu, pestrejší boj a presvedčivejšie prostredie. Potom doplniť tajomstvo za vodopádom a osobný záver s Aurim.
+## Odporúčaný celý balík a poradie
 
-Povinný cieľ zostáva 10 diamantov, 3 svätyne a zlatá truhlica, približne 5–10 minút prvého hrania. Žiadne ďalšie levely, obchod, meny ani stavanie domčeka v tomto balíku.
+**A — ovládanie a postavy:** Vicky, kamera, rozdielni nepriatelia, vlk. Toto najviac zlepší samotné hranie a pocit, že Vicky je hrdinka.
 
-## Podmienky dokončenia
+**B — objavovanie a atmosféra:** osem odlišných scenérií, vodopádová jaskyňa, príbeh, svetlo, príroda a zvuky. Zachováme kompaktnú mapu, 10 diamantov a tri svätyne. Dobrovoľné tajomstvá odmenia preskúmavanie bez povinného zbierania navyše.
 
-- Prejsť celý level so skutočnými ovládacími vstupmi, zachovať staré uložené pozície a všetky cieľové predmety.
-- Overiť útoky, skok, projektily, pauzu a návrat po neúspechu.
-- Reálne zmerať výkon a ovládanie v Safari na konkrétnom iPhone a iPade; podľa merania upraviť počet detailov.
-- Osobitne skontrolovať čitateľnosť Vicky, nepriateľov a cieľov v každej hlavnej čistinke.
-- Grafickú podobnosť hodnotiť vedľa reálnych screenshotov hry. Referencia má výrazne kvalitnejšie modely, osvetlenie a efekty; presné percento zhody sa nedá overiť.
+**C — let a finále:** zlatá stopa a oblúky, čitateľné pristávanie, dve fázy strážcu a spoločná oslava Vicky, vlka a Auriho. Celý balík priebežne overovať na mobiloch; priemerné prvé hranie smerovať k 5–10 minútam, bez núteného čakania.
+
+**Celkový očakávaný prínos balíka: 9/10.** Najväčší ďalší skok prinesie kombinácia kvalitnejšej Vicky, odlišných súbojov a ručne komponovaných scenérií. Ďalšie samotné pridávanie stromov už nebude mať taký veľký účinok.
+
+## Kritériá hotového upgradu
+
+- Celý level sa dá dokončiť pešo aj s kombináciou letu a chôdze; let nezbiera ciele z oblohy.
+- Každý nový typ nepriateľa má jasné varovanie, bezpečný protiťah a rozoznateľnú siluetu.
+- Kamera nezakryje Vicky pri štarte, pri svätyniach ani v bežných lesných priechodoch; citlivosť sa dá upraviť.
+- Všetkých osem lúk je možné navštíviť, jaskyňu možno vynechať a výsledok levelu ostane rovnaký.
+- Starý uložený postup sa načíta, pauza zastaví súboje aj let, dotyk umožní súčasný pohyb a akciu.
+- Profilovanie na fyzickom zariadení zdokumentuje FPS a pamäť; až potom stanoviť realistický výkonový cieľ.
+- Reálne snímky hry musia potvrdiť vizuálne zlepšenie. Percento zhody s ilustračným obrázkom nemožno poctivo zmerať; najväčším rozdielom zostane detail modelov, animácií a filmového svetla.
+
+## Limity hotovej verzie 1.3
+
+Vicky je stále jednoduchý procedurálny model. Tri adaptované postavičky sú plastické voxelové modely odvodené z pixelových predlôh, nie detailné animované zvieratá. Spoločná bojová logika zatiaľ nerozlišuje ich schopnosti. Vlk má jednoduché nasledovanie, kamera sa vyhýba kmeňom, ale husté koruny ju v niektorých uhloch môžu prekryť. Úsporný režim vypína dynamické tiene. Safari a fyzický iPhone/iPad zatiaľ neboli otestované. Automatický hráč dokončí trasu približne za 3 min 40 s; prvé objavovanie a dobrovoľný let môžu hranie predĺžiť.

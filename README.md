@@ -2,6 +2,16 @@
 
 Jeden kompletný hrateľný 3D level **Čarovný les**. React 19, TypeScript, Three.js a react-three-fiber, Vite. Bez backendu a bez API kľúčov.
 
+## Upgrade 1.3 — Voľný les a čarovný let
+
+Chôdza je presne o **40 % rýchlejšia**: 2,6 → 3,64 m/s. Vicky môže odbočiť z cesty do ôsmich veľkých lúk a bočných priechodov, stúpať a klesať po kopcoch. Ohraničená mapa zostáva 140 × 346 m. Cesta slúži na orientáciu; prekážkami sú kmene, skaly, hranice a rieka mimo mosta.
+
+**F / Vzlietnuť** prepína na voľný čarovný let (10 m/s). Vicky sa sama zdvihne nad les, môže lietať cez rieku, stúpať medzerníkom a klesať Shiftom. Dotyk má samostatné držateľné tlačidlá hore/dole. Kamera je za Vicky a otáča sa Q/C alebo ťahaním plochy KAMERA; T/G mení sklon počas letu, R vráti sever. Pohyb je relatívny k smeru kamery. Pristáť možno na voľnej zemi, nie nad kmeňom ani vodou. Pristátie je plynulé. Diamanty, súboje a svätyne zostávajú pri zemi. Let aj jeho výška sa ukladajú; staré uložené pozície ostávajú kompatibilné.
+
+Terén používa kocky 1,25 m a výškové kroky 0,25 m. Kreslia sa iba vrchné plochy a odkryté steny namiesto celých skrytých stĺpcov. Koruny stromov majú menšie samostatné kocky, hustejšiu siluetu a detailné/predvolene úsporné varianty. Detailný režim má skutočné 2048 px tiene a teplé meniace sa smerové svetlo; úsporný režim ponecháva svetlo a hmlu bez tieňov. Let odhaľuje kopce, vodopád, ružové koruny, hrady a vzdialené hory. Kamera sa medzi kmeňmi priblíži alebo hľadá voľnejší uhol.
+
+Z používateľom nahranej hry `kostickovy-3d.zip` sú adaptované tri motívy: zakliata kravička, panda a modrý strážca. Sú prebudované ako 3D povrchové kocky veľkosti 0,115 m a dopĺňajú zelené príšerky a kostlivcov. Ich súbojová logika je zatiaľ spoločná; nové odlišné schopnosti sú návrhom ďalšieho upgradu. ZIP ani jeho ostatné levely a systémy nie sú súčasťou projektu.
+
 ## Upgrade 1.2 — Auri a tri svetlá
 
 Prvý level má výrazne hustejší farebný les s pixelovými textúrami, členitými terasami, rozmanitými korunami, kríkmi a kvetinovou podrastou. Les je rozdelený na 28 m úseky a bloky sa kreslia pomocou zdieľaných instancií; úsporný režim znižuje detail podrastu a korún. Herná kamera je nižšie a bližšie k Vicky. Priehľady odhaľujú nový animovaný vodopád, potok, ružový hrad a pôvodného fialového draka Auriho.
@@ -31,7 +41,7 @@ Ak detailná grafika po úvodnom zahriatí počas dvoch po sebe nasledujúcich t
 3. Prebuď **3 svätyne** po porazení tieňov v ich okolí. Doplňujú zdravie a ukladajú miesto návratu.
 4. Na konci lesa otvor zlatú truhlicu. Pri svätyniach aj truhlici použi **E** alebo tlačidlo na obrazovke.
 
-Bežné prvé hranie je navrhnuté približne na **5–10 minút**, podľa objavovania a súbojov. Automatizovaný test s navigáciou po najkratších trasách dokončil level za približne 4 min 35 s herného času.
+Bežné prvé hranie je navrhnuté približne na **5–10 minút**, podľa objavovania a súbojov. Automatizovaný test s navigáciou po najkratších trasách dokončil level za približne 3 min 40 s herného času.
 
 ### Ovládanie
 
@@ -63,9 +73,9 @@ Výstup je v `dist/`. Vercel rozpozná Vite; konfigurácia je v `vercel.json`. B
 
 ## Mobil a výkon
 
-Responzívne rozhranie pre iPhone/iPad v Safari a pre moderné prehliadače. Dotykový joystick podporuje pointer capture a súbežné dotyky s tlačidlami. Safe-area okraje a dynamická výška viewportu. Na dotykových zariadeniach je predvolene úsporná grafika: DPR 1, bez tieňov a antialiasingu. Detailná grafika je v pauze; jej DPR je obmedzené na 1,5 a tiene na 1024 px. Scéna používa zdieľané geometrie a instancované bloky, hmlu a obmedzený počet častíc. Rozšírenie na celú obrazovku závisí od prehliadača; na iPhone sa dá použiť Pridať na plochu.
+Responzívne rozhranie pre iPhone/iPad v Safari a pre moderné prehliadače. Dotykový joystick podporuje pointer capture a súbežné dotyky s tlačidlami. Safe-area okraje a dynamická výška viewportu. Na dotykových zariadeniach je predvolene úsporná grafika: DPR 1, bez tieňov a antialiasingu. Detailná grafika je v pauze; jej DPR je obmedzené na 1,5 a tiene na 2048 px. Scéna používa zdieľané geometrie a instancované bloky, hmlu a obmedzený počet častíc. Rozšírenie na celú obrazovku závisí od prehliadača; na iPhone sa dá použiť Pridať na plochu.
 
-**Overené:** produkčný build, 15 automatizovaných testov logiky vrátane celého prejdenia levelu, striedania útokov strážcu, preskočenia vlny, kompatibility uloženého postupu a oslavy. V Chrome desktop a rozmeroch 390 × 844, 844 × 390 a 820 × 1180 overené ovládanie joystickom, rýchle ťuknutie na kúzlo, prebudenie svätyne a otvorenie truhlice s víťazstvom. Záverečné situácie v prehliadači boli spustené z lokálnych testovacích checkpointov; celý level prechádza automatizovaný test cez skutočnú kolíznu mapu a bežné vstupy. **Neoverené:** fyzický iPhone/iPad, Safari a meranie FPS na skutočných mobilných zariadeniach. Konkrétnu snímkovú frekvenciu preto negarantujeme.
+**Overené:** produkčný build, 21 automatizovaných testov logiky vrátane celého prejdenia levelu, striedania útokov strážcu, preskočenia vlny, kompatibility uloženého postupu a oslavy. V Chrome desktop a rozmeroch 390 × 844, 844 × 390 a 820 × 1180 overené ovládanie joystickom, rýchle ťuknutie na kúzlo, prebudenie svätyne a otvorenie truhlice s víťazstvom. Záverečné situácie v prehliadači boli spustené z lokálnych testovacích checkpointov; celý level prechádza automatizovaný test cez skutočnú kolíznu mapu a bežné vstupy. V 1.3 navyše overený vzlet, let klávesnicou, otáčanie kamery, dotykové stúpanie/klesanie, pristátie, zobrazenie nových strážcov a víťazstvo po zmene terénu. **Neoverené:** fyzický iPhone/iPad, Safari a meranie FPS na skutočných mobilných zariadeniach. Konkrétnu snímkovú frekvenciu preto negarantujeme.
 
 ## Vizuálne referencie a súkromie
 
@@ -75,7 +85,9 @@ Bez analytiky, reklám, nákupov, vzdialenej databázy alebo odosielania postupu
 
 ## Súbory
 
-- `game.ts` — deterministická mapa, kolízie, súboje, ciele, ukladanie a víťazstvo.
+- `map.ts`, `terrain.ts`, `Ground.tsx` — mapa, spoločné výšky a povrchová geometria terénu.
+- `game.ts` — chôdza, let, pristávanie, kolízie, súboje, ciele, ukladanie a víťazstvo.
+- `creatures.ts` — tri adaptované voxelové postavy z používateľovej referencie.
 - `Scene.tsx` — Vicky, vlk, nepriatelia, kamera, rieka, svätyne, truhlica a častice.
 - `Forest.tsx`, `world.ts`, `Voxel.tsx` — hustý instancovaný les, textúry, terasy, vodopád, hrady a animovaný Auri.
 - `App.tsx`, `style.css` — responzívne rozhranie, klávesnica, joystick, pauza a mapa.

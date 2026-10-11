@@ -6,19 +6,18 @@ export type WorldChunk={key:string;surface:Surface;blocks:Block[]};
 export function createLandscape(low=false):WorldChunk[]{
  const chunks=new Map<string,WorldChunk>();const rng=random(12026);
  const add=(surface:Surface,p:[number,number,number],s:[number,number,number],c:string,r=0)=>{const key=`${Math.floor(p[0]/28)}:${Math.floor(p[2]/28)}:${surface}`;if(!chunks.has(key))chunks.set(key,{key,surface,blocks:[]});chunks.get(key)!.blocks.push({p,s,c,r});};
- const green=['#579128','#679e32','#73aa39','#5d9228','#7caa3d'];
- for(let z=32;z>-328;z-=4)for(let x=-80;x<=80;x+=4){const h=groundHeight({x,z});add('earth',[x,h-1,z],[4,2,4],'#8b693e');add('grass',[x,h-.08,z],[4,.18,4],green[Math.floor(rng()*green.length)]);}
- // Small irregular pavers break up the flat ribbons of the original trail.
- for(let i=1;i<PATH.length;i++){const a=PATH[i-1],b=PATH[i],len=distance(a,b),yaw=Math.atan2(b.x-a.x,b.z-a.z);for(let d=0;d<len;d+=1.15){const p={x:a.x+(b.x-a.x)*d/len,z:a.z+(b.z-a.z)*d/len};for(let j=-1;j<=1;j++){const x=p.x+Math.cos(yaw)*j*1.2,z=p.z-Math.sin(yaw)*j*1.2;add('earth',[x,.015+rng()*.025,z],[1.25,.12,1.23],['#b9945c','#cfaa6e','#a98550','#d8b67b'][Math.floor(rng()*4)],yaw);}if(d%4<1.15){const side=rng()>.5?1:-1;add('stone',[p.x+Math.cos(yaw)*side*2.2,.1,p.z-Math.sin(yaw)*side*2.2],[.35,.18,.4],'#b9ab83',yaw);}}}
  for(const [i,o] of OBSTACLES.entries()){
   const y=groundHeight(o);
   if(o.kind==='rock'){add('stone',[o.x,y+o.height*.4,o.z],[o.radius*1.4,o.height,o.radius*1.3],['#79877f','#8e9a8b','#6d7b75'][i%3],o.variant);add('grass',[o.x,y+o.height*.9,o.z],[o.radius*1.35,.24,o.radius*1.25],'#668e33');continue;}
   const h=o.height*(o.variant===2?.7:1);const trunk=o.variant===4?1.05:.75;add('bark',[o.x,y+h*.39,o.z],[trunk,h*.78,trunk],o.variant===1?'#b49a6d':'#b2824e');
   for(let j=0;j<(low?2:4);j++){const a=j*1.6+o.variant;add('bark',[o.x+Math.sin(a)*.65,y+.17,o.z+Math.cos(a)*.65],[.3,.35,1.8],'#80522f',a);}
   const colors=o.variant===3?['#ca72a3','#df92b8','#ac5287']:o.variant===2?['#6d9e28','#8fb83e','#547c27']:['#2e6e2d','#438832','#589c3e'];
-  const count=low?7:12;
-  for(let j=0;j<count;j++){const a=j*2.399+i,r=o.variant===2?.6+(j%3)*.4:1+(j%3)*.65,cy=y+h*.65+(j%4)*.8;const size=o.variant===2?3.8-(j%4)*.65:2.8+(j%3)*.35;add('leaf',[o.x+Math.sin(a)*r,cy,o.z+Math.cos(a)*r],[size,1.5+(j%2)*.4,size],colors[j%3]);}
-  add('leaf',[o.x,y+h*.7+3,o.z],[2.8,1.5,2.8],colors[1]);
+  const leafSize=low?1.45:.95,rx=o.variant===2?2.4:3.2,ry=o.variant===2?3.3:2.5;
+  for(let iy=-2;iy<=2;iy++)for(let ix=-3;ix<=3;ix++)for(let iz=-3;iz<=3;iz++){
+   const px=ix*leafSize,pz=iz*leafSize,py=iy*leafSize;const norm=(px*px+pz*pz)/(rx*rx)+py*py/(ry*ry);if(norm>1.12||norm<.48||rng()<.08)continue;
+   add('leaf',[o.x+px,y+h*.72+py+1,o.z+pz],[leafSize*1.02,leafSize*1.02,leafSize*1.02],colors[Math.floor(rng()*3)]);
+  }
+  add('leaf',[o.x,y+h*.72+3,o.z],[leafSize,leafSize,leafSize],colors[1]);
   if(!low){add('bark',[o.x+1,y+h*.64,o.z],[2.6,.35,.4],'#875731',.35);add('bark',[o.x-.8,y+h*.7,o.z+.5],[2.1,.3,.4],'#875731',-.4);}
  }
  // Dense wildflower strips hug both sides of the path; decorative plants never block controls.

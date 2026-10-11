@@ -1,0 +1,25 @@
+import {CHEST,GEMS,SHRINES} from './map';
+import type {Vec} from './map';
+export const TERRAIN_CELL=1.25;
+const clamp=(v:number)=>Math.max(0,Math.min(1,v));
+const smooth=(v:number)=>{const t=clamp(v);return t*t*(3-2*t);};
+const cache=new Map<string,number>();
+const flats=[{x:0,z:12,inner:7,outer:17},{...CHEST,inner:12,outer:25},...GEMS.map(p=>({...p,inner:2.2,outer:8})),...SHRINES.map(p=>({...p,inner:5,outer:13})),{x:17,z:-37,inner:13,outer:23}];
+// A fixed lattice gives both render modes identical hills and collision heights.
+export function terrainBlockHeight(ix:number,iz:number):number{
+ const key=`${ix}:${iz}`;const hit=cache.get(key);if(hit!==undefined)return hit;
+ const x=ix*TERRAIN_CELL,z=iz*TERRAIN_CELL;
+ let h=4.4+2.6*Math.sin((z+12)/36)+1.8*Math.cos((x-14)/23)+1.3*Math.sin((x+z)/19);
+ h+=7*Math.exp(-((x-48)**2/600+(z+73)**2/1600));
+ h+=8*Math.exp(-((x+47)**2/500+(z+196)**2/1500));
+ h+=5*Math.exp(-((x-41)**2/700+(z+260)**2/1100));
+ let weight=smooth((Math.abs(z+152)-6)/13);
+ for(const p of flats)weight=Math.min(weight,smooth((Math.hypot(x-p.x,z-p.z)-p.inner)/(p.outer-p.inner)));
+ h=Math.round(Math.max(0,h)*weight*4)/4;
+ cache.set(key,h);return h;
+}
+export function groundHeight(p:Vec):number{
+ const x=p.x/TERRAIN_CELL,z=p.z/TERRAIN_CELL,ix=Math.floor(x),iz=Math.floor(z),fx=x-ix,fz=z-iz;
+ const a=terrainBlockHeight(ix,iz),b=terrainBlockHeight(ix+1,iz),c=terrainBlockHeight(ix,iz+1),d=terrainBlockHeight(ix+1,iz+1);
+ return a+(b-a)*fx+(c-a)*fz+(a-b-c+d)*fx*fz;
+}
