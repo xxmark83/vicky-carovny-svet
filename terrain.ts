@@ -15,7 +15,7 @@ export function terrainBlockHeight(ix:number,iz:number):number{
  h+=5*Math.exp(-((x-41)**2/700+(z+260)**2/1100));
  let weight=smooth((Math.abs(z+152)-6)/13);
  for(const p of flats)weight=Math.min(weight,smooth((Math.hypot(x-p.x,z-p.z)-p.inner)/(p.outer-p.inner)));
- h=Math.round(Math.max(0,h)*weight*4)/4;
+ const pondWeight=smooth((Math.hypot(x-10,z+98)-3.4)/3.6);h=Math.round((Math.max(0,h)*weight*pondWeight+5.5*(1-pondWeight))*4)/4;
  cache.set(key,h);return h;
 }
 export function groundHeight(p:Vec):number{

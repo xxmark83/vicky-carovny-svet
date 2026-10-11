@@ -34,3 +34,7 @@
 @media(max-width:700px){.minimap-button{display:none}}
 
 @media(min-width:701px) and (min-height:601px){.flight-tools{top:390px}}
+.mini-map{aspect-ratio:1;width:100%;height:auto}.minimap-button{width:110px}.enemy-tip{position:absolute;top:170px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:5px;max-width:300px;text-align:center;background:#18342ce6;border:1px solid #e8c98677;padding:9px 16px;border-radius:12px;pointer-events:none}.enemy-tip b{font-size:11px;color:#ffe8ae}.enemy-tip span{font-size:10px;color:#f2eed5;line-height:1.5}.sliders{display:flex;gap:24px;margin-top:16px}.sliders label{font-size:11px;display:flex;flex:1;flex-direction:column;gap:10px;text-align:left}.sliders input{width:100%;accent-color:#e8cc82}.flight-toggle:disabled{opacity:.4}.altitude{max-width:210px;text-align:right;line-height:1.5}
+@media(max-width:700px){.enemy-tip{top:310px;width:230px;padding:7px 11px}.enemy-tip b{font-size:10px}.enemy-tip span{font-size:9px}.sliders{gap:15px}.altitude{max-width:130px}.flight-tools{top:153px}}
+@media(max-height:500px) and (orientation:landscape){.enemy-tip{top:130px;width:210px;padding:6px 10px}.flight-tools{top:85px}.sliders{margin-top:10px}}
+@media(max-width:600px) and (orientation:portrait){.boss-hud{top:310px}}

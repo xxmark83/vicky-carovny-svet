@@ -1,65 +1,47 @@
 # VICKY A ČAROVNÝ SVET
 
-Jeden kompletný hrateľný 3D level **Čarovný les**. React 19, TypeScript, Three.js a react-three-fiber, Vite. Bez backendu a bez API kľúčov.
+Hrateľný 3D **level 1 — Čarovný les**, React 19 + TypeScript + Three.js/react-three-fiber + Vite. Bez backendu a API kľúčov.
 
-## Upgrade 1.3 — Voľný les a čarovný let
+- Hra: https://vicky-carovny-svet.vercel.app/
+- Repozitár: https://github.com/xxmark83/vicky-carovny-svet
 
-Chôdza je presne o **40 % rýchlejšia**: 2,6 → 3,64 m/s. Vicky môže odbočiť z cesty do ôsmich veľkých lúk a bočných priechodov, stúpať a klesať po kopcoch. Ohraničená mapa zostáva 140 × 346 m. Cesta slúži na orientáciu; prekážkami sú kmene, skaly, hranice a rieka mimo mosta.
+## Verzia 1.4 — Vicky je hrdinka
 
-**F / Vzlietnuť** prepína na voľný čarovný let (10 m/s). Vicky sa sama zdvihne nad les, môže lietať cez rieku, stúpať medzerníkom a klesať Shiftom. Dotyk má samostatné držateľné tlačidlá hore/dole. Kamera je za Vicky a otáča sa Q/C alebo ťahaním plochy KAMERA; T/G mení sklon počas letu, R vráti sever. Pohyb je relatívny k smeru kamery. Pristáť možno na voľnej zemi, nie nad kmeňom ani vodou. Pristátie je plynulé. Diamanty, súboje a svätyne zostávajú pri zemi. Let aj jeho výška sa ukladajú; staré uložené pozície ostávajú kompatibilné.
+Celý balík A + B + C upravuje stále ten istý prvý level. Povinným cieľom zostáva **10 diamantov, 3 svätyne, 13 vyslobodených strážcov a truhlica**. Mapa má hranice 140 × 346 m; chôdza zostáva o 40 % rýchlejšia (3,64 m/s), let má 10 m/s. Po lese možno voľne odbočiť, stúpať a klesať. Rieku na zemi prekračuje drevený most.
 
-Terén používa kocky 1,25 m a výškové kroky 0,25 m. Kreslia sa iba vrchné plochy a odkryté steny namiesto celých skrytých stĺpcov. Koruny stromov majú menšie samostatné kocky, hustejšiu siluetu a detailné/predvolene úsporné varianty. Detailný režim má skutočné 2048 px tiene a teplé meniace sa smerové svetlo; úsporný režim ponecháva svetlo a hmlu bez tieňov. Let odhaľuje kopce, vodopád, ružové koruny, hrady a vzdialené hory. Kamera sa medzi kmeňmi priblíži alebo hľadá voľnejší uhol.
+**A — postavy a ovládanie.** Vicky má samostatné kolená, ružové tenisky so šnúrkami, mäkšiu tvár, žmurkanie, tri animácie švihu, beh, let, náklon, dopad a radostnú oslavu. Dlhý svetlohnedý cop s modrou gumičkou sa pohybuje po prameňoch. Biele tričko má vpredu aj vzadu VICKY a srdce. Kamera hľadá priechod medzi kmeňmi a vegetáciu, ktorá zakrýva postavu, dočasne stenčí bodkovaným prekrytím. Otočná minimapa ukazuje smer kamery; citlivosť je v pauze.
 
-Z používateľom nahranej hry `kostickovy-3d.zip` sú adaptované tri motívy: zakliata kravička, panda a modrý strážca. Sú prebudované ako 3D povrchové kocky veľkosti 0,115 m a dopĺňajú zelené príšerky a kostlivcov. Ich súbojová logika je zatiaľ spoločná; nové odlišné schopnosti sú návrhom ďalšieho upgradu. ZIP ani jeho ostatné levely a systémy nie sú súčasťou projektu.
+Kravička označí smer, zamkne ho a rozbehne sa; po rozbehu zostane chvíľu omráčená. Panda má čelný štít a slabší chrbát. Kostlivec drží odstup a strieľa viditeľné pomalé strely, ktoré meč zruší. Modrý strážca vyšle rastúcu preskočiteľnú vlnu. Zelená príšerka útočí zblízka. Varovania zodpovedajú smeru alebo dosahu útoku. Vlk hľadá cestu okolo kmeňov a cez most, vyčuchá vodopád, pomáha v boji, čaká pri lete a dá sa pohladkať. Po dlhom lete dobehne po zemi.
 
-## Upgrade 1.2 — Auri a tri svetlá
+**B — objavovanie a atmosféra.** Osem čistiniek má vlastné komponované prvky: Kvetinový vŕšok, Brezový háj, Jazierko svetlušiek, Machové korene, Strieborná čistinka, Slnečná vyhliadka, Hubové údolie a Ružová záhrada. Okolie čistiniek mení farby stromov; dopĺňajú ho nápisy, kvetinové oblúky, brezy, lekná, korene, slnečnice, lavička a huby. Motýle, svetlušky, jemný pohyb listov, lúče, hmla a teplé svetlo svätýň oživujú les.
 
-Prvý level má výrazne hustejší farebný les s pixelovými textúrami, členitými terasami, rozmanitými korunami, kríkmi a kvetinovou podrastou. Les je rozdelený na 28 m úseky a bloky sa kreslia pomocou zdieľaných instancií; úsporný režim znižuje detail podrastu a korún. Herná kamera je nižšie a bližšie k Vicky. Priehľady odhaľujú nový animovaný vodopád, potok, ružový hrad a pôvodného fialového draka Auriho.
+Za vodopádom je malá preskúmateľná jaskyňa so svietiacimi hubami a **dobrovoľným kvetinovým venčekom** pre Vicky. Hlavná úloha nevyžaduje jej návštevu. Tri krátke Auriho odkazy pri odbočkách a reakcie Vicky dopĺňajú príbeh; nezastavujú pohyb ani nevyžadujú čakanie. Voliteľný syntetizovaný zvuk obsahuje potok podľa vzdialenosti, vietor, vtáky, kroky tráva/drevo/kameň, jemné mávanie krídel a bojové efekty. Hudba a zvuky majú samostatné prepínače a spoločnú hlasitosť. Pauza ich stíši.
 
-Vicky pomáha Aurimu vrátiť svetlo do troch svätýň. Príbeh sprevádzajú osobné reakcie Vicky a nový portrét v rozhraní. Postava má väčšie oči, dlhý cop s modrou gumičkou, biele tričko VICKY so srdcom, fialové nohavice a ružové tenisky. Vlk sa drží po jej boku, aby nezakrýval Vicky v nízkej kamere. Zelené štvornohé príšerky, zelení humanoidi, kostlivci s rebrami a korunovaný kostlivý strážca nahradili pôvodné jednoduché tiene. Útoky a ciele zostávajú čitateľné; nejde o ďalší level.
+**C — let a finále.** Vicky za sebou necháva krátku zlatú stopu. Tri dobrovoľné vzdušné oblúky odmenia prieskum svetlejšou iskrou; nepridávajú povinné diamanty. Značka pod Vicky a text ukazujú voľnú alebo blokovanú zem. Počas letu ani pristávania nemožno zbierať alebo bojovať. V jaskyni sa lietať nedá.
 
-Uložený postup verzie 1 ostáva kompatibilný. Ak nová hustejšia vegetácia prekryje starú uloženú polohu, hra postavu presunie na najbližšie voľné miesto a zachová diamanty, svätyne aj porazených nepriateľov.
+Strážca pokladu má dve fázy. Po polovici zdravia ho chráni viditeľný štít napájaný tromi koreňmi. Vicky musí korene zlomiť; až potom strážca prijíma ďalšie zásahy. Vlk označuje miesto mimo jeho kruhu. Po otvorení truhlice oslavujú Vicky, vlk aj Auri; sedemsekundovú oslavu možno preskočiť. Výsledok ukáže aj dobrovoľné objavy.
 
-## Upgrade 1.1 — Živý les
+Staré uložené pozície verzie 1 ostávajú kompatibilné. Pribudlo uloženie jaskyne, venčeka, oblúkov, navštívených čistiniek a fázy strážcu. Nová vegetácia neuväzní starú pozíciu v kmeni: hra vyhľadá blízke voľné miesto.
 
-Stále iba prvý level, rovnaká mapa a ciele. Paprade, huby, korene, machové kmene, lampáše a kamenné brány dopĺňajú instancovaný les. Jemné lúče a nízka hmla sú bez postprocessingu. Tri svätyne majú názvy, vlastné príbehové odkazy, svetelný stĺp a obnovujú kúzlo lesa. Prehľad svätýň je priamo v HUD.
-
-Plynulé otáčanie Vicky a kamery, rozbeh a zastavenie pohybu, mŕtva zóna joysticku, dvojdielna animácia copu, samostatné nohy vlka a reakcie na diamanty/nebezpečenstvo. Meč má zlatý oblúk, zásahy odtláčajú malé tiene a zranenie sa ukazuje jemným červeným okrajom.
-
-Strážca strieda úder (dosah 2,8 m, varovanie 1,05 s) a zlatú vlnu (5,5 m, varovanie 1,4 s). Kruhy zobrazujú skutočný dosah; odíď z kruhu alebo načasuj skok. Bežný zásah strážcu nepreruší, aby nebolo možné zrušiť každý útok držaním meča. Samostatný ukazovateľ zdravia a text pri útoku pomáhajú s orientáciou.
-
-Po otvorení pokladu nasleduje päťsekundová oslava: plynulé veko, zlaté častice, obiehajúca kamera, poskakujúca Vicky a vlk, potom výsledok. Oslavu možno preskočiť. Staré uložené pozície verzie 1 ostávajú kompatibilné.
-
-Ak detailná grafika po úvodnom zahriatí počas dvoch po sebe nasledujúcich trojsekundových okien klesá pod 28 FPS, hra automaticky zapne úspornú grafiku. Nastavenie možno zmeniť v pauze. Ide o jednoduchú ochranu plynulosti; výkon na fyzickom iPhone/iPade nebol meraný.
-
-Ďalšie zlepšenia iba pre level 1 sú v [UPGRADE_PLAN.md](UPGRADE_PLAN.md).
-
-## Zahrať si
-
-1. Pozbieraj **10 diamantov** na ceste a v lesných odbočkách.
-2. Vysloboď **13 zakliatych strážcov**, vrátane veľkého strážcu pri poklade.
-3. Prebuď **3 svätyne** po porazení tieňov v ich okolí. Doplňujú zdravie a ukladajú miesto návratu.
-4. Na konci lesa otvor zlatú truhlicu. Pri svätyniach aj truhlici použi **E** alebo tlačidlo na obrazovke.
-
-Bežné prvé hranie je navrhnuté približne na **5–10 minút**, podľa objavovania a súbojov. Automatizovaný test s navigáciou po najkratších trasách dokončil level za približne 3 min 40 s herného času.
-
-### Ovládanie
+## Ovládanie
 
 | Akcia | Počítač | Dotyk |
 |---|---|---|
-| Pohyb | WASD alebo šípky | ľavý virtuálny joystick |
-| Útok | J alebo klik do scény | zlaté tlačidlo meča |
-| Skok | medzerník | tlačidlo so šípkou |
-| Zlaté kúzlo | K | tlačidlo iskier; obnova 12 s |
-| Interakcia | E | tlačidlo pri svätyni / truhlici |
-| Mapa | M alebo ikona mapy | ikona mapy |
-| Pauza | Esc alebo ikona pauzy | ikona pauzy |
+| Pohyb | WASD / šípky | ľavý joystick |
+| Meč | J / klik do scény | zlaté tlačidlo |
+| Skok | medzerník | šípka hore |
+| Kúzlo | K; obnova 12 s | iskry |
+| Chôdza / let | F | Vzlietnuť / Pristáť |
+| Výška počas letu | medzerník / Shift | držať hore / dole |
+| Kamera | Q / C, T / G sklon pri lete, R sever | ťahať plochu KAMERA |
+| Interakcia | E | tlačidlo pri svätyni, jaskyni, vlkovi alebo truhlici |
+| Mapa / pauza | M / Esc | horné ikony |
 
-Kúzlo zasiahne okolitých nepriateľov a na chvíľu ochráni Vicky. Nepriatelia pred zásahom ukazujú oranžový kruh; odskoč alebo zaútoč. Vlk sprevádza Vicky a pomáha v boji. Ružové jahody obnovujú zdravie. Pri neúspechu možno pokračovať od poslednej svätyne; získané diamanty, prebudené svätyne a porazení nepriatelia zostávajú.
+Svätyne obnovujú zdravie, kúzlo a miesto návratu. Jahody dopĺňajú zdravie. Pri neúspechu zostávajú diamanty, svätyne, tajomstvá a vyslobodení strážcovia; preživší strážcovia sa obnovia. Postup sa automaticky ukladá iba v tomto prehliadači.
 
-## Spustenie a build
+## Build a overenie
 
-Vyžaduje Node.js 22.12+ alebo 24+ a npm.
+Node.js 22.12+ alebo 24+ a npm:
 
 ```sh
 npm ci
@@ -69,26 +51,26 @@ npm run build
 npm run preview
 ```
 
-Výstup je v `dist/`. Vercel rozpozná Vite; konfigurácia je v `vercel.json`. Build command `npm run build`, output directory `dist`, žiadne premenné prostredia. Po pripojení repozitára sa nové commity na hlavnej vetve automaticky nasadzujú.
+Vercel: `npm run build`, výstup `dist/`, bez premenných prostredia. Commity hlavnej vetvy sa automaticky nasadzujú. `qa.html` slúžil len na lokálne checkpointy pri vývoji a nie je v repozitári ani nasadení.
 
-## Mobil a výkon
+**Overené v 1.4:** produkčný build a 32 automatizovaných testov vrátane celej pešej trasy cez skutočné kolízie a bežné vstupy až po víťazstvo, rozdielnych nepriateľov, druhej fázy, jaskyne, oblúkov, letu, návratu vlka cez most a starých uložených pozícií. Simulovaný priechod má približne **6 min 25 s herného času**; nejde o meraný priemer prvých ľudských hraní. Cieľ pre prvé hranie zostáva 5–10 minút, podľa skúmania a súbojov.
 
-Responzívne rozhranie pre iPhone/iPad v Safari a pre moderné prehliadače. Dotykový joystick podporuje pointer capture a súbežné dotyky s tlačidlami. Safe-area okraje a dynamická výška viewportu. Na dotykových zariadeniach je predvolene úsporná grafika: DPR 1, bez tieňov a antialiasingu. Detailná grafika je v pauze; jej DPR je obmedzené na 1,5 a tiene na 2048 px. Scéna používa zdieľané geometrie a instancované bloky, hmlu a obmedzený počet častíc. Rozšírenie na celú obrazovku závisí od prehliadača; na iPhone sa dá použiť Pridať na plochu.
+Ručne v Chrome: pohladenie vlka, jaskyňa/venček/návrat, vzlet, držanie výškových tlačidiel, pristátie, zásah koreňa, otvorenie truhlice/víťazstvo, mapa, úsporný režim, zvukové prepínače a citlivosť. Kontrolované responzívne rozmery **390 × 844, 844 × 390 a 820 × 1180**. Záverečné situácie v prehliadači používajú lokálne testovacie checkpointy; celú trasu prechádza automatizovaný test. Rozmery viewportu nenahrádzajú fyzické zariadenie.
 
-**Overené:** produkčný build, 21 automatizovaných testov logiky vrátane celého prejdenia levelu, striedania útokov strážcu, preskočenia vlny, kompatibility uloženého postupu a oslavy. V Chrome desktop a rozmeroch 390 × 844, 844 × 390 a 820 × 1180 overené ovládanie joystickom, rýchle ťuknutie na kúzlo, prebudenie svätyne a otvorenie truhlice s víťazstvom. Záverečné situácie v prehliadači boli spustené z lokálnych testovacích checkpointov; celý level prechádza automatizovaný test cez skutočnú kolíznu mapu a bežné vstupy. V 1.3 navyše overený vzlet, let klávesnicou, otáčanie kamery, dotykové stúpanie/klesanie, pristátie, zobrazenie nových strážcov a víťazstvo po zmene terénu. **Neoverené:** fyzický iPhone/iPad, Safari a meranie FPS na skutočných mobilných zariadeniach. Konkrétnu snímkovú frekvenciu preto negarantujeme.
+**Neoverené:** fyzický iPhone/iPad, Safari, reálny multidotyk a meranie FPS, pamäte či zahrievania na zariadení. Výkon sa preto negarantuje. Úsporný režim je predvolený pri dotykovom zariadení (DPR 1, bez tieňov a antialiasingu). Detailný režim má DPR max. 1,5 a tiene 2048 px. Pri opakovanom poklese pod 28 FPS sa zapne úsporný režim. Instancie, zdieľané geometrie, hmla a limit častíc znižujú záťaž. Fyzické profilovanie zostáva ďalším krokom.
 
-## Vizuálne referencie a súkromie
+## Referencie a súkromie
 
-Svetlohnedý dlhý cop s modrou gumičkou a zlatý pixelový meč vychádzajú zo zadania používateľa; pôvodné fotografie nie sú v tomto pracovnom priestore dostupné. **Fotografie nie sú súčasťou projektu ani nasadenia.** Model Vicky je pôvodná zjednodušená voxelová postava s bielym tričkom VICKY, animovaným copom a končatinami. Scéna a modely sú vytvorené procedurálne; nejde o realistický portrét. V upgrade 1.2 bol vizuálnou referenciou priložený obrázok „Vicky a kouzelný svět plný dobrodružství“. Používa sa jeho farebnosť, hustota prírody, scenéria a motívy postáv. Obrázok ani fotografie sa neposielajú do verejného repozitára. Percentuálnu grafickú zhodu nemožno objektívne potvrdiť; procedurálne modely sú stále jednoduchšie než na referencii. Všetko viditeľné v hre je skutočná 3D scéna.
+Vzhľad vychádza zo zadania a obrázka „Vicky a kouzelný svět plný dobrodružství“. Pôvodné fotografie Vicky a meča nie sú v pracovnom priestore dostupné a **nie sú súčasťou repozitára ani nasadenia**. Ide o pôvodný zjednodušený procedurálny model, nie realistický portrét. Kravička, panda a modrý strážca sú adaptované motívy z používateľom poskytnutej hry `kostickovy-3d.zip`, prevedené do malých 3D povrchových kociek 0,115 m. ZIP ani ostatné levely nepublikujeme. Percentuálnu zhodu s ilustráciou nemožno objektívne potvrdiť: modely, materiály a filmové svetlo sú stále jednoduchšie. Všetko v hre je skutočná interaktívna 3D scéna.
 
-Bez analytiky, reklám, nákupov, vzdialenej databázy alebo odosielania postupu. Postup sa ukladá iba do `localStorage` daného prehliadača; v súkromnom režime alebo po vymazaní dát môže zmiznúť. Zvuky sú voliteľné, syntetizované cez Web Audio; aktivujú sa po kliknutí. Fonty sa načítavajú z Google Fonts s lokálnou systémovou náhradou.
+Bez analytiky, reklám, nákupov a vzdialeného ukladania. Zvuk vzniká lokálne cez Web Audio po interakcii. Fonty sú z Google Fonts so systémovou náhradou. Vymazanie dát prehliadača odstráni lokálny postup.
 
-## Súbory
+## Hlavné súbory
 
-- `map.ts`, `terrain.ts`, `Ground.tsx` — mapa, spoločné výšky a povrchová geometria terénu.
-- `game.ts` — chôdza, let, pristávanie, kolízie, súboje, ciele, ukladanie a víťazstvo.
-- `creatures.ts` — tri adaptované voxelové postavy z používateľovej referencie.
-- `Scene.tsx` — Vicky, vlk, nepriatelia, kamera, rieka, svätyne, truhlica a častice.
-- `Forest.tsx`, `world.ts`, `Voxel.tsx` — hustý instancovaný les, textúry, terasy, vodopád, hrady a animovaný Auri.
-- `App.tsx`, `style.css` — responzívne rozhranie, klávesnica, joystick, pauza a mapa.
-- `game.test.ts` — kolízie, súboje, postup, návrat, dotykové kliknutia a celý level.
+- `game.ts`, `combat.ts`, `companion.ts`, `navigation.ts`: hra, odlišné súboje a navigácia vlka.
+- `map.ts`, `terrain.ts`, `Ground.tsx`: hranice, výšky a povrchový terén.
+- `Hero.tsx`, `Sword.tsx`, `creatures.ts`, `CombatVisuals.tsx`: Vicky, meč, strážcovia a varovania.
+- `Scene.tsx`, `Forest.tsx`, `Scenery.tsx`, `world.ts`, `Voxel.tsx`: kamera, les, osem scenérií, jaskyňa, Auri a efekty.
+- `App.tsx`, `MapView.tsx`, `Audio.ts`, `style.css`: rozhranie, mapa a zvuk.
+- `game.test.ts`: 32 testov vrátane dokončenia levelu.
+- `UPGRADE_PLAN.md`: stav balíka a odporúčané ďalšie zlepšenia iba pre level 1.
