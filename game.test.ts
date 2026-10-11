@@ -18,11 +18,13 @@ test('attack cooldown, damage grace, healing and recovery work',()=>{const g=new
 test('chest cannot win early; shrines require local enemies defeated',()=>{const g=new Game();Object.assign(g.player,CHEST);g.interact();assert.notEqual(g.mode,'won');Object.assign(g.player,SHRINES[0]);g.interact();assert.equal(g.shrines.size,0);g.enemies.forEach(e=>e.hp=0);g.interact();assert.equal(g.shrines.size,1);assert.deepEqual(g.checkpoint,SHRINES[0]);});
 // Traverse the actual collision map with A*, then fight using normal controls.
 function route(g:Game,goal:Vec):Vec[]{const step=1;const origin={x:Math.round(g.player.x),z:Math.round(g.player.z)};let end={x:Math.round(goal.x),z:Math.round(goal.z)};if(!g.canMove(end)){const choices:Vec[]=[];for(let x=end.x-2;x<=end.x+2;x++)for(let z=end.z-2;z<=end.z+2;z++)if(g.canMove({x,z}))choices.push({x,z});choices.sort((a,b)=>distance(a,goal)-distance(b,goal));assert.ok(choices.length);end=choices[0];}const key=(v:Vec)=>`${v.x},${v.z}`;const open=[origin];const from=new Map<string,Vec>();const cost=new Map([[key(origin),0]]);let found:Vec|undefined;for(let count=0;open.length&&count<45000;count++){open.sort((a,b)=>(cost.get(key(b))!+distance(b,end))-(cost.get(key(a))!+distance(a,end)));const current=open.pop()!;if(distance(current,end)<1){found=current;break;}for(const [dx,dz] of [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]]){const next={x:current.x+dx*step,z:current.z+dz*step};if(!g.canMove(next)||!g.canMove({x:current.x+dx*.5,z:current.z+dz*.5}))continue;const c=cost.get(key(current))!+Math.hypot(dx,dz);if(c>=(cost.get(key(next))??Infinity))continue;cost.set(key(next),c);from.set(key(next),current);if(!open.some(v=>key(v)===key(next)))open.push(next);}}assert.ok(found,`No route to ${key(end)}`);const path:Vec[]=[found];while(key(path[0])!==key(origin)){const p=from.get(key(path[0]));assert.ok(p);path.unshift(p);}return path;}
-function walk(g:Game,goal:Vec,retries=0){assert.ok(retries<8,'Too many checkpoint recoveries on one route');for(const p of route(g,goal)){let stuck=0;while(distance(g.player,p)>.3&&stuck++<100){const dx=p.x-g.player.x,dz=p.z-g.player.z,d=Math.hypot(dx,dz);g.update(.05,{...idle(),x:dx/d,z:dz/d,attack:true,magic:true});if(g.mode==='lost'){g.continue();walk(g,goal,retries+1);return;}}assert.ok(stuck<100,`Stuck near ${JSON.stringify(p)}`);}}
-test('full playable route reaches all gems, all shrines and the winning chest',()=>{const g=new Game();g.mode='playing';for(let i=0;i<GEMS.length;i++){walk(g,GEMS[i]);for(let j=0;j<50;j++)g.update(.05,{...idle(),attack:true,magic:true});for(let s=0;s<SHRINES.length;s++)if(!g.shrines.has(s)&&distance(g.player,SHRINES[s])<25){walk(g,SHRINES[s]);for(let j=0;j<300;j++)g.update(.05,{...idle(),attack:true,magic:true,interact:true});g.interact();}}
- for(const e of g.enemies)if(e.hp>0){walk(g,e.home);for(let i=0;i<600&&e.hp>0;i++){if(g.rootsActive){for(const r of g.roots)if(r.hp>0){walk(g,r);for(let k=0;k<25;k++)g.update(.05,{...idle(),attack:true});}walk(g,e);}else if(distance(g.player,e)>3.3){walk(g,e);}g.update(.05,{...idle(),attack:true,magic:true});if(g.mode==='lost'){g.continue();walk(g,e.home);}}}
- for(let s=0;s<3;s++)if(!g.shrines.has(s)){walk(g,SHRINES[s]);g.interact();}walk(g,CHEST);g.interact();assert.equal(g.gems.size,10);assert.equal(g.defeated,13);assert.equal(g.shrines.size,3);assert.equal(g.mode,'won');console.log(`Simulated completion: ${Math.round(g.elapsed)}s, ${g.defeated} enemies, ${g.gems.size} gems`);
-});
+function walk(g:Game,goal:Vec,retries=0,magic=true){assert.ok(retries<8,'Too many checkpoint recoveries on one route');for(const p of route(g,goal)){let stuck=0;while(distance(g.player,p)>.3&&stuck++<100){const dx=p.x-g.player.x,dz=p.z-g.player.z,d=Math.hypot(dx,dz);g.update(.05,{...idle(),x:dx/d,z:dz/d,attack:true,magic});if(g.mode==='lost'){g.continue();walk(g,goal,retries+1,magic);return;}}assert.ok(stuck<100,`Stuck near ${JSON.stringify(p)}`);}}
+function completeRoute(magic:boolean){const g=new Game();g.mode='playing';for(let i=0;i<GEMS.length;i++){walk(g,GEMS[i],0,magic);for(let j=0;j<50;j++)g.update(.05,{...idle(),attack:true,magic});for(let s=0;s<SHRINES.length;s++)if(!g.shrines.has(s)&&distance(g.player,SHRINES[s])<25){walk(g,SHRINES[s],0,magic);for(let j=0;j<300;j++)g.update(.05,{...idle(),attack:true,magic,interact:true});g.interact();}}
+ for(const e of g.enemies)if(e.hp>0){walk(g,e.home,0,magic);for(let i=0;i<600&&e.hp>0;i++){if(g.rootsActive){for(const r of g.roots)if(r.hp>0){walk(g,r,0,magic);for(let k=0;k<25;k++)g.update(.05,{...idle(),attack:true});}walk(g,e,0,magic);}else if(distance(g.player,e)>3.3){walk(g,e,0,magic);}g.update(.05,{...idle(),attack:true,magic});if(g.mode==='lost'){g.continue();walk(g,e.home,0,magic);}}}
+ for(let s=0;s<3;s++)if(!g.shrines.has(s)){walk(g,SHRINES[s],0,magic);g.interact();}walk(g,CHEST,0,magic);g.interact();assert.equal(g.gems.size,10);assert.equal(g.defeated,13);assert.equal(g.shrines.size,3);assert.equal(g.mode,'won');console.log(`Simulated completion: ${Math.round(g.elapsed)}s, ${g.defeated} enemies, ${g.gems.size} gems`);
+}
+test('full playable route reaches all gems, all shrines and the winning chest',()=>completeRoute(true));
+test('mobile sword alone completes the entire mission without a hidden keyboard spell',()=>completeRoute(false));
 
 test('quick touch taps survive until the next simulation frame',()=>{const g=new Game();g.mode='playing';const input={...idle(),magicTap:true};g.update(.05,input);assert.ok(g.magicCooldown>0);assert.equal(input.magicTap,false);});
 
@@ -87,3 +89,46 @@ test('mountains enclose every side higher than the only flight plane',()=>{const
 test('weather includes morning/day/evening and clear/overcast with gradual light changes',()=>{const samples=Array.from({length:360},(_,t)=>weatherAt(t));assert.equal(new Set(samples.map(w=>w.label)).size,3);assert.ok(samples.some(w=>w.overcast>.95));assert.ok(samples.some(w=>w.overcast<.05));for(let i=1;i<samples.length;i++)assert.ok(Math.abs(samples[i].intensity-samples[i-1].intensity)<.06);});
 test('wolf settles while Vicky swings and no longer changes follow side with her sword',()=>{const g=new Game();g.mode='playing';g.enemies.forEach(e=>e.hp=0);for(let i=0;i<160;i++)g.update(.05,idle());const p={...g.wolf};for(let i=0;i<100;i++){g.player.yaw=i%2?0:Math.PI;g.update(.05,idle());}assert.ok(distance(p,g.wolf)<.05);});
 test('legacy flight height migrates to the common combat plane and cave saves spawn valid ground animals',()=>{const g=new Game();let s=g.save();s.flight={y:24,yaw:.5,pitch:.6};const restored=new Game(s);assert.equal(restored.flightY,FLIGHT_Y);s={...g.save(),player:{...CAVE.spawn},adventure:{cave:true,secret:false,rings:[],scenes:[],encounters:[]}};const cave=new Game(s);assert.equal(cave.inCave,true);cave.inCave=false;assert.ok(cave.crowd.filter(e=>!e.air).every(e=>cave.canMove(e)));});
+
+// Upgrade 1.6: use the same control path as a tap or a held mobile sword.
+test('a short sword tap strikes once; a hold automatically charges stronger attacks',()=>{
+ const g=new Game();g.mode='playing';g.enemies.forEach(e=>e.hp=0);g.crowd.forEach(e=>e.hp=0);
+ g.update(.05,{...idle(),attackTap:true});assert.equal(g.swingId,1);assert.equal(g.attackPower,1);
+ for(let i=0;i<35;i++)g.update(.05,idle());assert.equal(g.swingId,1);assert.equal(g.swordCharge,0);
+ for(let i=0;i<23;i++)g.update(.05,{...idle(),attack:true});assert.equal(g.swingId,3);assert.equal(g.attackPower,3);
+ const swings=g.swingId;g.update(.05,idle());for(let i=0;i<30;i++)g.update(.05,idle());assert.equal(g.swingId,swings);
+});
+test('pause, pointer cancellation and changing flight mode discard a pending golden charge',()=>{
+ for(const cancel of ['pause','pointer','flight']){const g=new Game();g.mode='playing';for(let i=0;i<15;i++)g.update(.05,{...idle(),attack:true});assert.ok(g.swordCharge>.6);
+ if(cancel==='pause'){g.mode='paused';g.update(.05,{...idle(),attack:true});g.mode='playing';}else if(cancel==='pointer')g.update(.05,{...idle(),attackCancel:true});else g.toggleFlight();
+ assert.equal(g.swordCharge,0);assert.equal(g.swordBuffer,0);const before=g.swingId;for(let i=0;i<30;i++)g.update(.05,idle());assert.equal(g.swingId,before);}
+});
+test('golden sword breaks panda guard but never bypasses the guardian roots',()=>{
+ const g=new Game();g.mode='playing';g.enemies.forEach(e=>{if(e.id!==4)e.hp=0;});g.crowd.forEach(e=>e.hp=0);const p=g.enemies[4];Object.assign(g.player,{x:p.x,z:p.z+2});p.yaw=0;
+ for(let i=0;i<24;i++)g.update(.05,{...idle(),attack:true});assert.ok(p.hp<=1);assert.ok(g.attackPower>1);
+ const b=g.enemies[12];b.hp=6;g.bossPhase=2;g.roots.forEach(r=>r.hp=2);g.hitEnemy(b,99,'charged');assert.equal(b.hp,6);
+});
+test('charged air shot aims at the nearest flying animal and releases it in one hit',()=>{
+ const g=new Game();g.mode='playing';g.flying=true;g.flightY=FLIGHT_Y;g.player.y=FLIGHT_Y;g.crowd.forEach(e=>e.hp=0);const e=g.crowd.find(e=>e.air)!;Object.assign(e,{hp:2,x:3,z:18,goal:{x:3,z:18},cooldown:50});shootBall(g,3);
+ for(let i=0;i<12;i++)updateCrowd(g,.05);assert.equal(e.hp,0);assert.ok(e.freed>4);assert.equal(g.heroReaction,'joy');assert.equal(g.defeated,0);assert.equal(g.flightY,FLIGHT_Y);
+ const saved=g.save();assert.equal(new Game(saved).crowd[e.id].hp,0);assert.equal(new Game(saved).crowd[e.id].freed,0);
+});
+function isolatedAnimal(kind:number,air=false){const g=new Game();g.mode='playing';g.enemies.forEach(e=>e.hp=0);g.crowd.forEach(e=>e.hp=0);Object.assign(g.player,{x:70,z:0,y:air?FLIGHT_Y:0});g.flying=air;g.flightY=air?FLIGHT_Y:0;const e=g.crowd.find(e=>e.kind===kind&&e.air===air)!;Object.assign(e,{x:70,z:-2,hp:2,cooldown:0,goal:{x:70,z:-2},yaw:0});return {g,e};}
+test('roaming cow warns, locks its direction, rushes and rests; a sidestep avoids it',()=>{
+ const {g,e}=isolatedAnimal(0);updateCrowd(g,.05);assert.ok(e.windup>=1.4);const aim={...e.aim};Object.assign(g.player,{x:75,z:0});for(let i=0;i<31;i++)updateCrowd(g,.05);assert.deepEqual(e.aim,aim);assert.ok(e.rush>0);for(let i=0;i<20;i++)updateCrowd(g,.05);assert.ok(e.stun>0);assert.equal(g.health,5);
+});
+test('cat circles and bunny hops with a distinct pace; panda protects its front',()=>{
+ const cat=isolatedAnimal(6),bunny=isolatedAnimal(5);cat.e.cooldown=20;bunny.e.cooldown=20;
+ for(let i=0;i<12;i++){cat.g.elapsed+=.05;bunny.g.elapsed+=.05;updateCrowd(cat.g,.05);updateCrowd(bunny.g,.05);}assert.ok(Math.abs(cat.e.x-70)>.3);assert.ok(distance(cat.e,bunny.e)>.3);
+ const {g,e}=isolatedAnimal(1);g.update(.05,{...idle(),attackTap:true});assert.ok(Math.abs(e.hp-1.65)<.001);assert.ok(e.guard>0);
+});
+test('only two crowd attack warnings are active; other layers and sanctuaries stay safe',()=>{
+ const {g,e}=isolatedAnimal(0);const herd=g.crowd.filter(a=>!a.air).slice(0,12);herd.forEach((a,i)=>Object.assign(a,{hp:2,x:e.x+(i%3)*.1,z:e.z+Math.floor(i/3)*.1,cooldown:0}));updateCrowd(g,.05);assert.equal(herd.filter(a=>a.windup>0).length,2);g.flying=true;g.flightY=FLIGHT_Y;updateCrowd(g,.05);assert.equal(herd.filter(a=>a.windup>0).length,0);
+ g.flying=false;Object.assign(g.player,SHRINES[0]);herd.forEach(a=>Object.assign(a,{x:g.player.x,z:g.player.z,cooldown:0}));updateCrowd(g,.05);assert.equal(herd.filter(a=>a.windup>0).length,0);assert.equal(g.health,5);
+});
+test('blue animal fires a slow visible shot, and sheep creates an avoidable wave',()=>{
+ for(const kind of [2,4]){const {g,e}=isolatedAnimal(kind);for(let i=0;i<34;i++)updateCrowd(g,.05);assert.equal(g.crowdAttacks.length,1);assert.equal(g.crowdAttacks[0].kind,kind===2?'bolt':'wave');assert.equal(g.health,5);assert.equal(e.windup,0);g.toggleFlight();assert.equal(g.crowdAttacks.length,0);}
+});
+test('landing creates a small dust puff and a brief happy wolf reaction',()=>{
+ const g=new Game();g.mode='playing';g.toggleFlight();for(let i=0;i<70;i++)g.update(.05,idle());g.toggleFlight();for(let i=0;i<100&&g.landing;i++)g.update(.05,idle());assert.equal(g.landing,false);assert.equal(g.player.y,0);assert.ok(g.particles.some(p=>p.color==='#ead8a9'));assert.equal(g.wolfMood,'happy');assert.equal(g.heroReaction,'joy');
+});

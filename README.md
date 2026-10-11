@@ -5,7 +5,16 @@ Hrateľný **level 1 — Čarovný les**. React 19, TypeScript, Three.js/react-t
 - Hra: https://vicky-carovny-svet.vercel.app/
 - Zdroj: https://github.com/xxmark83/vicky-carovny-svet
 
-## Verzia 1.5 — svet z kociek
+## Verzia 1.6 — živé postavy a zlatý meč
+
+Schválené body 1, 2 a 4; stále iba level 1. Vicky má pohľad očí, žmurkanie, úsmev, prekvapenie a odhodlaný výraz. Beh vychádza z prejdenej vzdialenosti; trojdielny cop s modrou gumičkou reaguje na zrýchlenie a otáčanie. Pristátie vytvorí krátky obláčik a vlk sa poteší. Úvodná kamera je nad terénom, aby svah nezakrýval hrdinku.
+
+Sedem putujúcich druhov sa správa odlišne: kravička vopred označí smer a rozbehne sa; panda pomaly otáča predný štít; modrý kamarát vystrelí pomalú viditeľnú guľu; prasiatko kľučkuje a krátko vyrazí; ovečka vytvorí preskočiteľnú vlnu; zajačik sa pohybuje v poskokoch a vyskočí dopredu; mačička obieha a skočí. Rozbehy nemenia smer po varovaní. Naraz sa rezervujú najviac dva útočné sloty. Zvieratká držia odstup od Vicky, krídla sa hýbu a vzdušné skupinky putujú za spoločnými cieľmi. Po odkliatí nasleduje päťsekundový úsmev, srdiečko a oslava, potom zvieratko odíde v kúzle. Uložené odkliatie zostáva trvalé; animácia sa po načítaní neopakuje.
+
+**Ťukni = bežný úder. Podrž = automatický silný zlatý úder každých 1,05 s.** Prvý úder príde ihneď; zlatý sa spustí sám, netreba časovať pustenie. Rovnaké tlačidlo má kruhový ukazovateľ nabíjania, zlaté iskry, väčší dosah a pomoc s mierením. Zlatý úder prelomí pandin predný štít; finálny strážca stále vyžaduje tri korene. Vo vzduchu vyšle väčšiu silnejšiu guľu. Pauza, strata dotyku a zmena letu rozpracované nabíjanie zrušia. Otáčanie kamery nezačne úder pri krátkom potiahnutí. Nepribudlo žiadne herné tlačidlo, povinnosť, level, hlasové rozprávanie ani vzdelávací obsah.
+
+## Základ verzie 1.5 — svet z kociek
+
 
 Stále sa rozvíja iba prvý level. Príbeh Auriho a povinné dokončenie ostávajú: **10 diamantov, 3 svätyne, 13 príbehových strážcov, tri korene v druhej fáze strážcu pokladu a truhlica**. Jaskyňa, venček, letové oblúky a ďalšie súboje sú dobrovoľné.
 
@@ -25,7 +34,7 @@ Stále sa rozvíja iba prvý level. Príbeh Auriho a povinné dokončenie ostáv
 | Akcia | Počítač | Dotyk |
 |---|---|---|
 | Pohyb | WASD / šípky | ľavý joystick |
-| Meč / vzdušná streľba | J / klik; držanie J opakuje | držať veľký meč |
+| Meč / vzdušná streľba | J / klik; podržanie nabije zlatý úder | ťuknúť / podržať veľký meč |
 | Skok na zemi | medzerník | SKOK |
 | Zlaté kúzlo, voliteľná skratka | K | základné ovládanie ho nevyžaduje |
 | Zem / jedna letová hladina | F | LET / DOLE |
@@ -46,7 +55,7 @@ npm test
 npm run build
 ```
 
-42 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **301 herných sekúnd**. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
+52 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **224 herných sekúnd**, aj iba s mečom bez klávesnicového kúzla. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
 
 Grafika používa zdieľané geometrie a instancie pre zvieratká, orezanie mimo pohľadu, priestorové bunky pre kolízie, zlúčené viditeľné povrchy terénu a automatickú úspornú kvalitu. Úsporný les má približne 46 tisíc dekoračných kociek namiesto 164 tisíc detailných. Three.js tvorí veľký samostatný balík; build na jeho veľkosť upozorňuje.
 
