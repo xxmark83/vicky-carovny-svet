@@ -1,0 +1,6 @@
+import { useLayoutEffect, useRef } from 'react';
+import * as THREE from 'three';
+import type { Block } from './world';
+export const boxGeometry=new THREE.BoxGeometry(1,1,1);
+export function Cubes({blocks,material,castShadow=true}:{blocks:Block[];material?:THREE.Material;castShadow?:boolean}){const ref=useRef<THREE.InstancedMesh>(null);useLayoutEffect(()=>{if(!ref.current)return;const o=new THREE.Object3D();blocks.forEach((b,i)=>{o.position.set(...b.p);o.scale.set(...b.s);o.rotation.set(0,b.r||0,0);o.updateMatrix();ref.current!.setMatrixAt(i,o.matrix);ref.current!.setColorAt(i,new THREE.Color(b.c));});ref.current.instanceMatrix.needsUpdate=true;if(ref.current.instanceColor)ref.current.instanceColor.needsUpdate=true;ref.current.computeBoundingSphere();},[blocks]);return <instancedMesh ref={ref} args={[boxGeometry,material,blocks.length]} castShadow={castShadow} receiveShadow>{!material&&<meshStandardMaterial roughness={.9}/>}</instancedMesh>;}
+export function Box({p=[0,0,0],s=[1,1,1],c,glow=0}:{p?:[number,number,number];s?:[number,number,number];c:string;glow?:number}){return <mesh position={p} scale={s} geometry={boxGeometry} castShadow receiveShadow><meshStandardMaterial color={c} roughness={.8} emissive={c} emissiveIntensity={glow}/></mesh>;}
