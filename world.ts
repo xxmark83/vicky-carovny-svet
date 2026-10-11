@@ -8,21 +8,21 @@ export function createLandscape(low=false):WorldChunk[]{
  const chunks=new Map<string,WorldChunk>();const rng=random(12026);
  const add=(surface:Surface,p:[number,number,number],s:[number,number,number],c:string,r=0)=>{const key=`${Math.floor(p[0]/28)}:${Math.floor(p[2]/28)}:${surface}`;if(!chunks.has(key))chunks.set(key,{key,surface,blocks:[]});chunks.get(key)!.blocks.push({p,s,c,r});};
  for(const [i,o] of OBSTACLES.entries()){
-  const y=groundHeight(o),theme=SCENES.findIndex(p=>distance(p,o)<p.r+9);
+  if(o.kind==='rock'&&o.x===17&&o.z===-52)continue;const y=groundHeight(o),theme=SCENES.findIndex(p=>distance(p,o)<p.r+9);
   if(o.kind==='rock'){add('stone',[o.x,y+o.height*.4,o.z],[o.radius*1.4,o.height,o.radius*1.3],['#79877f','#8e9a8b','#6d7b75'][i%3],o.variant);add('grass',[o.x,y+o.height*.9,o.z],[o.radius*1.35,.24,o.radius*1.25],'#668e33');continue;}
   const h=o.height*(o.variant===2?.7:1);const trunk=o.variant===4?1.05:.75;add('bark',[o.x,y+h*.39,o.z],[trunk,h*.78,trunk],theme===1||theme===4?'#eee8d3':o.variant===1?'#b49a6d':'#b2824e');
   for(let j=0;j<(low?2:4);j++){const a=j*1.6+o.variant;add('bark',[o.x+Math.sin(a)*.65,y+.17,o.z+Math.cos(a)*.65],[.3,.35,1.8],'#80522f',a);}
-  const colors=theme===7?['#e89dc0','#d77bb0','#eeb5cc']:theme===1?['#b4cb73','#c4d48a','#93b95c']:theme===4?['#8bb796','#a2c6a3','#74a888']:theme===6?['#6499a3','#78aca9','#6d9d85']:o.variant===3?['#ca72a3','#df92b8','#ac5287']:o.variant===2?['#6d9e28','#8fb83e','#547c27']:['#2e6e2d','#438832','#589c3e'];
-  const leafSize=low?1.45:.95,rx=o.variant===2?2.4:3.2,ry=o.variant===2?3.3:2.5;
+  const colors=theme===7?['#e89dc0','#d77bb0','#eeb5cc']:theme===1?['#b4cb73','#c4d48a','#93b95c']:theme===4?['#8bb796','#a2c6a3','#74a888']:theme===6?['#6499a3','#78aca9','#6d9d85']:o.variant===3?['#ca72a3','#df92b8','#ac5287']:o.variant===2?['#6d9e28','#8fb83e','#547c27']:['#397b30','#57973b','#80ac43'];
+  const leafSize=low?1.4:.9,rx=o.variant===2?2.3:3.1+(i%4)*.18,ry=o.variant===2?3.6:2.3+(i%3)*.25;
   for(let iy=-2;iy<=2;iy++)for(let ix=-3;ix<=3;ix++)for(let iz=-3;iz<=3;iz++){
-   const px=ix*leafSize,pz=iz*leafSize,py=iy*leafSize;const norm=(px*px+pz*pz)/(rx*rx)+py*py/(ry*ry);if(norm>1.12||norm<.48||rng()<.08)continue;
+   const px=ix*leafSize,pz=iz*leafSize,py=iy*leafSize;const bend=Math.sin(iy*.9+i)*.42;const norm=((px-bend)**2+(pz-Math.cos(i)*.35)**2)/(rx*rx)+py*py/(ry*ry);if(norm>1.12||norm<.48||rng()<.08)continue;
    add('leaf',[o.x+px,y+h*.72+py+1,o.z+pz],[leafSize*1.02,leafSize*1.02,leafSize*1.02],colors[Math.floor(rng()*3)]);
   }
   add('leaf',[o.x,y+h*.72+3,o.z],[leafSize,leafSize,leafSize],colors[1]);
-  if(!low){add('bark',[o.x+1,y+h*.64,o.z],[2.6,.35,.4],'#875731',.35);add('bark',[o.x-.8,y+h*.7,o.z+.5],[2.1,.3,.4],'#875731',-.4);}
+  if(!low){add('bark',[o.x+1,y+h*.64,o.z],[2.6,.35,.4],'#875731',.35);add('bark',[o.x-.8,y+h*.7,o.z+.5],[2.1,.3,.4],'#875731',-.4);for(let j=0;j<3;j++){const a=j*2.1+i;add('leaf',[o.x+Math.sin(a)*2.15,y+h*.7+.5+j*.35,o.z+Math.cos(a)*2.15],[2.2,1.6,2.1],colors[j]);}}
  }
  // Dense wildflower strips hug both sides of the path; decorative plants never block controls.
- const plant=(p:Vec,i:number)=>{if(distance(p,{x:10,z:-98})<3.8||p.z<-146&&p.z>-158||distance(p,CHEST)<5||SHRINES.some(s=>distance(s,p)<2.8))return;const y=groundHeight(p);const a=rng()*Math.PI;const h=.35+rng()*.6;
+ const plant=(p:Vec,i:number)=>{if(p.z>-43&&p.z<-12&&Math.abs(p.x-(18+Math.sin((p.z+38)/1.45*.35)*2))<2)return;if(distance(p,{x:10,z:-98})<3.8||p.z<-146&&p.z>-158||distance(p,CHEST)<5||SHRINES.some(s=>distance(s,p)<2.8))return;const y=groundHeight(p);const a=rng()*Math.PI;const h=.35+rng()*.6;
   if(i%4===0){const c=['#fff5c5','#ff9cc1','#9acbef','#ffd25c','#df72af'][i%5];add('decor',[p.x,y+h*.5,p.z],[.07,h,.07],'#437b28');add('decor',[p.x,y+h,p.z],[.37,.12,.37],c);add('decor',[p.x,y+h+.075,p.z],[.12,.08,.12],'#f5ca4e');if(!low){add('decor',[p.x+.21,y+h-.03,p.z],[.13,.12,.2],c);add('decor',[p.x-.21,y+h-.03,p.z],[.13,.12,.2],c);}}
   else if(i%9===0){add('decor',[p.x,y+.24,p.z],[.13,.48,.13],'#e7d7aa');add('decor',[p.x,y+.48,p.z],[.65,.2,.63],i%2?'#ec847b':'#dca94c');add('decor',[p.x-.13,y+.59,p.z+.05],[.16,.035,.16],'#fff0c4');}
   else{add('leaf',[p.x,y+h*.35,p.z],[.13,h*.7,.12],'#3e752d');for(let j=0;j<(low?2:3);j++)add('leaf',[p.x+Math.sin(a+j*2.1)*.2,y+h*.35,p.z+Math.cos(a+j*2.1)*.2],[.17,.13,.75],['#7aaa38','#58942f','#8eb941'][i%3],a+j*2.1);}
@@ -37,8 +37,6 @@ export function createLandscape(low=false):WorldChunk[]{
  return [...chunks.values()];
 }
 
-export const MOUNTAIN_MIN_HEIGHT=66;
-export function mountainBlocks():Block[]{const b:Block[]=[],r=random(965);const peak=(x:number,z:number)=>{const h=MOUNTAIN_MIN_HEIGHT+r()*30,w=46+r()*16;for(let j=0;j<9;j++){const size=w*(1-j/10);b.push({p:[x+(j%2)*1.3,(j+.5)*h/9-3,z],s:[size,h/9+1,size],c:j>6?'#e6e4d6':j>4?'#8b9f98':j>1?'#667f71':'#4e7454'});}b.push({p:[x,1,z],s:[w+5,8,w+5],c:'#4b7041'});};for(let z=WORLD_BOUNDS.minZ-9;z<=WORLD_BOUNDS.maxZ+16;z+=17){peak(WORLD_BOUNDS.minX-31,z);peak(WORLD_BOUNDS.maxX+31,z);}for(let x=WORLD_BOUNDS.minX-5;x<=WORLD_BOUNDS.maxX+13;x+=17){peak(x,WORLD_BOUNDS.minZ-31);peak(x,WORLD_BOUNDS.maxZ+31);}return b;}
 export function gladeBlocks():Block[]{const b:Block[]=[];const add=(x:number,y:number,z:number,s:[number,number,number],c:string)=>b.push({p:[x,y,z],s,c});for(const p of NEW_GLADES){const h=groundHeight(p);if(p.kind===0||p.kind===3){ // Fallen tree and a ring of oversized spotted mushrooms.
  add(p.x,h+.8,p.z,[8,1.6,1.6],'#8c623d');add(p.x+4.05,h+.8,p.z,[.08,1.35,1.35],'#e5be7c');for(let i=0;i<9;i++){const x=p.x+Math.sin(i*2.4)*5,z=p.z+Math.cos(i*2.4)*5,y=groundHeight({x,z});add(x,y+.6,z,[.4,1.2,.4],'#e5dab2');add(x,y+1.3,z,[1.5,.4,1.5],p.kind===0?'#e696ad':'#72c4b0');add(x+.25,y+1.53,z+.2,[.3,.05,.3],'#fff2cf');}}
  else if(p.kind===1||p.kind===4){ // Ancient stone circle and giant ferns.

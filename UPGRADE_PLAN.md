@@ -1,14 +1,14 @@
-# Level 1 — stav po upgrade 1.6
+# Level 1 — stav po upgrade 1.7
 
-Dokončené schválené body **1, 2 a 4**: živšia tvár a oči Vicky, beh podľa skutočného pohybu, pružnejší trojdielny cop, pristátie s obláčikom a reakciou vlka; sedem odlišných správaní putujúcich zvieratiek, čitateľné varovania, odkliatie s úsmevom a oslavou, pohyblivé krídla a spoločné ciele vzdušných skupín; jeden meč s okamžitým úderom a automatickým zlatým úderom pri podržaní, pomocné mierenie, výraznejší zásah a bezpečné rušenie nabíjania.
+Dokončené nové schválené grafické body 1–4: model Vicky, cop, zlatý meč a vlk; scenérie v existujúcich ôsmich čistinkách, nepravidelnejšie koruny, trojstupňový vodopád; pohyblivá voda, kontrast slnka a tieňov, lampáše a lúče v čistinkách; bližšia kamera s prispôsobením na portrét/krajinu, priehľadným lístím a výškovou korekciou vo svahoch. Hranice dostali nové súvislé pohorie s predhorím, ihličnanmi, skalami a snehovými vrcholmi.
 
-Základ 1.5 ostáva: mapa +25 %, osem pôvodných scenérií a šesť bočných glád, krátke skladanie sveta z kociek, 83 pozemných a 498 vzdušných protivníkov, jedna letová hladina, horský okraj, premenlivé svetlo a počasie. Dokončenie vyžaduje 10 diamantov, 3 svätyne, 13 príbehových strážcov, korene a truhlicu. Ostatné stretnutia a tajomstvá sú dobrovoľné.
+Základ 1.5–1.6 ostáva: mapa +25 %, osem pôvodných scenérií a šesť bočných glád, krátke skladanie sveta z kociek, 83 pozemných a 498 vzdušných protivníkov, sedem odlišných správaní a odkliatie zvieratiek, jedna letová hladina a jeden meč s automatickým zlatým úderom pri podržaní. Dokončenie: 10 diamantov, 3 svätyne, 13 príbehových strážcov, korene a truhlica. Tajomstvá a ostatné súboje sú dobrovoľné.
 
-Ďalej odporúčané, zatiaľ neschválené na implementáciu:
+Ďalšie neschválené možnosti:
 
-- Najprv pozorovať prvé hranie Vicky na skutočnom iPhone/iPade: čitateľnosť varovaní, pohodlie držania meča a orientáciu pri lete. Doladiť tempo podľa hrania, bez núteného čakania (očakávaný prínos 9/10).
-- Tri krátke príbehové udalosti v existujúcich scenériách, ktoré spoja Vicky, vlka a Auriho s prebudením svätýň (8,5/10).
-- Voliteľné krátke nahovorené repliky a pomenovania zvieratiek, s vypínačom (9/10).
-- Neskôr dobrovoľné interaktívne učenie o zvieratkách, vode, počasí a horách podľa ďalšieho zadania.
+- Najprv fyzické hranie na iPhone/iPade a pozorovanie prvého priechodu Vicky. Overiť pohodlie kamery vo svahu, čitateľnosť, výkon a tempo.
+- Grafický bod 5: plnohodnotnejšie priestorové modely putujúcich zvieratiek a ďalšie doladenie oblúka meča/oslobodenia.
+- Tri krátke príbehové udalosti pri svätyniach a voliteľné nahovorené repliky.
+- Neskôr dobrovoľné učenie o zvieratkách, vode, počasí a horách.
 
-Žiadny druhý level sa nevytváral. Uvedené skóre je odhad prínosu, nie namerané hodnotenie dieťaťa.
+Stále iba prvý level. Percentuálna zhoda s referenčnou ilustráciou sa nedá objektívne potvrdiť; nejde o prevzaté profesionálne 3D modely z obrázka.

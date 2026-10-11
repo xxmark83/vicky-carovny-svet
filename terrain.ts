@@ -4,7 +4,7 @@ export const TERRAIN_CELL=1.25;
 const clamp=(v:number)=>Math.max(0,Math.min(1,v));
 const smooth=(v:number)=>{const t=clamp(v);return t*t*(3-2*t);};
 const cache=new Map<string,number>();
-const flats=[{x:0,z:12,inner:7,outer:17},{...CHEST,inner:12,outer:25},...GEMS.map(p=>({...p,inner:2.2,outer:8})),...SHRINES.map(p=>({...p,inner:5,outer:13})),{x:17,z:-37,inner:13,outer:23}];
+const flats=[{x:0,z:12,inner:7,outer:26},{...CHEST,inner:12,outer:25},...GEMS.map(p=>({...p,inner:2.2,outer:8})),...SHRINES.map(p=>({...p,inner:5,outer:13})),{x:17,z:-37,inner:13,outer:23}];
 // A fixed lattice gives both render modes identical hills and collision heights.
 export function terrainBlockHeight(ix:number,iz:number):number{
  const key=`${ix}:${iz}`;const hit=cache.get(key);if(hit!==undefined)return hit;
@@ -23,3 +23,6 @@ export function groundHeight(p:Vec):number{
  const a=terrainBlockHeight(ix,iz),b=terrainBlockHeight(ix+1,iz),c=terrainBlockHeight(ix,iz+1),d=terrainBlockHeight(ix+1,iz+1);
  return a+(b-a)*fx+(c-a)*fz+(a-b-c+d)*fx*fz;
 }
+
+// Match the visible stair tops for feet; gameplay keeps its smooth walking height.
+export function standingHeight(p:Vec){if(p.z<-148&&p.z>-156&&Math.abs(p.x-32)<=5.3)return .285;return Math.max(groundHeight(p),terrainBlockHeight(Math.round(p.x/TERRAIN_CELL),Math.round(p.z/TERRAIN_CELL)));}

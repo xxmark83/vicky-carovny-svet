@@ -23,6 +23,8 @@ for(let i=1;i<PATH.length;i++){const a=PATH[i-1],b=PATH[i],len=distance(a,b),nx=
 for(let i=OBSTACLES.length-1;i>=0;i--)if(distance(OBSTACLES[i],CHEST)<17||distance(OBSTACLES[i],{x:0,z:-321})<21)OBSTACLES.splice(i,1);
 // Open meadows and lateral passages make the bounded forest traversable away from the trail.
 for(let i=OBSTACLES.length-1;i>=0;i--){const p=OBSTACLES[i];if([...MEADOWS,...NEW_GLADES].some(m=>distance(p,m)<m.r)||[-32,-70,-110,-184,-215,-270].some(z=>Math.abs(p.z-z)<2.3))OBSTACLES.splice(i,1);}
+// Scenic waterfall backing, outside the cave doorway and required routes.
+OBSTACLES.push({x:17,z:-52,kind:'rock',radius:5.4,height:18,variant:0});
 const obstacleCells=new Map<string,Obstacle[]>();for(const o of OBSTACLES){const key=`${Math.floor(o.x/8)}:${Math.floor(o.z/8)}`;if(!obstacleCells.has(key))obstacleCells.set(key,[]);obstacleCells.get(key)!.push(o);}
 export function obstacleBlocked(p:Vec,padding=.38){const x=Math.floor(p.x/8),z=Math.floor(p.z/8);for(let ix=x-1;ix<=x+1;ix++)for(let iz=z-1;iz<=z+1;iz++)for(const o of obstacleCells.get(`${ix}:${iz}`)||[])if(distance(p,o)<o.radius+padding)return true;return false;}
 export type Projectile=Vec&{y:number;vx:number;vz:number;life:number;kind:'bolt'|'wave';radius:number;previousRadius:number;hit:boolean};
