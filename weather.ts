@@ -1,0 +1,2 @@
+// A gentle six-minute morning/day/evening cycle. Weather changes smoothly, never flashes.
+export function weatherAt(time:number){const phase=(time%360)/360,angle=phase*Math.PI*2;const daylight=.5+.5*Math.sin(angle);const cloud=.5+.5*Math.sin(time/49-1.4);const overcast=Math.max(0,(cloud-.35)/.65);return {phase,daylight,overcast,sunX:Math.cos(angle)*65,sunY:24+daylight*58,sunZ:-38,intensity:1.65+daylight*2-overcast*.65,sky:daylight>.7?'#a9d9f1':daylight<.3?'#d1a5bb':'#e8c5b1',sun:daylight>.7?'#fff1c1':'#ffc08d',label:daylight>.7?'Deň':phase>.35&&phase<.85?'Večer':'Ráno'};}

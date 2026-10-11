@@ -17,5 +17,9 @@ export const ENEMY_HOMES:Vec[]=[{x:8,z:-25},{x:-22,z:-43},{x:-45,z:-80},{x:-35,z
 
 export const WALK_SPEED=2.6*1.4;
 export const FLIGHT_SPEED=10;
-export const WORLD_BOUNDS={minX:-70,maxX:70,minZ:-318,maxZ:28};
+export const WORLD_BOUNDS={minX:-87.5,maxX:87.5,minZ:-318,maxZ:28};
 export const MEADOWS=[{x:24,z:-18,r:13,name:'Kvetinový vŕšok'},{x:-18,z:-65,r:12,name:'Motýlia lúka'},{x:10,z:-98,r:13,name:'Výhľad na háj'},{x:-9,z:-130,r:12,name:'Zelený svah'},{x:4,z:-181,r:13,name:'Briezková lúka'},{x:27,z:-214,r:13,name:'Slnečná stráň'},{x:-3,z:-249,r:12,name:'Machové údolie'},{x:-23,z:-281,r:11,name:'Záhrada Auriho'}];
+
+export const FLIGHT_Y=40;
+export const INTRO_SECONDS=14;
+export const NEW_GLADES=[{x:-77,z:-25,r:8,kind:0},{x:77,z:-68,r:9,kind:1},{x:-77,z:-116,r:8,kind:2},{x:77,z:-188,r:9,kind:3},{x:-77,z:-257,r:8,kind:4},{x:77,z:-285,r:8,kind:5}];

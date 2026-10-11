@@ -1,7 +1,8 @@
 import {distance} from './map';
 import type {Vec} from './map';
 // A bounded weighted A* with a binary heap; favors progress over the shortest path. Used by the wolf only when the straight route is blocked.
-export function findRoute(start:Vec,goal:Vec,canMove:(p:Vec)=>boolean,maxNodes=8000):Vec[]{
+export function findRoute(start:Vec,goal:Vec,canMove:(p:Vec)=>boolean,maxNodes=8000,viaBridge=true):Vec[]{
+ if(viaBridge&&((start.z>-148&&goal.z<-156)||(goal.z>-148&&start.z<-156))){const a={x:32,z:start.z>-148?-141:-163},b={x:32,z:start.z>-148?-163:-141};const first=findRoute(start,a,canMove,maxNodes,false),middle=findRoute(a,b,canMove,maxNodes,false),last=findRoute(b,goal,canMove,maxNodes,false);return first.length&&middle.length&&last.length?[...first,...middle,...last]:[];}
  const step=1.25,origin={x:Math.round(start.x/step),z:Math.round(start.z/step)},end={x:Math.round(goal.x/step),z:Math.round(goal.z/step)},key=(p:Vec)=>`${p.x}:${p.z}`;
  type Node=Vec&{f:number;g:number};const heap:Node[]=[];const push=(n:Node)=>{heap.push(n);let i=heap.length-1;while(i>0){const p=(i-1)>>1;if(heap[p].f<=n.f)break;heap[i]=heap[p];i=p;}heap[i]=n;};const pop=()=>{const n=heap[0],last=heap.pop()!;if(heap.length){let i=0;while(i*2+1<heap.length){let c=i*2+1;if(c+1<heap.length&&heap[c+1].f<heap[c].f)c++;if(heap[c].f>=last.f)break;heap[i]=heap[c];i=c;}heap[i]=last;}return n;};
  push({...origin,g:0,f:distance(origin,end)*1.35});const costs=new Map([[key(origin),0]]),parents=new Map<string,Vec>();let found:Vec|undefined;

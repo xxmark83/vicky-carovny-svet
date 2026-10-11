@@ -1,5 +1,5 @@
 import {SCENES} from './adventure';
-import { CHEST, GEMS, OBSTACLES, PATH, SHRINES, distance, groundHeight, pathDistance, random } from './game';
+import { CHEST, GEMS, OBSTACLES, PATH, SHRINES, distance, groundHeight, pathDistance, random, NEW_GLADES, WORLD_BOUNDS } from './game';
 import type { Vec } from './game';
 export type Block={p:[number,number,number];s:[number,number,number];c:string;r?:number};
 export type Surface='grass'|'earth'|'bark'|'leaf'|'stone'|'decor';
@@ -28,11 +28,21 @@ export function createLandscape(low=false):WorldChunk[]{
   else{add('leaf',[p.x,y+h*.35,p.z],[.13,h*.7,.12],'#3e752d');for(let j=0;j<(low?2:3);j++)add('leaf',[p.x+Math.sin(a+j*2.1)*.2,y+h*.35,p.z+Math.cos(a+j*2.1)*.2],[.17,.13,.75],['#7aaa38','#58942f','#8eb941'][i%3],a+j*2.1);}
  };
  for(let i=1;i<PATH.length;i++){const a=PATH[i-1],b=PATH[i],len=distance(a,b),nx=(b.z-a.z)/len,nz=-(b.x-a.x)/len;for(let d=0;d<len;d+=low?1.2:.65)for(const side of [-1,1])for(let k=0;k<(low?2:3);k++){const off=2.6+k*.75+rng()*.35;plant({x:a.x+(b.x-a.x)*d/len+nx*side*off,z:a.z+(b.z-a.z)*d/len+nz*side*off},Math.floor(rng()*10000));}}
- for(let i=0;i<(low?1400:3200);i++){const p={x:rng()*144-72,z:24-rng()*345};if(pathDistance(p)>2.4)plant(p,i);}
+ for(let i=0;i<(low?1750:4000);i++){const p={x:WORLD_BOUNDS.minX+rng()*175,z:24-rng()*342};if(pathDistance(p)>2.4)plant(p,i);}
  for(let i=1;i<PATH.length;i++){const a=PATH[i-1],b=PATH[i],len=distance(a,b),nx=(b.z-a.z)/len,nz=-(b.x-a.x)/len;for(let d=2;d<len;d+=low?7:4)for(const side of [-1,1]){const p={x:a.x+(b.x-a.x)*d/len+nx*side*(4.8+rng()*1.3),z:a.z+(b.z-a.z)*d/len+nz*side*(4.8+rng()*1.3)};if(GEMS.some(g=>distance(g,p)<3)||SHRINES.some(g=>distance(g,p)<5)||distance(p,CHEST)<9||p.z<-145&&p.z>-160)continue;const y=groundHeight(p),h=.7+rng()*.9;add('leaf',[p.x,y+h*.5,p.z],[1.8,h,1.6],side>0?'#6e9b33':'#4d872f');add('leaf',[p.x+.4,y+h,p.z],[1.2,.7,1.3],'#81aa39');}}
  // Leafy understory fills the wide gaps while keeping gems and shrine clearings readable.
- for(let i=0;i<(low?420:760);i++){const p={x:rng()*144-72,z:24-rng()*345};if(SCENES.some(m=>distance(m,p)<5)||pathDistance(p)<4.2||GEMS.some(g=>distance(g,p)<2.5)||SHRINES.some(g=>distance(g,p)<4)||distance(p,CHEST)<8||p.z<-145&&p.z>-160)continue;const y=groundHeight(p);add('leaf',[p.x,y+.55,p.z],[1.5,.95,1.4],i%3?'#477c29':'#719b31');add('leaf',[p.x+.5,y+.9,p.z],[.9,.6,1],'#699d36');}
+ for(let i=0;i<(low?525:950);i++){const p={x:WORLD_BOUNDS.minX+rng()*175,z:24-rng()*342};if(SCENES.some(m=>distance(m,p)<5)||pathDistance(p)<4.2||GEMS.some(g=>distance(g,p)<2.5)||SHRINES.some(g=>distance(g,p)<4)||distance(p,CHEST)<8||p.z<-145&&p.z>-160)continue;const y=groundHeight(p);add('leaf',[p.x,y+.55,p.z],[1.5,.95,1.4],i%3?'#477c29':'#719b31');add('leaf',[p.x+.5,y+.9,p.z],[.9,.6,1],'#699d36');}
  for(let i=0;i<100;i++){const a=i*2.399,r=6+(i%9)*.9;plant({x:CHEST.x+Math.sin(a)*r,z:CHEST.z+Math.cos(a)*r},i*4);}
  for(const p of SHRINES)for(let i=0;i<16;i++){const a=i*Math.PI/8;plant({x:p.x+Math.sin(a)*4.5,z:p.z+Math.cos(a)*4.5},i*4);}
  return [...chunks.values()];
 }
+
+export const MOUNTAIN_MIN_HEIGHT=66;
+export function mountainBlocks():Block[]{const b:Block[]=[],r=random(965);const peak=(x:number,z:number)=>{const h=MOUNTAIN_MIN_HEIGHT+r()*30,w=46+r()*16;for(let j=0;j<9;j++){const size=w*(1-j/10);b.push({p:[x+(j%2)*1.3,(j+.5)*h/9-3,z],s:[size,h/9+1,size],c:j>6?'#e6e4d6':j>4?'#8b9f98':j>1?'#667f71':'#4e7454'});}b.push({p:[x,1,z],s:[w+5,8,w+5],c:'#4b7041'});};for(let z=WORLD_BOUNDS.minZ-9;z<=WORLD_BOUNDS.maxZ+16;z+=17){peak(WORLD_BOUNDS.minX-31,z);peak(WORLD_BOUNDS.maxX+31,z);}for(let x=WORLD_BOUNDS.minX-5;x<=WORLD_BOUNDS.maxX+13;x+=17){peak(x,WORLD_BOUNDS.minZ-31);peak(x,WORLD_BOUNDS.maxZ+31);}return b;}
+export function gladeBlocks():Block[]{const b:Block[]=[];const add=(x:number,y:number,z:number,s:[number,number,number],c:string)=>b.push({p:[x,y,z],s,c});for(const p of NEW_GLADES){const h=groundHeight(p);if(p.kind===0||p.kind===3){ // Fallen tree and a ring of oversized spotted mushrooms.
+ add(p.x,h+.8,p.z,[8,1.6,1.6],'#8c623d');add(p.x+4.05,h+.8,p.z,[.08,1.35,1.35],'#e5be7c');for(let i=0;i<9;i++){const x=p.x+Math.sin(i*2.4)*5,z=p.z+Math.cos(i*2.4)*5,y=groundHeight({x,z});add(x,y+.6,z,[.4,1.2,.4],'#e5dab2');add(x,y+1.3,z,[1.5,.4,1.5],p.kind===0?'#e696ad':'#72c4b0');add(x+.25,y+1.53,z+.2,[.3,.05,.3],'#fff2cf');}}
+ else if(p.kind===1||p.kind===4){ // Ancient stone circle and giant ferns.
+ for(let i=0;i<7;i++){const x=p.x+Math.sin(i*Math.PI*2/7)*5,z=p.z+Math.cos(i*Math.PI*2/7)*5,y=groundHeight({x,z});add(x,y+1.4,z,[1,2.8,1.2],'#82978c');add(x,y+2.85,z,[1.2,.2,1.3],'#74a24e');}for(let i=0;i<12;i++){const a=i*2.4,x=p.x+Math.sin(a)*7,z=p.z+Math.cos(a)*7,y=groundHeight({x,z});add(x,y+.8,z,[.16,1.6,.16],'#486f2c');for(let j=0;j<4;j++){b.push({p:[x,y+.6+j*.23,z],s:[2-j*.3,.14,.45],c:'#81b244',r:a+j*.6});}}}
+ else{ // Small lookout terraces and lantern poles.
+ for(let i=0;i<3;i++)add(p.x,h+.35+i*.4,p.z-i*1.4,[8-i*1.5,.7,4],'#9caa90');for(const side of [-1,1]){add(p.x+side*4,h+2,p.z,[.3,4,.3],'#987344');add(p.x+side*4,h+3.7,p.z,[.8,.9,.8],'#ffe7a1');}for(let i=0;i<7;i++)add(p.x-3+i,h+1.7,p.z-3,[.2,1.3,.2],'#d2ad72');}
+ }return b;}
