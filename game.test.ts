@@ -16,3 +16,21 @@ test('full playable route reaches all gems, all shrines and the winning chest',(
 });
 
 test('quick touch taps survive until the next simulation frame',()=>{const g=new Game();g.mode='playing';const input={...idle(),magicTap:true};g.update(.05,input);assert.ok(g.magicCooldown>0);assert.equal(input.magicTap,false);});
+
+test('guardian alternates strike and wave, and hits do not erase its warning',()=>{
+ const g=new Game();g.mode='playing';g.enemies.slice(0,12).forEach(e=>e.hp=0);const boss=g.enemies[12];Object.assign(g.player,{x:boss.x,z:boss.z+2});boss.cooldown=0;g.update(.05,idle());assert.equal(boss.attackKind,'strike');assert.ok(boss.windup>0);const windup=boss.windup;g.hitEnemy(boss,1);assert.equal(boss.windup,windup);
+ Object.assign(g.player,{x:boss.x+8,z:boss.z});for(let i=0;i<75;i++)g.update(.05,idle());assert.equal(g.health,5);Object.assign(g.player,{x:boss.x,z:boss.z+4});boss.cooldown=0;g.update(.05,idle());assert.equal(boss.attackKind,'wave');assert.equal(boss.windupMax,1.4);
+});
+test('golden wave hits inside its radius but a timed jump avoids it',()=>{
+ function wave(jump:boolean){const g=new Game();g.mode='playing';g.enemies.slice(0,12).forEach(e=>e.hp=0);const e=g.enemies[12];Object.assign(g.player,{x:e.x+4,z:e.z});e.attackKind='wave';e.windup=.2;for(let i=0;i<5;i++)g.update(.05,{...idle(),jump:i===0&&jump});return g;}
+ assert.equal(wave(false).health,4);assert.equal(wave(true).health,5);
+});
+test('all three shrine stories preserve existing version-one saves',()=>{
+ const g=new Game();g.enemies.forEach(e=>e.hp=0);for(let i=0;i<3;i++){Object.assign(g.player,SHRINES[i]);g.interact();assert.equal(g.shrines.size,i+1);assert.ok(g.message.length>30);assert.equal(g.wolfMood,'happy');}const restored=new Game(g.save());assert.equal(restored.shrines.size,3);assert.match(restored.story,/Zlatý poklad/);assert.deepEqual(restored.save(),g.save());
+});
+test('small joystick drift is ignored and movement stops smoothly',()=>{
+ const g=new Game();g.mode='playing';const x=g.player.x;for(let i=0;i<20;i++)g.update(.05,{...idle(),x:.05});assert.equal(g.player.x,x);for(let i=0;i<10;i++)g.update(.05,{...idle(),x:1});assert.ok(g.player.x>x);for(let i=0;i<20;i++)g.update(.05,idle());assert.ok(Math.abs(g.velocity.x)<.001);assert.equal(g.walking,false);
+});
+test('victory celebration runs without changing the completed game or accepting attacks',()=>{
+ const g=new Game();g.mode='playing';g.enemies.forEach(e=>e.hp=0);GEMS.forEach((_,i)=>g.gems.add(i));SHRINES.forEach((_,i)=>g.shrines.add(i));Object.assign(g.player,CHEST);g.interact();const save=g.save();for(let i=0;i<120;i++)g.update(.05,{...idle(),attack:true,x:1});assert.equal(g.mode,'won');assert.ok(g.portalTime>=5);assert.deepEqual(g.save(),save);assert.ok(g.particles.length<=160);
+});

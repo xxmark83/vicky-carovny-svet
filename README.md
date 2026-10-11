@@ -2,6 +2,18 @@
 
 Jeden kompletný hrateľný 3D level **Čarovný les**. React 19, TypeScript, Three.js a react-three-fiber, Vite. Bez backendu a bez API kľúčov.
 
+## Upgrade 1.1 — Živý les
+
+Stále iba prvý level, rovnaká mapa a ciele. Paprade, huby, korene, machové kmene, lampáše a kamenné brány dopĺňajú instancovaný les. Jemné lúče a nízka hmla sú bez postprocessingu. Tri svätyne majú názvy, vlastné príbehové odkazy, svetelný stĺp a obnovujú kúzlo lesa. Prehľad svätýň je priamo v HUD.
+
+Plynulé otáčanie Vicky a kamery, rozbeh a zastavenie pohybu, mŕtva zóna joysticku, dvojdielna animácia copu, samostatné nohy vlka a reakcie na diamanty/nebezpečenstvo. Meč má zlatý oblúk, zásahy odtláčajú malé tiene a zranenie sa ukazuje jemným červeným okrajom.
+
+Strážca strieda úder (dosah 2,8 m, varovanie 1,05 s) a zlatú vlnu (5,5 m, varovanie 1,4 s). Kruhy zobrazujú skutočný dosah; odíď z kruhu alebo načasuj skok. Bežný zásah strážcu nepreruší, aby nebolo možné zrušiť každý útok držaním meča. Samostatný ukazovateľ zdravia a text pri útoku pomáhajú s orientáciou.
+
+Po otvorení pokladu nasleduje päťsekundová oslava: plynulé veko, zlaté častice, obiehajúca kamera, poskakujúca Vicky a vlk, potom výsledok. Oslavu možno preskočiť. Staré uložené pozície verzie 1 ostávajú kompatibilné.
+
+Ak detailná grafika po úvodnom zahriatí počas dvoch po sebe nasledujúcich trojsekundových okien klesá pod 28 FPS, hra automaticky zapne úspornú grafiku. Nastavenie možno zmeniť v pauze. Ide o jednoduchú ochranu plynulosti; výkon na fyzickom iPhone/iPade nebol meraný.
+
 ## Zahrať si
 
 1. Pozbieraj **10 diamantov** na ceste a v lesných odbočkách.
@@ -9,7 +21,7 @@ Jeden kompletný hrateľný 3D level **Čarovný les**. React 19, TypeScript, Th
 3. Prebuď **3 svätyne** po porazení tieňov v ich okolí. Doplňujú zdravie a ukladajú miesto návratu.
 4. Na konci lesa otvor zlatú truhlicu. Pri svätyniach aj truhlici použi **E** alebo tlačidlo na obrazovke.
 
-Bežné prvé hranie je navrhnuté približne na **5–10 minút**, podľa objavovania a súbojov. Automatizovaný test s navigáciou po najkratších trasách dokončil level za približne 4 min 33 s herného času.
+Bežné prvé hranie je navrhnuté približne na **5–10 minút**, podľa objavovania a súbojov. Automatizovaný test s navigáciou po najkratších trasách dokončil level za približne 4 min 35 s herného času.
 
 ### Ovládanie
 
@@ -43,7 +55,7 @@ Výstup je v `dist/`. Vercel rozpozná Vite; konfigurácia je v `vercel.json`. B
 
 Responzívne rozhranie pre iPhone/iPad v Safari a pre moderné prehliadače. Dotykový joystick podporuje pointer capture a súbežné dotyky s tlačidlami. Safe-area okraje a dynamická výška viewportu. Na dotykových zariadeniach je predvolene úsporná grafika: DPR 1, bez tieňov a antialiasingu. Detailná grafika je v pauze; jej DPR je obmedzené na 1,5 a tiene na 1024 px. Scéna používa zdieľané geometrie a instancované bloky, hmlu a obmedzený počet častíc. Rozšírenie na celú obrazovku závisí od prehliadača; na iPhone sa dá použiť Pridať na plochu.
 
-**Overené:** produkčný build, sedem automatizovaných testov logiky vrátane celého prejdenia levelu, Chrome desktop a rozmer 390 × 844, ovládanie joystickom, mapa, pauza, kúzlo a obnovenie uloženého postupu. **Neoverené:** fyzický iPhone/iPad, Safari a meranie FPS na skutočných mobilných zariadeniach. Konkrétnu snímkovú frekvenciu preto negarantujeme.
+**Overené:** produkčný build, 12 automatizovaných testov logiky vrátane celého prejdenia levelu, striedania útokov strážcu, preskočenia vlny, kompatibility uloženého postupu a oslavy. V Chrome desktop a rozmeroch 390 × 844, 844 × 390 a 820 × 1180 overené ovládanie joystickom, rýchle ťuknutie na kúzlo, prebudenie svätyne a otvorenie truhlice s víťazstvom. Záverečné situácie v prehliadači boli spustené z lokálnych testovacích checkpointov; celý level prechádza automatizovaný test cez skutočnú kolíznu mapu a bežné vstupy. **Neoverené:** fyzický iPhone/iPad, Safari a meranie FPS na skutočných mobilných zariadeniach. Konkrétnu snímkovú frekvenciu preto negarantujeme.
 
 ## Vizuálne referencie a súkromie
 
