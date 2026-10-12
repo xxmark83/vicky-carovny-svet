@@ -13,7 +13,7 @@ Auri vedie Vicky a vlka do vyschnutej púšte. Vyslobodia strážcov, vrátia vo
 - Nové priestorové zvieratká: ťava, púštna líška a skarabeus. Majú rovnakú malú voxelovú mriežku 0,115 m ako lesné zvieratká. Prasiatko, ovečka, zajačik a mačička dopĺňajú obsadenie. Zostáva 70 putujúcich pozemných a 498 vzdušných obyvateľov; dobrovoľné súboje povoľujú len dva súčasné útoky.
 - Chôdza mimo cesty, prechod cez mierne duny, jedna letová výška 40 m, zlaté gule z meča, bezpečné pristávanie. Pozemné úlohy zostávajú pri zemi.
 - Dobrovoľný slnečný medailón pri západných ruinách a tri vlastné letové oblúky. Tajomstvá neblokujú dokončenie.
-- Vlastný preskočiteľný 60-sekundový živý 3D prelet s predstavením púštnych postavičiek a veľkým Hrať. Pokračovanie uloženia intro neopakuje. Hudba a efekty sú predvolene zapnuté, grafika detailná; prvé gesto odomkne zvuk podľa pravidiel prehliadača.
+- Vlastný preskočiteľný 60-sekundový živý 3D prelet s predstavením púštnych postavičiek a veľkým Hrať. Zvieratká sa ukazujú v samostatnom veľkom zábere, ktorého veľkosť sa prispôsobí obrazovke; jemné oči a tykadlá ostávajú viditeľné aj na malej voxelovej mriežke. Pokračovanie uloženia intro neopakuje. Hudba a efekty sú predvolene zapnuté, grafika detailná; prvé gesto odomkne zvuk podľa pravidiel prehliadača.
 - Oba svety sa vyberajú priamo v menu. Lesné víťazstvo ponúkne cestu do púšte; netreba les znovu dohrávať, aby sa dal nový level vyskúšať.
 
 ## Posledné doladenie levelu 1
@@ -28,7 +28,7 @@ Každý svet má vlastný postup: `vicky-forest-save-v1` a `vicky-desert-save-v1
 
 ## Overenie 2.2
 
-**100 automatických testov a úspešný produkčný build.** Testy prejdú celý les aj púšť reálnou kolíznou mapou; púšť aj iba mečom, vrátane troch oáz, pečatí a truhlice. Púštna automatická trasa trvá približne šesť minút simulovaného herného času. To nie je namerané prvé hranie dieťaťa; cieľ 5–10 minút treba overiť s Vicky.
+**101 automatických testov a úspešný produkčný build.** Testy prejdú celý les aj púšť reálnou kolíznou mapou; púšť aj iba mečom, vrátane troch oáz, pečatí a truhlice. Púštna automatická trasa trvá približne šesť minút simulovaného herného času. To nie je namerané prvé hranie dieťaťa; cieľ 5–10 minút treba overiť s Vicky.
 
 V Chrome boli prakticky skúšané menu a oddelené pokračovania, púštne intro, chôdza, let a streľba, pristávanie, oživenie oázy, druhá fáza strážcu, truhlica a oslava, návštevy lúky a priehľadnosť stromov. Mobilné rozmery predstavujú responzívnu skúšku, nie fyzický iPhone/iPad ani meranie stabilných FPS v Safari. Skutočný detský playtest ostáva na rodičovi; priložený krátky zoznam pomôže zaznamenať problémy bez navádzania.
 
