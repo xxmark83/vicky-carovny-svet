@@ -10,6 +10,7 @@ export function updateWolf(g:Game,dt:number){
  if(g.petTime>0){g.wolfMood='pet';g.wolf.yaw=Math.atan2(g.player.x-g.wolf.x,g.player.z-g.wolf.z);return;}
  if(!g.inCave&&boss.hp>0&&boss.windup>0&&distance(g.player,boss)<13){const a=Math.atan2(g.player.x-boss.x,g.player.z-boss.z);const radius=attackRadius(boss)+2;goal={x:boss.x+Math.sin(a)*radius,z:boss.z+Math.cos(a)*radius};g.wolfSafe=goal;g.wolfMood='protect';}
  else if(!g.inCave&&!g.passageOpen&&!g.flying&&distance(g.player,CAVE.entry)<22){goal={x:CAVE.entry.x-2,z:CAVE.entry.z+3};g.wolfMood='sniff';if(!g.wolfClue){g.wolfClue=true;g.say('Vlk: Haf! Za vodopádom cítim niečo čarovné…','wolf');}}
+ else if(!g.flying&&g.guide.until>g.elapsed&&g.guide.path.length){goal=g.guide.path.find(p=>distance(p,g.player)>3)||g.guide.path.at(-1)!;g.wolfMood='sniff';}
  else if(g.flying&&distance(g.player,g.wolf)>30){g.wolfMood='wait';return;}
  else if(g.flying)g.wolfMood='wait';
  if(!g.canMove(goal)){let free:Vec|undefined;for(let radius=1;radius<=4&&!free;radius++)for(let i=0;i<12;i++){const p={x:goal.x+Math.sin(i*Math.PI/6)*radius,z:goal.z+Math.cos(i*Math.PI/6)*radius};if(g.canMove(p)){free=p;break;}}if(!free)return;goal=free;}

@@ -4,7 +4,7 @@ import {terrainBlockHeight,TERRAIN_CELL} from './terrain';
 import {random,pathDistance} from './map';
 export type GroundChunk={key:string;positions:number[];colors:number[];uvs:number[]};
 // Only exposed faces: the same fine cubes without thousands of invisible bottoms/interiors.
-export function groundMeshData(){const chunks=new Map<string,GroundChunk>(),r=random(12026),cell=TERRAIN_CELL,half=cell/2;const greens=['#579128','#679e32','#73aa39','#5d9228','#7caa3d'];const color=new THREE.Color();
+export function groundMeshData(){const chunks=new Map<string,GroundChunk>(),r=random(12026),cell=TERRAIN_CELL,half=cell/2;const greens=['#64a333','#78ad3f','#85b747','#679b34','#8ab84b'];const color=new THREE.Color();
  const face=(key:string,verts:number[][],c:string)=>{let chunk=chunks.get(key);if(!chunk){chunk={key,positions:[],colors:[],uvs:[]};chunks.set(key,chunk);}color.set(c);for(const i of [0,1,2,0,2,3]){chunk.positions.push(...verts[i]);chunk.colors.push(color.r,color.g,color.b);chunk.uvs.push(i===2||i===3?1:0,i===1||i===2?1:0);}};
  const height=(ix:number,iz:number)=>iz*cell<-148&&iz*cell>-156?-1.1:terrainBlockHeight(ix,iz);
  for(let iz=-280;iz<=40;iz++)for(let ix=-76;ix<=76;ix++){const x=ix*cell,z=iz*cell,h=height(ix,iz),key=`${Math.floor(x/28)}:${Math.floor(z/28)}`;face(key+':grass',[[x-half,h,z-half],[x-half,h,z+half],[x+half,h,z+half],[x+half,h,z-half]],pathDistance({x,z})<1.85?['#b9945c','#cfaa6e','#a98550','#d8b67b'][Math.floor(r()*4)]:greens[Math.floor(r()*5)]);

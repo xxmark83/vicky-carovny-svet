@@ -57,6 +57,15 @@ Stále sa rozvíja iba prvý level. Príbeh Auriho a povinné dokončenie ostáv
 - Vlk sleduje vyhladený smer pohybu Vicky, nie prudké otočenia pri útoku. Má pomalší dobeh, pásmo zastavenia a krokovú animáciu odvodenú zo skutočne prejdenej vzdialenosti. Hľadanie cesty cez rieku používa most aj pri dlhom návrate.
 - Detský HUD: hore iba srdiečka, diamanty, svätyne a pauza. Dole joystick, veľký meč, skok a let; počas letu skok zmizne. Pohľad sa otáča potiahnutím po voľnej scéne. Mapa, zvuk, hudba, pomoc, nastavenia a reštart sú v pauze. Vzdelávacie vysvetlenia zostávajú na budúci upgrade.
 
+## Upgrade 1.9 — hrdinka, scenérie, pomoc a finále
+
+- Vicky má jemnejšiu tvár a oči, otvorenejšiu ofinu, výraznú modrú gumičku, pokojnejší krok a plynulé ohýbanie lakťov. Pri diamante sa poteší rukou, pri svätyni ju zdvihne a pri čuchajúcom alebo pomáhajúcom vlkovi sa obzrie. Pohyb, útok a let majú prednosť pred gestami.
+- Tri ručne komponované miesta: mostík pri vodopáde s kvetinovými brehmi, rozkvitnutá lúka prvej svätyne a ružová záhrada smerom k hradu. Jemná lokálna hmla preberá aktuálnu farbu slnka; tráva má sviežejšiu zelenú. Dekorácia nemení kolíznu mapu; mostík má výšku chodidiel podľa svojho povrchu.
+- Po 12 sekundách nečinnosti alebo 35 sekundách bez priblíženia k cieľu sa v pokojnom priestore krátko ukáže pomoc. Zlaté labky a vlk používajú priechodnú trasu vrátane mosta cez rieku. Pomoc sa počas blízkeho súboja, pristávania a príbehových momentov stiahne a opakuje sa najskôr po 32 sekundách. Pri svätyni a truhlici vysvetlí správne tlačidlo. Predmety pri priblížení jemne pulzujú. Hlasová pomoc je voliteľná v pauze, predvolene vypnutá, funguje len s dostupným miestnym slovenským alebo českým systémovým hlasom. Nevyžaduje mikrofón ani externú hlasovú službu.
+- Strážca rozlišuje úder, vlnu, štít a príležitosť na zásah ikonou, farbou aj krátkou vetou. Po útoku sa na 1,7–2 sekundy otvorí; po zlomení posledného koreňa na 2,8 sekundy. Žiariace kryštály a spojenia ukazujú korene štítu. Záverečná oslava Vicky, vlka a Auriho sprevádza trojsekundové rozkvitnutie čistinky.
+- Hlavné menu používa sviežu lesnú zelenú, zlatý zaoblený názov, ružové veľké Hrať a jednoduchšie detské prvky. Mobilný pohľad v menu umiestňuje hrdinku vyššie nad text. Pauza a výsledkové obrazovky nadväzujú rovnakými farbami. Pohladenie vlka má malú zrozumiteľnú ikonu dolu, nezakrýva postavu.
+- Stále ide len o level 1. Desať diamantov, tri svätyne, 13 príbehových strážcov, 70 putujúcich pozemných a 498 vzdušných obyvateľov, letová hladina, horské hranice aj staré uloženia zostávajú kompatibilné.
+
 ## Ovládanie
 
 | Akcia | Počítač | Dotyk |
@@ -83,7 +92,7 @@ npm test
 npm run build
 ```
 
-62 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **224 herných sekúnd**, aj iba s mečom bez klávesnicového kúzla. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
+71 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **224 herných sekúnd**, aj iba s mečom bez klávesnicového kúzla. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
 
 Grafika používa zdieľané geometrie a instancie pre zvieratká, orezanie mimo pohľadu, priestorové bunky pre kolízie, zlúčené viditeľné povrchy terénu a automatickú úspornú kvalitu. Úsporný les má približne 55 tisíc dekoračných kociek namiesto 178 tisíc detailných. Three.js tvorí veľký samostatný balík; build na jeho veľkosť upozorňuje.
 

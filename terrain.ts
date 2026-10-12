@@ -25,4 +25,4 @@ export function groundHeight(p:Vec):number{
 }
 
 // Match the visible stair tops for feet; gameplay keeps its smooth walking height.
-export function standingHeight(p:Vec){if(p.z<-148&&p.z>-156&&Math.abs(p.x-32)<=5.3)return .285;return Math.max(groundHeight(p),terrainBlockHeight(Math.round(p.x/TERRAIN_CELL),Math.round(p.z/TERRAIN_CELL)));}
+export function standingHeight(p:Vec){if(p.x>=12.3&&p.x<=22&&p.z>=-29&&p.z<=-26)return Math.max(.4,groundHeight(p));if(p.z<-148&&p.z>-156&&Math.abs(p.x-32)<=5.3)return .285;return Math.max(groundHeight(p),terrainBlockHeight(Math.round(p.x/TERRAIN_CELL),Math.round(p.z/TERRAIN_CELL)));}

@@ -14,6 +14,7 @@ export function updateCombat(g:Game,dt:number,grounded:boolean){
    else if(e.attackKind==='bolt')g.projectiles.push({x:e.x,z:e.z,y:g.floor(e)+1.15,vx:e.aim.x*6.3,vz:e.aim.z*6.3,life:2.7,kind:'bolt',radius:0,previousRadius:0,hit:false});
    else if(kind==='blue')g.projectiles.push({x:e.x,z:e.z,y:g.floor(e)+.2,vx:0,vz:0,life:2.4,kind:'wave',radius:.2,previousRadius:0,hit:false});
    else if(distance(e,g.player)<attackRadius(e)&&Math.abs(g.floor(e)-g.floor(g.player))<2.5)g.damage();
+   if(kind==='guardian')e.stunned=g.bossPhase===2?1.7:2;
    e.impact=.45;e.cooldown=kind==='guardian'?(g.bossPhase===2?2:2.6):kind==='skeleton'?2.7:kind==='blue'?3.3:2.2;
   }continue;}
   if(d>22)continue;e.cooldown=Math.max(0,e.cooldown-dt);const yaw=Math.atan2(g.player.x-e.x,g.player.z-e.z);if(kind==='panda')e.yaw+=Math.atan2(Math.sin(yaw-e.yaw),Math.cos(yaw-e.yaw))*Math.min(1,dt*1.8);else e.yaw=yaw;
