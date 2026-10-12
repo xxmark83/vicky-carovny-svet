@@ -1,3 +1,4 @@
+import {FOREST_LEVEL} from './levelConfig';
 export type Vec = { x: number; z: number };
 export const PATH: Vec[] = [{x:0,z:16},{x:0,z:-27},{x:-30,z:-52},{x:-40,z:-88},{x:0,z:-109},{x:32,z:-139},{x:32,z:-169},{x:-22,z:-201},{x:-38,z:-239},{x:0,z:-265},{x:0,z:-303}];
 export const GEMS: Vec[] = [{x:11,z:-24},{x:-24,z:-39},{x:-54,z:-75},{x:-21,z:-94},{x:20,z:-117},{x:48,z:-163},{x:5,z:-190},{x:-46,z:-218},{x:-16,z:-259},{x:16,z:-286}];
@@ -22,5 +23,5 @@ export const CREATIVE_MEADOW={x:-28,z:7,r:16,gate:{x:-15,z:15}};
 export const MEADOWS=[{x:24,z:-18,r:13,name:'Kvetinový vŕšok'},{x:-18,z:-65,r:12,name:'Motýlia lúka'},{x:10,z:-98,r:13,name:'Výhľad na háj'},{x:-9,z:-130,r:12,name:'Zelený svah'},{x:4,z:-181,r:13,name:'Briezková lúka'},{x:27,z:-214,r:13,name:'Slnečná stráň'},{x:-3,z:-249,r:12,name:'Machové údolie'},{x:-23,z:-281,r:11,name:'Záhrada Auriho'}];
 
 export const FLIGHT_Y=40;
-export const INTRO_SECONDS=14;
+export const INTRO_SECONDS=FOREST_LEVEL.introSeconds;
 export const NEW_GLADES=[{x:-77,z:-25,r:8,kind:0},{x:77,z:-68,r:9,kind:1},{x:-77,z:-116,r:8,kind:2},{x:77,z:-188,r:9,kind:3},{x:-77,z:-257,r:8,kind:4},{x:77,z:-285,r:8,kind:5}];

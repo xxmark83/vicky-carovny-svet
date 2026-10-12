@@ -1,3 +1,24 @@
+# Verzia 2.1 — Rozprávkové dobrodružstvo
+
+Stále iba level 1. Desať diamantov, tri svätyne, pôvodná mapa, príbeh, počty obyvateľov a dokončenie ostávajú.
+
+1. **Hrdinka:** beh vychádza zo skutočne prejdenej vzdialenosti, pri stene nebeží na mieste. Mäkké pristátie aj po obyčajnom skoku, krátky obláčik, pružný cop, mierne širší záber pri behu. Vicky v závere nového intra zamáva.
+2. **Tri scenérie:** sedemfarebná dúha pri kaskádach, veľké rozprávkové kvety a poletujúce lupienky pri prvej svätyni, otvorený zarastený oblúk a ružovo-zlaté svetlušky v Auriho záhrade. Dekorácie nepridávajú nové blokujúce kolízie.
+3. **Súboje:** korunovaný strážca má samostatné pohyblivé ruky, nohy, hlavu a kryštál. Vopred zdvihne ruky na úder alebo ich roztiahne pri vlne. Zlaté záblesky zvýraznia zásah. Po neúspechu ostáva znížené zdravie protivníkov a rozbité korene druhej fázy; Vicky získa päť srdiečok a ochrannú chvíľu.
+4. **Finále:** popri spoločnej oslave a rozkvitnutí sa za tri sekundy vyjasní celý les. Truhlica odomkne ružovú stavebnú kocku so zlatou hviezdou. Odmena má vlastné lokálne uloženie `vicky-forest-reward-v1`, zostáva po reštarte príbehu a tlačidlo vedie rovno na lúku. Základné stavanie zostáva dostupné od začiatku.
+5. **Tvorivá lúka:** potiahnutie presúva pohľad, ťuknutie stavia. Dlhšie potiahnutie nepridá nechcenú kocku. Obnovenie celého záberu, otáčanie a priblíženie, dobrovoľná priehľadná predloha domčeka. Predloha nemení uloženú stavbu; dieťa stavia samo. Náhľad domu vykresľuje len vonkajšie plochy.
+6. **Spoločný základ:** `levelConfig.ts` oddeľuje prezentáciu levelu, trvanie intra, tempo, paletu, odmenu a základné preferencie. `cinematic.ts` obsahuje samostatnú časovú os a zábery. Nový level 2 zatiaľ nie je implementovaný. Zostáva zdieľanie geometrií, vzdialenostné orezávanie a automatická úsporná kvalita pri dlhšie pomalom vykresľovaní.
+
+**Nové 60-sekundové intro** nahrádza pôvodnú miniatúru skladanú z kociek. Je to živý prelet po skutočnom 3D leveli: Vicky letí ponad les a vodopád, desať postavičiek sa postupne predstaví pohybom a názvom, kamera prejde cez údolie do záhrady k Vicky, vlkovi a Aurimu. Po minúte čaká veľké Hrať; Preskočiť vedie na tento záverečný záber. Pokračovanie uloženého príbehu intro neopakuje. Počas intra sa neposúva čas úlohy, zdravie ani súboje. Ak je dostupný miestny slovenský alebo český systémový hlas, prečíta aj názvy; inak funguje hudba, animácie a text bez vzdialenej hlasovej služby.
+
+**Hudba:** vlastná veselá dobrodružná téma, 116 BPM, melódia, zvončeky/flauta, basa, akordy a jemné bicie. Intro, let a blízke súboje pridajú aktívnejší sprievod. Hudba aj efekty sú predvolene zapnuté, hlasitosť 50 %. Nové uložené voľby rešpektujú následné vypnutie. Hudobný a efektový kanál sa ovládajú nezávisle. Prehliadač môže spustiť zvuk až prvým ťuknutím alebo stlačením klávesu. Pauza a skrytá stránka zvuk stíšia; po návrate sa neprehráva stará fronta tónov. Bez externých zvukových súborov alebo platených služieb.
+
+**Grafika:** nová inštalácia začína v najvyššej dostupnej detailnej kvalite aj na dotykovom zariadení. Ručne zvolená úsporná kvalita sa pamätá. Pri pretrvávajúcom nízkom výkone sa môže zapnúť existujúca automatická úsporná kvalita; v pauze je vysvetlenie aj prepínač späť.
+
+Overenie: 91 automatických testov vrátane úplných prejdení príbehu, produkčný build a skutočné funkčné skúšky v Chrome. Overený prelet, preskočenie, pohyb, skok, meč, odmena, stavebný posun a uloženie. Zvukový analyzátor potvrdil nenulovú hudbu s vypnutými efektmi a nulový výstup počas pauzy. Telefón/tablet sú simulované rozmery; fyzické Safari na iPhone/iPad, stabilné FPS na každom zariadení a prvé hranie päťročného dieťaťa ostávajú neoverené. Grafická vernosť ilustrácii nemá objektívne percentuálne meranie.
+
+---
+
 ## Verzia 2.0 — tvorivá lúka, živšie zvieratká a skalné scenérie
 
 Stále jediný level **Čarovný les**: 10 diamantov, 3 svätyne, rovnaký príbeh a finále.
@@ -62,7 +83,7 @@ Sedem putujúcich druhov sa správa odlišne: kravička vopred označí smer a r
 
 Stále sa rozvíja iba prvý level. Príbeh Auriho a povinné dokončenie ostávajú: **10 diamantov, 3 svätyne, 13 príbehových strážcov, tri korene v druhej fáze strážcu pokladu a truhlica**. Jaskyňa, venček, letové oblúky a ďalšie súboje sú dobrovoľné.
 
-- Nová hra začína preskočiteľným **14-sekundovým introm**: z roztrúsených kociek sa poskladá lesná miniatúra a postupne všetkých desať typov protivníkov, každý s názvom. Potom hra čaká na veľké tlačidlo **Hrať**. Čas úlohy ani nepriatelia počas intra nebežia. Pokračovanie rozhranej hry intro neopakuje. Samostatný komponent `LevelIntro` je pripravený na rozšírenie pri budúcich leveloch; ďalšie levely teraz nevznikli.
+- Nová hra začína preskočiteľným **historickým 14-sekundovým introm (vo verzii 2.1 nahradeným minútovým preletom)**: z roztrúsených kociek sa poskladá lesná miniatúra a postupne všetkých desať typov protivníkov, každý s názvom. Potom hra čaká na veľké tlačidlo **Hrať**. Čas úlohy ani nepriatelia počas intra nebežia. Pokračovanie rozhranej hry intro neopakuje. Samostatný komponent `LevelIntro` je pripravený na rozšírenie pri budúcich leveloch; ďalšie levely teraz nevznikli.
 - Plocha mapy narástla **presne o 25 %**: zo 140 × 346 na **175 × 346 m**. Šesť nových bočných čistiniek obsahuje spadnuté stromy, škvrnité huby, kamenné kruhy, veľké paprade, terasy a lampáše. Povinné predmety ostali na pôvodných miestach. Lesom možno chodiť do strán, cez svahy a cez most.
 - **83 protivníkov na zemi**: 13 pôvodných príbehových strážcov a 70 voľne putujúcich zvieratiek. Sedem typov zo súboru `kostickovy-3d.zip` má každý desať nových pozemných kusov: kravička, panda, modrý kamarát, prasiatko, ovečka, zajačik a mačička. Pri požadovanom minime všetkých druhov je počet vyšší než +350 % oproti pôvodným 13.
 - **498 protivníkov vo vzduchu**: šesťnásobok celkového počtu pozemných, teda o 500 % viac. Z každého importovaného typu je 71 alebo 72 kusov. Všetci sa simulujú a pohybujú po ohraničenej mape; vzdialené a neviditeľné modely sa nevykresľujú. Putujúce pozemné zvieratká hľadajú priechod okolo kmeňov a cez most. Pôvodní príbehoví strážcovia ostávajú pri svojich oblastiach, aby zostali jasné väzby na svätyne.
@@ -108,7 +129,7 @@ npm test
 npm run build
 ```
 
-71 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **224 herných sekúnd**, aj iba s mečom bez klávesnicového kúzla. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
+91 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **224 herných sekúnd**, aj iba s mečom bez klávesnicového kúzla. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
 
 Grafika používa zdieľané geometrie a instancie pre zvieratká, orezanie mimo pohľadu, priestorové bunky pre kolízie, zlúčené viditeľné povrchy terénu a automatickú úspornú kvalitu. Úsporný les má približne 55 tisíc dekoračných kociek namiesto 178 tisíc detailných. Three.js tvorí veľký samostatný balík; build na jeho veľkosť upozorňuje.
 

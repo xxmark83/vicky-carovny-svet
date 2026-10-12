@@ -1,7 +1,7 @@
 import type {Game} from './game';
 import {WALK_SPEED} from './map';
 export function heroPose(g:Game){
- const speed=Math.min(1,Math.hypot(g.velocity.x,g.velocity.z)/WALK_SPEED),phase=g.heroGait;
+ const speed=Math.min(1,g.heroSpeed/WALK_SPEED),phase=g.heroGait;
  const run=Math.sin(phase)*.62*speed;
  const quiet=!g.walking&&!g.flying&&!g.landing&&g.attackTime===0&&g.swordCharge===0;
  const salute=quiet&&g.heroGesture==='shrine'?Math.sin(Math.min(1,(2.4-g.heroGestureTime)/2.4)*Math.PI):0;
