@@ -14,8 +14,9 @@ export function createCrowd(free:(p:Vec)=>boolean):Roamer[]{const r=random(76315
 function nextGoal(e:Roamer,g:Game){const r=random(e.id*1531+Math.floor(g.elapsed*17));for(let i=0;i<40;i++){const p={x:WORLD_BOUNDS.minX+4+r()*167,z:WORLD_BOUNDS.minZ+7+r()*330};if(e.air||!meadowSanctuary(p)&&g.canMove(p)){e.goal=p;return;}}e.goal={x:0,z:12};}
 function release(g:Game,e:Roamer,amount:number){
  if(e.kind===1&&!e.air&&amount===1){const front=Math.cos(Math.atan2(g.player.x-e.x,g.player.z-e.z)-e.yaw);if(front>.35){amount=.35;e.guard=.5;}else if(front<-.25)amount=2;}
+ g.emitSound(e.guard>0?'shield':'impact');
  e.hp=Math.max(0,e.hp-amount);e.hit=.28;e.rush=0;e.stun=.3;e.windup=0;e.cooldown=6;
- if(e.hp===0){e.freed=5;releaseCurse(g,e,e.kind,e.air);g.react('joy',1.5);g.wolfMood='happy';g.wolfMoodTime=1.5;g.burst(e,'#ffd5e8',12);if(e.air)g.particles.slice(-12).forEach(p=>p.y=FLIGHT_Y+1);g.health=Math.min(5,g.health+.12);g.soundEvent='defeat';g.eventId++;}
+ if(e.hp===0){e.freed=5;releaseCurse(g,e,e.kind,e.air);g.react('joy',1.5);g.wolfMood='happy';g.wolfMoodTime=1.5;g.burst(e,'#ffd5e8',12);if(e.air)g.particles.slice(-12).forEach(p=>p.y=FLIGHT_Y+1);g.health=Math.min(5,g.health+.12);g.emitSound('defeat');g.emitSound('animal',g.desert&&e.kind<3?e.kind+7:e.kind);}
  else{g.burst(e,e.guard>0?'#abd9ee':'#fff0ae',5);if(e.air)g.particles.slice(-5).forEach(p=>p.y=FLIGHT_Y+1);}
 }
 export function attackCrowd(g:Game,radius:number,amount:number){if(g.inCave)return;g.crowd.filter(e=>!e.air&&e.hp>0&&distance(e,g.player)<radius).sort((a,b)=>distance(a,g.player)-distance(b,g.player)).slice(0,amount===1?2:12).forEach(e=>release(g,e,amount));}
@@ -47,7 +48,7 @@ export function updateCrowd(g:Game,dt:number){
   if(e.air){const group=Math.floor((e.id-GROUND_ROAMERS)/14),stage=Math.floor((g.elapsed+group*7)/26);if(e.school!==stage){const r=random(group*991+stage*8191+51),slot=(e.id-GROUND_ROAMERS)%14,angle=slot*Math.PI*2/14;e.goal={x:Math.max(-82,Math.min(82,-65+r()*130+Math.sin(angle)*6)),z:Math.max(-309,Math.min(19,-292+r()*300+Math.cos(angle)*6))};e.school=stage;}}
   else if(distance(e,e.goal)<3||e.stuck>2.5){nextGoal(e,g);e.stuck=0;}
   let goal:Vec=threat?g.player:e.goal;
-  // Keep walking/flying bodies out of Vicky's silhouette. Only a warned dash
+  // Keep walking/flying bodies out of Vikoušek's silhouette. Only a warned dash
   // crosses this space; it is never a hidden contact attack.
   if(d<(e.air?3:2.2)){const a=Math.atan2(e.x-g.player.x,e.z-g.player.z);goal={x:g.player.x+Math.sin(a)*(e.air?3.4:2.6),z:g.player.z+Math.cos(a)*(e.air?3.4:2.6)};}
   // Cats circle; pigs weave; pandas keep a slow, readable front shield.

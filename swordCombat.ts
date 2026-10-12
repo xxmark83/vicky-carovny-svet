@@ -20,6 +20,7 @@ export function updateSword(g:Game,dt:number,input:Input,tap:boolean){
  g.attackPower=power?3:1;g.attackDuration=power?.48:.32;
  g.attackTime=g.attackDuration;g.attackCooldown=power?.6:.4;g.swingId++;
  g.react('determined',.65);
+ g.emitSound(g.flying?(power?'chargedShot':'shot'):(power?'charged':'swing'));
  if(g.flying)shootBall(g,power?3:1);
  else{
   const radius=power?5.5:3.8;
@@ -35,5 +36,4 @@ export function updateSword(g:Game,dt:number,input:Input,tap:boolean){
   g.crowdAttacks=g.crowdAttacks.filter(p=>distance(p,g.player)>radius);
  }
  if(power){g.burst(g.player,'#fff0a6',20);if(g.flying)g.particles.slice(-20).forEach(p=>p.y=g.flightY+1);}
- g.soundEvent=power?'charged':'swing';g.eventId++;
 }

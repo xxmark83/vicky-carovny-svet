@@ -1,7 +1,7 @@
 import {groundHeight} from './terrain';
 import {SHRINES,random,pathDistance,distance} from './map';
 import type {Block} from './world';
-export const VISTAS=[{x:17,z:-31,name:'Vodopád dúhových kvapiek'},{...SHRINES[0],name:'Lúka troch svetiel'},{x:0,z:-282,name:'Auriho záhrada'}];
+export const VISTAS=[{x:17,z:-31,name:'Vodopád duhových kapek'},{...SHRINES[0],name:'Louka tří světel'},{x:0,z:-282,name:'Auriho zahrada'}];
 // Authored foreground/midground frames. All substantial shapes stay outside mission lanes.
 export function vistaBlocks(index:number):Block[]{
  const center=VISTAS[index],b:Block[]=[],r=random(1919+index);

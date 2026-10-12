@@ -1,7 +1,7 @@
 import type {Block} from './world';
 export const ANIMAL_KINDS=['cow','panda','blue','pig','sheep','bunny','cat'] as const;
 export type AnimalKind=typeof ANIMAL_KINDS[number];
-export const ANIMAL_NAMES:Record<AnimalKind,string>={cow:'Kravička',panda:'Panda',blue:'Modrý kamarát',pig:'Prasiatko',sheep:'Ovečka',bunny:'Zajačik',cat:'Mačička'};
+export const ANIMAL_NAMES:Record<AnimalKind,string>={cow:'Kravička',panda:'Panda',blue:'Modrý kamarád',pig:'Prasátko',sheep:'Ovečka',bunny:'Zajíček',cat:'Kočička'};
 export const ANIMAL_CELL=.115;
 const cache=new Map<string,Block[]>();
 // Reinterpret the supplied characters as sculpted volumes, on the same small

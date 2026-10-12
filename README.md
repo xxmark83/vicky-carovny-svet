@@ -1,182 +1,53 @@
-# VICKY A ČAROVNÝ SVET · verzia 2.2
+# Vikoušek a kouzelný svět · 2.3
 
-Dve hrateľné 3D dobrodružstvá: **1. Čarovný les** a **2. Zlatá púšť**. React 19, TypeScript, Three.js/react-three-fiber a Vite; bez backendu, API kľúčov a platených služieb.
-
-- Hra: https://vicky-carovny-svet.vercel.app/
-- Zdroj: https://github.com/xxmark83/vicky-carovny-svet
-
-## Nový level 2 — Zlatá púšť
-
-Auri vedie Vicky a vlka do vyschnutej púšte. Vyslobodia strážcov, vrátia vodu trom oázam a v slnečnom chráme získajú **Slnečné srdce**. Vlastná trasa cez duny, osem pomenovaných scenérií, palmové oázy, pyramída, farebné skalné útvary, veterná brána, karavanový tábor a chrám. Hory ohraničujú všetky strany nad spoločnou letovou hladinou.
-
-- 10 vlastných diamantov, 3 oázy, 13 príbehových strážcov, dvojfázový finálny súboj s tromi slnečnými pečaťami a truhlica. Oáza po vyslobodení svojich strážcov obnoví vodu, rozkvitne a uzdraví Vicky.
-- Nové priestorové zvieratká: ťava, púštna líška a skarabeus. Majú rovnakú malú voxelovú mriežku 0,115 m ako lesné zvieratká. Prasiatko, ovečka, zajačik a mačička dopĺňajú obsadenie. Zostáva 70 putujúcich pozemných a 498 vzdušných obyvateľov; dobrovoľné súboje povoľujú len dva súčasné útoky.
-- Chôdza mimo cesty, prechod cez mierne duny, jedna letová výška 40 m, zlaté gule z meča, bezpečné pristávanie. Pozemné úlohy zostávajú pri zemi.
-- Dobrovoľný slnečný medailón pri západných ruinách a tri vlastné letové oblúky. Tajomstvá neblokujú dokončenie.
-- Vlastný preskočiteľný 60-sekundový živý 3D prelet s predstavením púštnych postavičiek a veľkým Hrať. Zvieratká sa ukazujú v samostatnom veľkom zábere, ktorého veľkosť sa prispôsobí obrazovke; jemné oči a tykadlá ostávajú viditeľné aj na malej voxelovej mriežke. Pokračovanie uloženia intro neopakuje. Hudba a efekty sú predvolene zapnuté, grafika detailná; prvé gesto odomkne zvuk podľa pravidiel prehliadača.
-- Oba svety sa vyberajú priamo v menu. Lesné víťazstvo ponúkne cestu do púšte; netreba les znovu dohrávať, aby sa dal nový level vyskúšať.
-
-## Posledné doladenie levelu 1
-
-Zlaté labky vlka zaniknú po dosiahnutom pokroku a na konci pomoci plynulo vyblednú. Vlk v bezpečnej chvíli po nečinnosti urobí hravé gesto alebo sa prevalí; pohyb, boj a pomoc majú prednosť. Lístie a kmene pred hrdinkou miznú pri kamere plynulejším dierovaním bez samovoľného otáčania pohľadu. Pohyb sa šmýka po okrajoch stromov a kaktusov, aby sa Vicky nezasekávala na ich rohoch.
-
-Pri stavbe vlk obchádza lúku, mačička, ovečka a zajačik prídu na návštevu a Auri krúži nad výtvorom. Ide o pokojné dekoratívne návštevy, bez nových povinných úloh. Stavanie zostáva na lesnej lúke 18 × 18 polí, do 8 kociek na výšku a do 600 kociek celkom; svetový terén sa neprestavuje.
-
-## Ukladanie a kompatibilita
-
-Každý svet má vlastný postup: `vicky-forest-save-v1` a `vicky-desert-save-v1`. Staré lesné uloženie bez poľa `level` ostáva kompatibilné. Prepnutie sveta ani reštart púšte nezmení postup lesa. Stavba používa samostatné `vicky-creative-meadow-v1`, lesná hviezdna odmena `vicky-forest-reward-v1` a púštne dokončenie `vicky-desert-reward-v1`. Všetko je lokálne v tomto prehliadači, bez synchronizácie medzi zariadeniami.
-
-## Overenie 2.2
-
-**102 automatických testov a úspešný produkčný build.** Testy prejdú celý les aj púšť reálnou kolíznou mapou; púšť aj iba mečom, vrátane troch oáz, pečatí a truhlice. Púštna automatická trasa trvá približne šesť minút simulovaného herného času. To nie je namerané prvé hranie dieťaťa; cieľ 5–10 minút treba overiť s Vicky.
-
-V Chrome boli prakticky skúšané menu a oddelené pokračovania, púštne intro, chôdza, let a streľba, pristávanie, oživenie oázy, druhá fáza strážcu, truhlica a oslava, návštevy lúky a priehľadnosť stromov. Mobilné rozmery predstavujú responzívnu skúšku, nie fyzický iPhone/iPad ani meranie stabilných FPS v Safari. Skutočný detský playtest ostáva na rodičovi; priložený krátky zoznam pomôže zaznamenať problémy bez navádzania.
-
-Grafika je procedurálne štylizované voxelové 3D. Nevznikol fotorealistický model ani objektívne merateľná 70 % zhoda s referenčnou ilustráciou. Oba levely zdieľajú prehľadné súboje, HUD a príbehovú štruktúru; púšť má vlastnú krajinu, rozmiestnenie a nové zvieratá.
-
----
-
-## História zmien do verzie 2.1
-
-Nasledujúce záznamy opisujú vtedajší stav jednotlivých vydaní.
-
-## Verzia 2.1 — Rozprávkové dobrodružstvo
-
-Stále iba level 1. Desať diamantov, tri svätyne, pôvodná mapa, príbeh, počty obyvateľov a dokončenie ostávajú.
-
-1. **Hrdinka:** beh vychádza zo skutočne prejdenej vzdialenosti, pri stene nebeží na mieste. Mäkké pristátie aj po obyčajnom skoku, krátky obláčik, pružný cop, mierne širší záber pri behu. Vicky v závere nového intra zamáva.
-2. **Tri scenérie:** sedemfarebná dúha pri kaskádach, veľké rozprávkové kvety a poletujúce lupienky pri prvej svätyni, otvorený zarastený oblúk a ružovo-zlaté svetlušky v Auriho záhrade. Dekorácie nepridávajú nové blokujúce kolízie.
-3. **Súboje:** korunovaný strážca má samostatné pohyblivé ruky, nohy, hlavu a kryštál. Vopred zdvihne ruky na úder alebo ich roztiahne pri vlne. Zlaté záblesky zvýraznia zásah. Po neúspechu ostáva znížené zdravie protivníkov a rozbité korene druhej fázy; Vicky získa päť srdiečok a ochrannú chvíľu.
-4. **Finále:** popri spoločnej oslave a rozkvitnutí sa za tri sekundy vyjasní celý les. Truhlica odomkne ružovú stavebnú kocku so zlatou hviezdou. Odmena má vlastné lokálne uloženie `vicky-forest-reward-v1`, zostáva po reštarte príbehu a tlačidlo vedie rovno na lúku. Základné stavanie zostáva dostupné od začiatku.
-5. **Tvorivá lúka:** potiahnutie presúva pohľad, ťuknutie stavia. Dlhšie potiahnutie nepridá nechcenú kocku. Obnovenie celého záberu, otáčanie a priblíženie, dobrovoľná priehľadná predloha domčeka. Predloha nemení uloženú stavbu; dieťa stavia samo. Náhľad domu vykresľuje len vonkajšie plochy.
-6. **Spoločný základ:** `levelConfig.ts` oddeľuje prezentáciu levelu, trvanie intra, tempo, paletu, odmenu a základné preferencie. `cinematic.ts` obsahuje samostatnú časovú os a zábery. Nový level 2 zatiaľ nie je implementovaný. Zostáva zdieľanie geometrií, vzdialenostné orezávanie a automatická úsporná kvalita pri dlhšie pomalom vykresľovaní.
-
-**Nové 60-sekundové intro** nahrádza pôvodnú miniatúru skladanú z kociek. Je to živý prelet po skutočnom 3D leveli: Vicky letí ponad les a vodopád, desať postavičiek sa postupne predstaví pohybom a názvom, kamera prejde cez údolie do záhrady k Vicky, vlkovi a Aurimu. Po minúte čaká veľké Hrať; Preskočiť vedie na tento záverečný záber. Pokračovanie uloženého príbehu intro neopakuje. Počas intra sa neposúva čas úlohy, zdravie ani súboje. Ak je dostupný miestny slovenský alebo český systémový hlas, prečíta aj názvy; inak funguje hudba, animácie a text bez vzdialenej hlasovej služby.
-
-**Hudba:** vlastná veselá dobrodružná téma, 116 BPM, melódia, zvončeky/flauta, basa, akordy a jemné bicie. Intro, let a blízke súboje pridajú aktívnejší sprievod. Hudba aj efekty sú predvolene zapnuté, hlasitosť 50 %. Nové uložené voľby rešpektujú následné vypnutie. Hudobný a efektový kanál sa ovládajú nezávisle. Prehliadač môže spustiť zvuk až prvým ťuknutím alebo stlačením klávesu. Pauza a skrytá stránka zvuk stíšia; po návrate sa neprehráva stará fronta tónov. Bez externých zvukových súborov alebo platených služieb.
-
-**Grafika:** nová inštalácia začína v najvyššej dostupnej detailnej kvalite aj na dotykovom zariadení. Ručne zvolená úsporná kvalita sa pamätá. Pri pretrvávajúcom nízkom výkone sa môže zapnúť existujúca automatická úsporná kvalita; v pauze je vysvetlenie aj prepínač späť.
-
-Overenie: 91 automatických testov vrátane úplných prejdení príbehu, produkčný build a skutočné funkčné skúšky v Chrome. Overený prelet, preskočenie, pohyb, skok, meč, odmena, stavebný posun a uloženie. Zvukový analyzátor potvrdil nenulovú hudbu s vypnutými efektmi a nulový výstup počas pauzy. Telefón/tablet sú simulované rozmery; fyzické Safari na iPhone/iPad, stabilné FPS na každom zariadení a prvé hranie päťročného dieťaťa ostávajú neoverené. Grafická vernosť ilustrácii nemá objektívne percentuálne meranie.
-
----
-
-## Verzia 2.0 — tvorivá lúka, živšie zvieratká a skalné scenérie
-
-Stále jediný level **Čarovný les**: 10 diamantov, 3 svätyne, rovnaký príbeh a finále.
-
-- **Tvorivá lúka pri úvode**: 18 × 18 polí, do 8 kociek na výšku, najviac 600 kociek. Tráva, drevo, kameň, ružové a kvetinové kocky. Vstup tlačidlom v hlavnom menu alebo pri lúke počas chôdze. Dobrodružstvo pri stavaní odpočíva; hráčka sa vráti na pôvodné voľné miesto.
-- Klik/tap na zem položí kocku, na vrch alebo bok existujúcej pridá susednú. Priehľadný náhľad, guma, 50 krokov histórie, otočenie kamery po 45° a priblíženie. Kocky potrebujú spojenie so zemou; po odstránení opory sa odpojené vrátia do košíka (jedným krokom späť sa obnoví celá časť).
-- Stavba sa samostatne ukladá do `vicky-creative-meadow-v1` v localStorage každých 500 ms po zmene a pri odchode/skrytí stránky. Zostane pri reštarte aj víťazstve. História krokov sa zachová počas otvorenej hry, neukladá sa medzi obnoveniami stránky. Pri zlyhaní úložiska sa zobrazí upozornenie. Stavba nie je synchronizovaná medzi zariadeniami.
-- Lesné zvieratká sa pohybujú mimo bezpečnej lúky. Nové kocky blokujú chôdzu pri zemi; pristávanie hľadá voľný stĺpec, neprechádza cez strechu. Predmety, hlavná cesta a príbeh ležia mimo stavebného pozemku.
-- Sedem druhov má spoločné efektívne animácie nôh a vlastné blízke gestá: kravička skláňa hlavu, panda zdvíha ruky, zajačik skáče a hýbe uškami, mačička kýva chvostom. Zásah rozhýbe telo/hlavu, oslobodené zvieratko sa poteší a roamingové potom odbehne. Priestorové voxelové telá, počty obyvateľov a pravidlá súbojov zostávajú zachované.
-- Vodopád má nepravidelné skalné vrstvy, tri podopreté kaskády, mokré brehy, paprade a penu na troch úrovniach. Horské ohraničenie má erózne žľaby, skalné ramená, sedlá a výraznejšie skalné steny. Vrcholy naďalej prevyšujú letovú hladinu.
-- Responzívne stavebné ovládanie: veľké tlačidlá, mobil na výšku/šírku a tablet. Nepoužíva nové knižnice, externé modely ani platené služby.
-
-Overenie: 82 automatických testov vrátane dvoch úplných prejdení príbehu, build a vizuálne/funkčné skúšky v Chrome. Rozmery telefónu/tabletu sú simulované; fyzický iPhone/iPad a Safari neboli overené. Grafika je štylizované procedurálne 3D, nie reprodukcia referenčnej ilustrácie. Stavanie sa týka tvorivej lúky; terén celého lesa sa nekopá ani neprestavuje.
-
----
-
-# VICKY A ČAROVNÝ SVET
-
-Hrateľný **level 1 — Čarovný les**. React 19, TypeScript, Three.js/react-three-fiber, Vite. Bez backendu alebo API kľúčov.
+Dvě hratelná 3D dobrodružství: **Kouzelný les** a **Zlatá poušť**. React, TypeScript, Three.js/react-three-fiber a Vite. Hra běží v prohlížeči bez účtu a backendu.
 
 - Hra: https://vicky-carovny-svet.vercel.app/
-- Zdroj: https://github.com/xxmark83/vicky-carovny-svet
+- Zdrojový kód: https://github.com/xxmark83/vicky-carovny-svet
 
-## Verzia 1.8 — tri zážitky a priestorové zvieratká
+## Nové ve verzi 2.3
 
-Stále iba level 1. Vlk pri vodopáde dôjde k tajnému miestu: listový záves sa rozostúpi a zlaté labky ukážu vstup do pôvodnej jaskyne. Odhalenie je dobrovoľné a zapamätá sa v uložení. Pri obnovení sa záves znovu nezatvára; objavené staršie tajomstvo ho otvorí automaticky.
+Celá hra má české texty, návody, názvy zvířátek a příběhy. Hrdinka se jmenuje Vikoušek, při přímém oslovení „Vikoušku“. Nové jméno je i v menu, názvu stránky a na tričku.
 
-Každá prebudená svätyňa vyšle rozširujúci sa svetelný kruh, rozkvitnú okolité kvety a priletia farebné motýle. Rozžiari sa aj povrch terénu a blízke stromy. Vlna trvá osem sekúnd, kvety a jemné svetlo ostávajú. Uložená svätyňa neopakuje celú animáciu po každom načítaní.
+Zlatý meč má vlastní zvuk švihu, silného úderu a střely. Dopad, cinknutí štítu, rozbití kořene či pečeti a rozpadnutí kletby znějí odlišně. Osvobození doprovází veselá stylizovaná odpověď daného zvířátka. Zvuky vznikají přímo pomocí Web Audio; nejde o nahrávky skutečných zvířat ani převzaté zvukové efekty.
 
-Po troch svetlách Auri pri pozemnom príchode k finále krátko pristane vedľa Vicky. Osemsekundové stretnutie zahŕňa zostup, približne štyri sekundy pri zemi, zlaté iskry, reakciu vlka a odlet. Hráčka sa môže hýbať, otáčať kameru aj pokračovať; návšteva nie je ďalšou podmienkou truhlice. Krátke bezpečné okolie pristátia zabráni prerušeniu stretnutia útokom. Pri vzlietnutí Vicky Auri rovno odlieta. Stretnutie sa pamätá v uložení.
+Zvukové události používají samostatnou frontu: úder už nepřepíše zásah a osvobození. Plošný útok slučuje stejné zvuky, aby dvanáct zvířátek nespustilo dvanáct stejných fanfár najednou. Krátké obálky a kompresor omezují přebuzení. Hudba mírně ustoupí efektům a výrazněji vyprávění.
 
-Sedem zvieratiek má nové skutočne priestorové telá na pôvodnej mriežke 0,115 m: kravička so štyrmi kopytami, rohmi, škvrnami a chvostom; panda s bruškom a oddelenými labami; modrý kamarát, prasiatko, huňatá ovečka, zajačik s dlhými ušami a mačička s chvostom. Sú rozpoznateľné spredu aj zboku. Používajú ich putujúce pozemné aj vzdušné kusy, príbehové zvieracie stráže aj skladané intro. Krídla, odlišné útoky a pôvodné počty ostali.
+Vyprávění vybírá výhradně český systémový hlas, přednostně dostupný hlas v zařízení. Čeká i na opožděné načtení seznamu hlasů. Intro představuje zvířátka; při hraní zazní příběhové okamžiky, první a poslední diamant a krátká pomoc vlka. Každý běžný zásah ani diamant nekomentuje. Při pauze a změně světa se řeč zastaví. Pokud český hlas není dostupný, nastavení to vysvětlí a pokyny zůstávají na obrazovce. Konkrétní zabarvení hlasu závisí na zařízení; nejde o studiově namluvenou vypravěčku.
 
-Zlatá stopa sa skladá zo skutočných polôh čepele počas švihu. Pri odkliatí odletujú fialové kocky zo zvieracieho objemu a zostáva usmievavé zvieratko so srdiečkom a krátkou oslavou. Chôdza zvieratiek má drobný pohyb jednotlivých nôh; susedné živé zvieratká si držia odstup. Naraz stále útočia najviac dvaja dobrovoľní protivníci. Kontextové hladkanie vlka sa počas blízkeho putujúceho súboja skryje.
+## Oba světy
 
-Kamera je mierne cez plece, aby Vicky nezakrývala cieľ. Autorské kvety a oblúky pri kamere používajú rovnaké dierovanie ako lístie. Nevznikli nové tlačidlá ani povinné zbery. Skryté steny zvieracích kociek sa nevykresľujú: jeden nový model má približne 1 600–2 300 trojuholníkov. Intro používa uzavreté povrchové kocky, aby sa postavičky správne skladali.
+Každý má vlastní mapu, deset diamantů, tři probouzená místa, třináct příběhových strážců, dvě fáze závěrečného souboje a truhlici. Dobrovolná tajemství a tři letové oblouky neblokují dokončení. Vysoké hory ohraničují všechny strany nad letovou hladinou. Chodit lze i mimo cesty a přes mírné kopce. Let má jedinou hladinu 40 m, automaticky mířené zlaté koule a bezpečné přistávání.
 
-## Verzia 1.7 — rozprávkové údolie a pohorie
+**Les:** vodopádová jeskyně, věneček, tři světla pro draka Auriho, vlk odhalující průchod, rozkvétající příroda a závěrečné setkání s Aurim. Osm pojmenovaných scenérií. Kravička, panda, modrý kamarád, prasátko, ovečka, zajíček a kočička.
 
-Schválené grafické body 1–4 a horské hranice, stále iba level 1. Vicky má jemnejšie tvarované oblečenie a ruky, upravené oči, uši a krk, súvislý cop z polygonálnych prameňov s modrou gumičkou a štíhlejší zlatý pixelový meč. Vlk má členitú srsť, líca, špicaté uši, oči s odleskom, samostatné labky a huňatý chvost; používa pôvodné stabilné nasledovanie a krokový rytmus.
+**Poušť:** duny, palmové oázy, pyramida, barevné skály, větrná brána, tábor a sluneční chrám. Obnovené oázy vrátí vodu a květiny. Odměnou je Sluneční srdce. Noví velbloudi, pouštní lišky a skarabeové mají stejnou voxelovou mřížku 0,115 m jako lesní zvířátka.
 
-Osem existujúcich čistiniek dopĺňajú asymetrické skupiny kvetov, machové kamene, lavičky, paprade, veľké huby a ružové stromy. Koruny stromov sú nepravidelnejšie a majú bočné vetvy. Úvodné údolie má pozvoľnejší nástup svahu. Vodopád nad pôvodnou jaskyňou má tri kaskády, členitú skalu a animovanú penu. Rieka, potok a jazierko používajú zlúčené vodné plochy s pohybom lesku; most má zavesené lanové spoje. Voda je štylizovaná, bez nákladných odrazov celej scény.
+V každém světě zůstává 70 putujících pozemních a 498 vzdušných obyvatel. Vedlejší souboje dovolují jen dva současné útoky. Začátek každého dobrodružství má přeskočitelný minutový živý 3D průlet; pak čeká na tlačítko Hrát. Pokračování uložené hry intro neopakuje.
 
-Svetlo má výraznejší rozdiel medzi slnkom a tieňom, teplé svietiace lampáše a lúče ukotvené pri čistinkách. Dlhší dohľad a farebný opar umožňujú vnímať pohorie počas letu. Zachovaný je plynulý cyklus rána, dňa, večera a oblačnosti.
+Na bezpečné tvořivé louce v lese lze stavět na 18 × 18 polí, do osmi kostek výšky a do 600 kostek celkem. Pět materiálů, guma, krok zpátky a obrázková předloha domečku. Lesní poklad odemkne hvězdnou kostku. Vlk, zvířátka a Auri navštěvují výtvor. Stavění nemění terén dobrodružství.
 
-Kamera je bližšie za Vicky, s osobitným záberom pre výšku/šírku obrazovky a let. Pri stromoch nemení sama zvolený smer; kmeň, lístie a kvety medzi kamerou a hrdinkou sa dierujú. Pri skalách sa priblíži a pri svahoch zdvihne nad viditeľné schody terénu. Chodidlá Vicky a labky vlka sa pri chôdzi zarovnávajú k viditeľnému povrchu; na moste k doskám.
+## Ovládání a zvuk
 
-Pôvodné skladané štvorcové pyramídy nahradilo súvislé členité pohorie: širšie predhorie s ihličnanmi, skalné doliny, hrebeň približne 75–115 m a nepravidelný sneh na najvyšších miestach. Pohorie obopína všetky strany aj rohy, nad spoločnou letovou hladinou 40 m. Herná plocha a jej hranice zostali rovnaké.
+Na dotykové obrazovce: levé kolečko pro pohyb, meč pro úder či střelu, skok a LET/DOLE. Podržený meč opakovaně vyšle silný úder. Tažením po volném obrázku otáčíš pohled. Pauza ukrývá mapu, nastavení a návod.
 
-Príbeh, uloženia, 10 diamantov, 3 svätyne, 13 príbehových strážcov a finále ostávajú. Nové protivnícke modely z bodu 5, hlasové repliky a vzdelávací obsah nie sú súčasťou tohto balíka.
+Klávesnice: WASD nebo šipky, J meč, mezerník skok, K kouzlo, F chůze/let, Q/C otočení kamery, R pohled na sever, E interakce, M mapa, Escape pauza. Myší klikneš pro meč nebo táhneš pro kameru.
 
-## Verzia 1.6 — živé postavy a zlatý meč
+Při první návštěvě jsou efekty, hudba, hlasová pomoc a podrobná grafika zapnuté. Dříve uložené preference se respektují. Prohlížeč odemkne zvuk až po prvním klepnutí či stisku klávesy. Při pomalém vykreslování se může automaticky zapnout úsporná grafika. Hudba, efekty a hlasová pomoc mají vlastní přepínače.
 
-Schválené body 1, 2 a 4; stále iba level 1. Vicky má pohľad očí, žmurkanie, úsmev, prekvapenie a odhodlaný výraz. Beh vychádza z prejdenej vzdialenosti; trojdielny cop s modrou gumičkou reaguje na zrýchlenie a otáčanie. Pristátie vytvorí krátky obláčik a vlk sa poteší. Úvodná kamera je nad terénom, aby svah nezakrýval hrdinku.
+## Ukládání a kompatibilita
 
-Sedem putujúcich druhov sa správa odlišne: kravička vopred označí smer a rozbehne sa; panda pomaly otáča predný štít; modrý kamarát vystrelí pomalú viditeľnú guľu; prasiatko kľučkuje a krátko vyrazí; ovečka vytvorí preskočiteľnú vlnu; zajačik sa pohybuje v poskokoch a vyskočí dopredu; mačička obieha a skočí. Rozbehy nemenia smer po varovaní. Naraz sa rezervujú najviac dva útočné sloty. Zvieratká držia odstup od Vicky, krídla sa hýbu a vzdušné skupinky putujú za spoločnými cieľmi. Po odkliatí nasleduje päťsekundový úsmev, srdiečko a oslava, potom zvieratko odíde v kúzle. Uložené odkliatie zostáva trvalé; animácia sa po načítaní neopakuje.
+Staré adresy a klíče úložiště zůstávají funkční: `vicky-forest-save-v1`, `vicky-desert-save-v1`, `vicky-creative-meadow-v1`, `vicky-forest-reward-v1` a `vicky-desert-reward-v1`. Lesní uložení bez pole `level` je stále kompatibilní. Změna názvu hry nemaže postup ani stavby. Každý svět se ukládá samostatně v daném prohlížeči; mezi zařízeními se postup nesynchronizuje.
 
-**Ťukni = bežný úder. Podrž = automatický silný zlatý úder každých 1,05 s.** Prvý úder príde ihneď; zlatý sa spustí sám, netreba časovať pustenie. Rovnaké tlačidlo má kruhový ukazovateľ nabíjania, zlaté iskry, väčší dosah a pomoc s mierením. Zlatý úder prelomí pandin predný štít; finálny strážca stále vyžaduje tri korene. Vo vzduchu vyšle väčšiu silnejšiu guľu. Pauza, strata dotyku a zmena letu rozpracované nabíjanie zrušia. Otáčanie kamery nezačne úder pri krátkom potiahnutí. Nepribudlo žiadne herné tlačidlo, povinnosť, level, hlasové rozprávanie ani vzdelávací obsah.
+## Spuštění a ověření
 
-## Základ verzie 1.5 — svet z kociek
-
-
-Stále sa rozvíja iba prvý level. Príbeh Auriho a povinné dokončenie ostávajú: **10 diamantov, 3 svätyne, 13 príbehových strážcov, tri korene v druhej fáze strážcu pokladu a truhlica**. Jaskyňa, venček, letové oblúky a ďalšie súboje sú dobrovoľné.
-
-- Nová hra začína preskočiteľným **historickým 14-sekundovým introm (vo verzii 2.1 nahradeným minútovým preletom)**: z roztrúsených kociek sa poskladá lesná miniatúra a postupne všetkých desať typov protivníkov, každý s názvom. Potom hra čaká na veľké tlačidlo **Hrať**. Čas úlohy ani nepriatelia počas intra nebežia. Pokračovanie rozhranej hry intro neopakuje. Samostatný komponent `LevelIntro` je pripravený na rozšírenie pri budúcich leveloch; ďalšie levely teraz nevznikli.
-- Plocha mapy narástla **presne o 25 %**: zo 140 × 346 na **175 × 346 m**. Šesť nových bočných čistiniek obsahuje spadnuté stromy, škvrnité huby, kamenné kruhy, veľké paprade, terasy a lampáše. Povinné predmety ostali na pôvodných miestach. Lesom možno chodiť do strán, cez svahy a cez most.
-- **83 protivníkov na zemi**: 13 pôvodných príbehových strážcov a 70 voľne putujúcich zvieratiek. Sedem typov zo súboru `kostickovy-3d.zip` má každý desať nových pozemných kusov: kravička, panda, modrý kamarát, prasiatko, ovečka, zajačik a mačička. Pri požadovanom minime všetkých druhov je počet vyšší než +350 % oproti pôvodným 13.
-- **498 protivníkov vo vzduchu**: šesťnásobok celkového počtu pozemných, teda o 500 % viac. Z každého importovaného typu je 71 alebo 72 kusov. Všetci sa simulujú a pohybujú po ohraničenej mape; vzdialené a neviditeľné modely sa nevykresľujú. Putujúce pozemné zvieratká hľadajú priechod okolo kmeňov a cez most. Pôvodní príbehoví strážcovia ostávajú pri svojich oblastiach, aby zostali jasné väzby na svätyne.
-- Let má **jednu spoločnú výšku 40 m**. Prepínač vezme Vicky hore alebo bezpečne pristane na najbližšej voľnej zemi. Žiadne tlačidlá výšky. Meč počas letu vystreľuje zlaté gule s automatickým mierením na blízke vzdušné zvieratká; zásahy majú skutočné herné účinky. Vzdušné útoky môžu Vicky zraniť, pozemné na ňu vo vzduchu nedosiahnu.
-- Najviac dvaja najbližší dobrovoľní protivníci naraz pripravujú útok s viditeľným varovaním. Pri svätyniach, štarte, truhlici a blízkom príbehovom boji ďalšie pozemné zvieratká neútočia. Nie je potrebné poraziť všetkých 581 postavičiek.
-- Horský okraj zavedený vo verzii 1.5 je vo verzii 1.7 nahradený súvislým členitým pohorím nad letovou hladinou. Hranice blokujú chôdzu aj let. Kamera zostáva vnútri okraja mapy.
-- Jemný šesťminútový cyklus **ráno – deň – večer**, samostatné plynulé zmeny oblačnosti až po zamračenie, viditeľné slnko, zmena farby oblohy a hmly, pohyblivé smerové svetlo a tiene. Les sa nemení na nečitateľnú nočnú tmu. Pauza zastaví herný čas aj cyklus.
-- Vlk sleduje vyhladený smer pohybu Vicky, nie prudké otočenia pri útoku. Má pomalší dobeh, pásmo zastavenia a krokovú animáciu odvodenú zo skutočne prejdenej vzdialenosti. Hľadanie cesty cez rieku používa most aj pri dlhom návrate.
-- Detský HUD: hore iba srdiečka, diamanty, svätyne a pauza. Dole joystick, veľký meč, skok a let; počas letu skok zmizne. Pohľad sa otáča potiahnutím po voľnej scéne. Mapa, zvuk, hudba, pomoc, nastavenia a reštart sú v pauze. Vzdelávacie vysvetlenia zostávajú na budúci upgrade.
-
-## Upgrade 1.9 — hrdinka, scenérie, pomoc a finále
-
-- Vicky má jemnejšiu tvár a oči, otvorenejšiu ofinu, výraznú modrú gumičku, pokojnejší krok a plynulé ohýbanie lakťov. Pri diamante sa poteší rukou, pri svätyni ju zdvihne a pri čuchajúcom alebo pomáhajúcom vlkovi sa obzrie. Pohyb, útok a let majú prednosť pred gestami.
-- Tri ručne komponované miesta: mostík pri vodopáde s kvetinovými brehmi, rozkvitnutá lúka prvej svätyne a ružová záhrada smerom k hradu. Jemná lokálna hmla preberá aktuálnu farbu slnka; tráva má sviežejšiu zelenú. Dekorácia nemení kolíznu mapu; mostík má výšku chodidiel podľa svojho povrchu.
-- Po 12 sekundách nečinnosti alebo 35 sekundách bez priblíženia k cieľu sa v pokojnom priestore krátko ukáže pomoc. Zlaté labky a vlk používajú priechodnú trasu vrátane mosta cez rieku. Pomoc sa počas blízkeho súboja, pristávania a príbehových momentov stiahne a opakuje sa najskôr po 32 sekundách. Pri svätyni a truhlici vysvetlí správne tlačidlo. Predmety pri priblížení jemne pulzujú. Hlasová pomoc je voliteľná v pauze, predvolene vypnutá, funguje len s dostupným miestnym slovenským alebo českým systémovým hlasom. Nevyžaduje mikrofón ani externú hlasovú službu.
-- Strážca rozlišuje úder, vlnu, štít a príležitosť na zásah ikonou, farbou aj krátkou vetou. Po útoku sa na 1,7–2 sekundy otvorí; po zlomení posledného koreňa na 2,8 sekundy. Žiariace kryštály a spojenia ukazujú korene štítu. Záverečná oslava Vicky, vlka a Auriho sprevádza trojsekundové rozkvitnutie čistinky.
-- Hlavné menu používa sviežu lesnú zelenú, zlatý zaoblený názov, ružové veľké Hrať a jednoduchšie detské prvky. Mobilný pohľad v menu umiestňuje hrdinku vyššie nad text. Pauza a výsledkové obrazovky nadväzujú rovnakými farbami. Pohladenie vlka má malú zrozumiteľnú ikonu dolu, nezakrýva postavu.
-- Stále ide len o level 1. Desať diamantov, tri svätyne, 13 príbehových strážcov, 70 putujúcich pozemných a 498 vzdušných obyvateľov, letová hladina, horské hranice aj staré uloženia zostávajú kompatibilné.
-
-## Ovládanie
-
-| Akcia | Počítač | Dotyk |
-|---|---|---|
-| Pohyb | WASD / šípky | ľavý joystick |
-| Meč / vzdušná streľba | J / klik; podržanie nabije zlatý úder | ťuknúť / podržať veľký meč |
-| Skok na zemi | medzerník | SKOK |
-| Zlaté kúzlo, voliteľná skratka | K | základné ovládanie ho nevyžaduje |
-| Zem / jedna letová hladina | F | LET / DOLE |
-| Pohľad | ťahanie myšou, Q / C, R sever | potiahnuť po scéne |
-| Svätyňa, jaskyňa, vlk, truhlica | E | kontextové zlaté tlačidlo |
-| Mapa / pauza | M / Esc | pauza → mapa |
-
-Postup sa ukladá v tomto prehliadači. Staré pozície verzie 1 ostávajú kompatibilné; stará výška letu sa pri načítaní prevedie na spoločnú hladinu. Nové voliteľné pole si pamätá aj odkliate putujúce zvieratká. Po neúspechu sa pokračuje od svätyne; hlavný postup ostáva.
-
-## Lokálne spustenie a overenie
-
-Node.js 22.12+ alebo 24+, npm:
-
-```
+```sh
 npm ci
-npm run dev
 npm test
 npm run build
+npm run dev
 ```
 
-91 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **224 herných sekúnd**, aj iba s mečom bez klávesnicového kúzla. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
+109 automatických testů ověřuje oba světy, dokončení příběhu, pohyb, let, stavění, ukládání a nové zvukové události i výběr českého hlasu. Produkční build je úspěšný. V Chrome byla navíc měřena skutečná syntéza 33 zvukových scénářů, samostatné přepínače hudby a efektů a ztišení hudby při řeči.
 
-Grafika používa zdieľané geometrie a instancie pre zvieratká, orezanie mimo pohľadu, priestorové bunky pre kolízie, zlúčené viditeľné povrchy terénu a automatickú úspornú kvalitu. Úsporný les má približne 55 tisíc dekoračných kociek namiesto 178 tisíc detailných. Three.js tvorí veľký samostatný balík; build na jeho veľkosť upozorňuje.
-
-## Nasadenie a limity
-
-Vercel automaticky zostaví aktualizácie vetvy `main`: `npm run build`, výstup `dist`.
-
-Vicky a zvieratká sú procedurálne kockové modely; nejde o detailné profesionálne modely z referenčného obrázka. Druhy a farebnosť zvieratiek vychádzajú z dodaného ZIP; od verzie 1.8 majú nové priestorové telá z kociek veľkosti 0,115 m. Overenie mobilných rozmerov v Chrome nenahrádza fyzické hranie na iPhone/iPad v Safari. Na starších zariadeniach treba používať úspornú grafiku; stabilné FPS na každom zariadení nie sú zaručené. Intro zatiaľ pomenúva postavičky textom, bez nahovoreného vzdelávacieho výkladu.
+Mobilní rozměry v prohlížeči ověřují rozložení, nenahrazují fyzický iPhone/iPad ani zkoušku dítětem. Cílových 5–10 minut prvního hraní je nutné ověřit s Vikouškem. Grafika je stylizované procedurální voxelové 3D; nelze slíbit měřitelnou procentní shodu s referenční ilustrací.

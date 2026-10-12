@@ -4,7 +4,7 @@ import {distance,SHRINES,FLIGHT_Y} from './map';
 import {creatureBlocks} from './creatures';
 import type {Vec} from './map';
 export type LandingMoment=Vec&{age:number};
-export function revealPassage(g:Game){if(g.passageOpen)return;g.passageOpen=true;g.passageReveal=6;g.wolfClue=true;g.wolfMood='happy';g.wolfMoodTime=2;g.react('surprise',2);g.burst(CAVE.entry,'#d1ed91',24);g.say('Vicky: Haf, haf! Vlk našiel tajný priechod za vodopád!','secret');g.messageUntil=g.elapsed+6;}
+export function revealPassage(g:Game){if(g.passageOpen)return;g.passageOpen=true;g.passageReveal=6;g.wolfClue=true;g.wolfMood='happy';g.wolfMoodTime=2;g.react('surprise',2);g.burst(CAVE.entry,'#d1ed91',24);g.say('Vikoušek: Haf, haf! Vlk našel tajný průchod za vodopádem!','secret');g.messageUntil=g.elapsed+6;}
 export function updateMoments(g:Game,dt:number){
  if(g.mode!=='playing')return;
  g.passageReveal=Math.max(0,g.passageReveal-dt);g.shrinePulse=g.shrinePulse.map(t=>Math.max(0,t-dt));
@@ -15,7 +15,7 @@ export function updateMoments(g:Game,dt:number){
  if(!g.auriMet&&g.shrines.size===3&&g.player.z<-258&&g.player.z>-281&&!danger){
   const a=g.cameraYaw;let spot:Vec|undefined;
   for(const side of [1,-1]){for(const forward of [7,5,9]){const p={x:g.player.x+Math.cos(a)*side*2-Math.sin(a)*forward,z:g.player.z-Math.sin(a)*side*2-Math.cos(a)*forward};if(g.canMove(p)&&!g.enemies.some(e=>e.hp>0&&distance(e,p)<7)){spot=p;break;}}if(spot)break;}
-  if(spot){g.auriMet=true;g.auriLanding={...spot,age:0};g.projectiles=[];g.crowdAttacks=[];g.react('joy',2);g.wolfMood='happy';g.wolfMoodTime=4;g.say('Auri: Vicky, vrátila si mi tri svetlá! Ďakujem vám obom. Teraz spolu vyslobodíme strážcu pokladu.','story');g.messageUntil=g.elapsed+7;}
+  if(spot){g.auriMet=true;g.auriLanding={...spot,age:0};g.projectiles=[];g.crowdAttacks=[];g.react('joy',2);g.wolfMood='happy';g.wolfMoodTime=4;g.say('Auri: Vikoušku, vrátila jsi mi tři světla! Děkuji vám oběma. Teď společně osvobodíme strážce pokladu.','story');g.messageUntil=g.elapsed+7;}
  }
 }
 export function momentSanctuary(g:Game){return !!g.auriLanding&&g.auriLanding.age<6&&distance(g.player,g.auriLanding)<10;}

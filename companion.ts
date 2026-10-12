@@ -10,7 +10,7 @@ export function updateWolf(g:Game,dt:number){
  const boss=g.enemies[12];g.wolfSafe=null;
  if(g.wolfMood==='roll'||g.wolfMood==='play')return;if(g.petTime>0){g.wolfMood='pet';g.wolf.yaw=Math.atan2(g.player.x-g.wolf.x,g.player.z-g.wolf.z);return;}
  if(!g.inCave&&boss.hp>0&&boss.windup>0&&distance(g.player,boss)<13){const a=Math.atan2(g.player.x-boss.x,g.player.z-boss.z);const radius=attackRadius(boss)+2;goal={x:boss.x+Math.sin(a)*radius,z:boss.z+Math.cos(a)*radius};g.wolfSafe=goal;g.wolfMood='protect';}
- else if(g.desert&&!g.secretFound&&!g.flying&&distance(g.player,DESERT_SECRET)<18){goal={x:DESERT_SECRET.x+2,z:DESERT_SECRET.z+2};g.wolfMood='sniff';if(!g.wolfClue){g.wolfClue=true;g.say('Vlk: Haf! V piesku je niečo zlaté…','wolf');}}else if(!g.desert&&!g.inCave&&!g.passageOpen&&!g.flying&&distance(g.player,CAVE.entry)<22){goal={x:CAVE.entry.x-2,z:CAVE.entry.z+3};g.wolfMood='sniff';if(!g.wolfClue){g.wolfClue=true;g.say('Vlk: Haf! Za vodopádom cítim niečo čarovné…','wolf');}}
+ else if(g.desert&&!g.secretFound&&!g.flying&&distance(g.player,DESERT_SECRET)<18){goal={x:DESERT_SECRET.x+2,z:DESERT_SECRET.z+2};g.wolfMood='sniff';if(!g.wolfClue){g.wolfClue=true;g.say('Vlk: Haf! V písku je něco zlatého…','wolf');}}else if(!g.desert&&!g.inCave&&!g.passageOpen&&!g.flying&&distance(g.player,CAVE.entry)<22){goal={x:CAVE.entry.x-2,z:CAVE.entry.z+3};g.wolfMood='sniff';if(!g.wolfClue){g.wolfClue=true;g.say('Vlk: Haf! Za vodopádem cítím něco kouzelného…','wolf');}}
  else if(!g.flying&&g.guide.until>g.elapsed&&g.guide.path.length){goal=g.guide.path.find(p=>distance(p,g.player)>3)||g.guide.path.at(-1)!;g.wolfMood='sniff';}
  else if(g.flying&&distance(g.player,g.wolf)>30){g.wolfMood='wait';return;}
  else if(g.flying)g.wolfMood='wait';

@@ -9,16 +9,16 @@ export function guideTarget(g:Game):Vec&{label:string}{
  const target=g.target();
  // A sleeping shrine cannot be activated until its own guards are free.
  const shrine=g.layout.shrines.findIndex((p,i)=>!g.shrines.has(i)&&distance(p,target)<.1);
- if(shrine>=0){const guards=g.enemies.filter(e=>e.hp>0&&distance(e.home,g.layout.shrines[shrine])<15).sort((a,b)=>distance(g.player,a)-distance(g.player,b));if(guards.length)return {...guards[0],label:'Vysloboď zvieratko'};}
+ if(shrine>=0){const guards=g.enemies.filter(e=>e.hp>0&&distance(e.home,g.layout.shrines[shrine])<15).sort((a,b)=>distance(g.player,a)-distance(g.player,b));if(guards.length)return {...guards[0],label:'Osvoboď zvířátko'};}
  return target;
 }
 export function hintFor(g:Game,target:Vec&{label:string}){
- if(g.flying)return 'Diamanty sú dole. Pristaň na čistinke.';
- if(g.rootsActive)return g.desert?'Rozbi tri slnečné pečate mečom.':'Rozbi tri žiariace korene mečom.';
- if(g.layout.gems.some((p,i)=>!g.gems.has(i)&&distance(p,target)<.1))return 'Poď za labkami k modrému diamantu.';
- if(g.layout.shrines.some((p,i)=>!g.shrines.has(i)&&distance(p,target)<.1))return distance(g.player,target)<4?(g.desert?'Stlač Rozsvietiť a vráť oáze vodu.':'Stlač Rozsvietiť a prebuď svetlo.'):(g.desert?'Poď za labkami. Oáza potrebuje vodu.':'Poď za labkami. Rozsvietime svätyňu.');
- if(distance(target,g.layout.chest)<.1)return distance(g.player,target)<4?'Stlač Otvoriť poklad. Dokázala si to!':'Poklad čaká! Poď za zlatými labkami.';
- return g.inCave?'Vlk ti ukáže cestu jaskyňou.':'Poď za vlkom. Zvieratko potrebuje pomoc.';
+ if(g.flying)return 'Diamanty jsou dole. Přistaň na mýtině.';
+ if(g.rootsActive)return g.desert?'Rozbij tři sluneční pečeti mečem.':'Rozbij tři svítící kořeny mečem.';
+ if(g.layout.gems.some((p,i)=>!g.gems.has(i)&&distance(p,target)<.1))return 'Pojď za tlapkami k modrému diamantu.';
+ if(g.layout.shrines.some((p,i)=>!g.shrines.has(i)&&distance(p,target)<.1))return distance(g.player,target)<4?(g.desert?'Stiskni Rozsvítit a vrať oáze vodu.':'Stiskni Rozsvítit a probuď světlo.'):(g.desert?'Pojď za tlapkami. Oáza potřebuje vodu.':'Pojď za tlapkami. Rozsvítíme svatyni.');
+ if(distance(target,g.layout.chest)<.1)return distance(g.player,target)<4?'Stiskni Otevřít poklad. Dokázala jsi to!':'Poklad čeká! Pojď za zlatými tlapkami.';
+ return g.inCave?'Vlk ti ukáže cestu jeskyní.':'Pojď za vlkem. Zvířátko potřebuje pomoc.';
 }
 export function updateGuidance(g:Game,dt:number){
  const s=g.guide,progress=`${g.gems.size}:${g.shrines.size}:${g.defeated}:${g.secretFound}`;if(s.progress&&s.progress!==progress){s.until=0;s.path=[];s.idle=0;s.wander=0;}s.progress=progress;s.cooldown=Math.max(0,s.cooldown-dt);

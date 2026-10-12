@@ -1,3 +1,6 @@
+import {coalesceSounds} from './soundDesign';
+import type {SoundEvent,SoundKind} from './soundDesign';
+import {synthesizeEffect} from './effectSynth';
 import type {Game} from './game';
 import {pathDistance} from './map';
 import {MUSIC_STEP_SECONDS,scoreStep} from './soundtrack';
@@ -11,8 +14,14 @@ export class Sounds {
  if(this.ctx.state==='suspended')void this.ctx.resume().catch(()=>{});}
  private tone(f:number,delay:number,duration:number,level:number,type:OscillatorType='sine',end?:number,music=false){if(!this.ctx||!this.master)return;const c=this.ctx,t=c.currentTime+Math.max(0,delay),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(end)o.frequency.exponentialRampToValueAtTime(end,t+duration);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.0002,level),t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g);g.connect((music?this.band:this.effects)!);o.start(t);o.stop(t+duration+.03);o.onended=()=>{o.disconnect();g.disconnect();};}
  private percussion(delay:number,hat:boolean,accent=false){if(!this.ctx||!this.noise||!this.band)return;const c=this.ctx,t=c.currentTime+Math.max(0,delay),s=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();s.buffer=this.noise;f.type='highpass';f.frequency.value=hat?6500:1400;g.gain.setValueAtTime(hat?.012:accent?.06:.04,t);g.gain.exponentialRampToValueAtTime(.0001,t+(hat?.045:.12));s.connect(f);f.connect(g);g.connect(this.band);s.start(t);s.stop(t+.16);s.onended=()=>{s.disconnect();f.disconnect();g.disconnect();};}
- play(kind:string){if(!this.enabled||!this.ctx||!kind)return;const notes:Record<string,number[]>={charged:[220,440,880,1320],gem:[660,880,1320],magic:[220,440,660,880],shrine:[392,494,587,784],win:[523,659,784,1047,1319],swing:[180,95],hurt:[160,120],defeat:[400,600],heal:[440,660],jump:[260,380],boss:[196,147,196],secret:[523,784,988,1568],ring:[784,1047,1568],story:[392,587],wolf:[230,170]};(notes[kind]||[]).forEach((f,i)=>this.tone(f,i*.08,kind==='wolf'?.12:.24,.09,kind==='swing'||kind==='wolf'?'triangle':'sine',kind==='wolf'?100:undefined));}
- tick(g:Game){if(!this.ctx||!this.master)return;const now=this.ctx.currentTime,active=!document.hidden&&['menu','intro','playing','won','building'].includes(g.mode);this.master.gain.setTargetAtTime(active?this.volume:0,now,.1);this.effects!.gain.setTargetAtTime(this.enabled?1:0,now,.04);this.band!.gain.setTargetAtTime(this.music?(g.mode==='building'?.7:1):0,now,.08);
+ speaking=false;private focusUntil=0;private variation=0;private effectAt=new Map<SoundKind,number>();
+ play(kind:SoundKind,animal?:number){this.playEvents([{kind,animal}]);}
+ playEvents(events:SoundEvent[]){if(!this.enabled||!this.ctx||!this.effects||!this.noise||this.ctx.state!=='running')return;
+  const now=this.ctx.currentTime;if(events.length)this.focusUntil=now+.25;
+  for(const event of coalesceSounds(events)){const previous=this.effectAt.get(event.kind)??-Infinity;if(now-previous<.065)continue;this.effectAt.set(event.kind,now);synthesizeEffect(this.ctx,this.effects,this.noise,event,this.variation++);}
+ }
+
+ tick(g:Game){if(!this.ctx||!this.master)return;const now=this.ctx.currentTime,active=!document.hidden&&['menu','intro','playing','won','building'].includes(g.mode);this.master.gain.setTargetAtTime(active?this.volume:0,now,.1);this.effects!.gain.setTargetAtTime(this.enabled?1.3:0,now,.04);this.band!.gain.setTargetAtTime(this.music?(this.speaking?.20:now<this.focusUntil?.48:g.mode==='building'?.55:.75):0,now,.08);
  this.wind?.gain.setTargetAtTime(g.inCave?.012:g.flying?.025:.012,now,.5);const waterfall=Math.hypot(g.player.x-17,g.player.z+42),river=Math.abs(g.player.z+152);this.stream?.gain.setTargetAtTime(g.inCave?.035:Math.max(0,1-(g.desert?Math.min(...g.layout.shrines.filter((_,i)=>g.shrines.has(i)).map(p=>Math.hypot(p.x-g.player.x,p.z-g.player.z))):Math.min(waterfall,river))/25)*.055,now,.7);
  if(!active||!this.music){this.nextNote=now;this.wasActive=false;}else{if(!this.wasActive||this.nextNote<now-.3){this.nextNote=now+.025;}this.wasActive=true;
  const action=g.mode==='intro'||g.flying||g.enemies.some(e=>e.hp>0&&Math.hypot(e.x-g.player.x,e.z-g.player.z)<12)||g.crowdAttacks.length>0;
