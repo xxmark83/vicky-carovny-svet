@@ -5,6 +5,20 @@ Hrateľný **level 1 — Čarovný les**. React 19, TypeScript, Three.js/react-t
 - Hra: https://vicky-carovny-svet.vercel.app/
 - Zdroj: https://github.com/xxmark83/vicky-carovny-svet
 
+## Verzia 1.8 — tri zážitky a priestorové zvieratká
+
+Stále iba level 1. Vlk pri vodopáde dôjde k tajnému miestu: listový záves sa rozostúpi a zlaté labky ukážu vstup do pôvodnej jaskyne. Odhalenie je dobrovoľné a zapamätá sa v uložení. Pri obnovení sa záves znovu nezatvára; objavené staršie tajomstvo ho otvorí automaticky.
+
+Každá prebudená svätyňa vyšle rozširujúci sa svetelný kruh, rozkvitnú okolité kvety a priletia farebné motýle. Rozžiari sa aj povrch terénu a blízke stromy. Vlna trvá osem sekúnd, kvety a jemné svetlo ostávajú. Uložená svätyňa neopakuje celú animáciu po každom načítaní.
+
+Po troch svetlách Auri pri pozemnom príchode k finále krátko pristane vedľa Vicky. Osemsekundové stretnutie zahŕňa zostup, približne štyri sekundy pri zemi, zlaté iskry, reakciu vlka a odlet. Hráčka sa môže hýbať, otáčať kameru aj pokračovať; návšteva nie je ďalšou podmienkou truhlice. Krátke bezpečné okolie pristátia zabráni prerušeniu stretnutia útokom. Pri vzlietnutí Vicky Auri rovno odlieta. Stretnutie sa pamätá v uložení.
+
+Sedem zvieratiek má nové skutočne priestorové telá na pôvodnej mriežke 0,115 m: kravička so štyrmi kopytami, rohmi, škvrnami a chvostom; panda s bruškom a oddelenými labami; modrý kamarát, prasiatko, huňatá ovečka, zajačik s dlhými ušami a mačička s chvostom. Sú rozpoznateľné spredu aj zboku. Používajú ich putujúce pozemné aj vzdušné kusy, príbehové zvieracie stráže aj skladané intro. Krídla, odlišné útoky a pôvodné počty ostali.
+
+Zlatá stopa sa skladá zo skutočných polôh čepele počas švihu. Pri odkliatí odletujú fialové kocky zo zvieracieho objemu a zostáva usmievavé zvieratko so srdiečkom a krátkou oslavou. Chôdza zvieratiek má drobný pohyb jednotlivých nôh; susedné živé zvieratká si držia odstup. Naraz stále útočia najviac dvaja dobrovoľní protivníci. Kontextové hladkanie vlka sa počas blízkeho putujúceho súboja skryje.
+
+Kamera je mierne cez plece, aby Vicky nezakrývala cieľ. Autorské kvety a oblúky pri kamere používajú rovnaké dierovanie ako lístie. Nevznikli nové tlačidlá ani povinné zbery. Skryté steny zvieracích kociek sa nevykresľujú: jeden nový model má približne 1 600–2 300 trojuholníkov. Intro používa uzavreté povrchové kocky, aby sa postavičky správne skladali.
+
 ## Verzia 1.7 — rozprávkové údolie a pohorie
 
 Schválené grafické body 1–4 a horské hranice, stále iba level 1. Vicky má jemnejšie tvarované oblečenie a ruky, upravené oči, uši a krk, súvislý cop z polygonálnych prameňov s modrou gumičkou a štíhlejší zlatý pixelový meč. Vlk má členitú srsť, líca, špicaté uši, oči s odleskom, samostatné labky a huňatý chvost; používa pôvodné stabilné nasledovanie a krokový rytmus.
@@ -69,7 +83,7 @@ npm test
 npm run build
 ```
 
-53 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **224 herných sekúnd**, aj iba s mečom bez klávesnicového kúzla. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
+62 automatických testov kontroluje celú cestu po skutočnej kolíznej mape až po víťazstvo, hlavné súboje, uloženia, voľný pohyb, pevnú letovú hladinu, strely, počty druhov, nové čistinky, hranice, počasie, intro aj stabilný dobeh vlka. Automatický priechod trvá približne **224 herných sekúnd**, aj iba s mečom bez klávesnicového kúzla. To nie je meranie prvého hrania dieťaťa; priemer 5–10 minút treba potvrdiť používateľským hraním.
 
 Grafika používa zdieľané geometrie a instancie pre zvieratká, orezanie mimo pohľadu, priestorové bunky pre kolízie, zlúčené viditeľné povrchy terénu a automatickú úspornú kvalitu. Úsporný les má približne 55 tisíc dekoračných kociek namiesto 178 tisíc detailných. Three.js tvorí veľký samostatný balík; build na jeho veľkosť upozorňuje.
 
@@ -77,4 +91,4 @@ Grafika používa zdieľané geometrie a instancie pre zvieratká, orezanie mimo
 
 Vercel automaticky zostaví aktualizácie vetvy `main`: `npm run build`, výstup `dist`.
 
-Vicky a zvieratká sú procedurálne kockové modely; nejde o detailné profesionálne modely z referenčného obrázka. Zvieratká zo ZIP sú prerobené na 3D povrchové kocky s veľkosťou 0,115 m. Overenie mobilných rozmerov v Chrome nenahrádza fyzické hranie na iPhone/iPad v Safari. Na starších zariadeniach treba používať úspornú grafiku; stabilné FPS na každom zariadení nie sú zaručené. Intro zatiaľ pomenúva postavičky textom, bez nahovoreného vzdelávacieho výkladu.
+Vicky a zvieratká sú procedurálne kockové modely; nejde o detailné profesionálne modely z referenčného obrázka. Druhy a farebnosť zvieratiek vychádzajú z dodaného ZIP; od verzie 1.8 majú nové priestorové telá z kociek veľkosti 0,115 m. Overenie mobilných rozmerov v Chrome nenahrádza fyzické hranie na iPhone/iPad v Safari. Na starších zariadeniach treba používať úspornú grafiku; stabilné FPS na každom zariadení nie sú zaručené. Intro zatiaľ pomenúva postavičky textom, bez nahovoreného vzdelávacieho výkladu.

@@ -31,7 +31,7 @@ export function Hero({game,hero=false}:{game:Game;hero?:boolean}){
   middle.current!.rotation.x=THREE.MathUtils.damp(middle.current!.rotation.x,.08+Math.sin(phase-.8)*speed*.13+(air?.15:0),6,dt);middle.current!.rotation.z=THREE.MathUtils.damp(middle.current!.rotation.z,side*.6,5,dt);
   tip.current!.rotation.x=THREE.MathUtils.damp(tip.current!.rotation.x,Math.sin(phase-1.6)*speed*.18+(air?.3:.06),5,dt);tip.current!.rotation.z=THREE.MathUtils.damp(tip.current!.rotation.z,side*.8,4,dt);
 
- });
+ },-2);
  return <group ref={root}><mesh visible={!game.flying} position={[0,.025,0]} rotation={[-Math.PI/2,0,0]}><circleGeometry args={[.6,16]}/><meshBasicMaterial color="#183426" transparent opacity={.18} depthWrite={false}/></mesh>
  {[-1,1].map((side,i)=><group key={side} ref={el=>{legs.current[i]=el;}} position={[side*.19,.74,0]}><Box p={[0,-.17,0]} s={[.3,.36,.32]} c="#b275c9"/><group position={[0,-.34,0]} ref={el=>{knees.current[i]=el;}}><Box p={[0,-.15,0]} s={[.28,.33,.29]} c="#a262bb"/><Box p={[0,-.29,.07]} s={[.35,.19,.5]} c="#f5a6cf"/><Box p={[0,-.37,.08]} s={[.36,.055,.48]} c="#fff6ed"/>{[.03,.1,.17].map(z=><Box key={z} p={[0,-.2,z]} s={[.2,.025,.035]} c="#fff8f0"/>)}</group></group>)}
  <group ref={body}><Box p={[0,1.55,0]} s={[.24,.19,.24]} c="#f3c2a0"/><Box p={[0,1.12,0]} s={[.73,.78,.44]} c="#fff8ef"/><Box p={[0,.76,0]} s={[.74,.12,.45]} c="#efdeed"/>{[-1,1].map(side=><Box key={side} p={[side*.23,.7,.17]} s={[.14,.09,.035]} c="#d7a0dd"/>)}{[1,-1].map(side=><mesh key={side} position={[0,1.12,side*.226]} rotation={[0,side<0?Math.PI:0,0]}><planeGeometry args={[.63,.48]}/><meshStandardMaterial map={texture} roughness={.9}/></mesh>)}

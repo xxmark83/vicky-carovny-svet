@@ -1,8 +1,9 @@
+import {momentSanctuary} from './moments';
 import type {Game} from './game';
 import {attackRadius,distance} from './map';
 import {enemyKind} from './adventure';
 export function updateCombat(g:Game,dt:number,grounded:boolean){
- if(!grounded||g.inCave){for(const e of g.enemies){e.windup=0;e.impact=0;e.charge=0;}g.projectiles=[];return;}
+ if(!grounded||g.inCave||momentSanctuary(g)){for(const e of g.enemies){e.windup=0;e.impact=0;e.charge=0;}g.projectiles=[];return;}
  for(const p of g.projectiles){p.life-=dt;if(p.kind==='bolt'){p.x+=p.vx*dt;p.z+=p.vz*dt;if(distance(p,g.player)<.7&&Math.abs(g.floor(g.player)+g.player.y+.9-p.y)<1.3){g.damage();p.life=0;}}else{p.previousRadius=p.radius;p.radius+=dt*3.4;const d=distance(p,g.player);if(!p.hit&&d>=p.previousRadius-.55&&d<=p.radius+.55){p.hit=true;g.damage();}}}g.projectiles=g.projectiles.filter(p=>p.life>0&&p.radius<8);
  for(const e of g.enemies){if(e.hp<=0)continue;e.hit=Math.max(0,e.hit-dt);e.guard=Math.max(0,e.guard-dt);e.stunned=Math.max(0,e.stunned-dt);e.impact=Math.max(0,e.impact-dt);const d=distance(e,g.player),kind=enemyKind(e);
   if(kind==='guardian'&&d<17&&!g.bossMet){g.bossMet=true;g.say('Vicky: To je strážca pokladu! Vlk, ukáž mi bezpečné miesto.','boss');}
