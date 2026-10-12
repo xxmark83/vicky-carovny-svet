@@ -1,19 +1,10 @@
-# Level 1 — stav po upgrade 1.9
+# Dokončený upgrade 2.0 — iba Level 1
 
-Dokončené balíky 1.8:
+1. Skulptúrnejší vodopád: vrstvy skál, podopreté kaskády, mokré brehy, paprade a pena.
+2. Členitejšie horské svahy: žľaby, ramená a skalné steny so zachovaním uzavretého ohraničenia.
+3. Živšie zvieratká: kĺbové animácie blízkych postáv, odlišné reakcie na prípravu/zásah/oslobodenie.
+4. Tvorivá lúka so stavaním: päť materiálov, 18 × 18 polí, osem poschodí, limit 600 kociek, náhľad, guma, krok späť, samostatné uloženie.
 
-- Tri udalosti počas hrania: vlk odhalí listový priechod za vodopád, každá svätyňa rozkvitne a rozžiari blízku prírodu, Auri pristane pri Vicky po troch svetlách pri príchode k finále. Pohyb a kamera zostávajú voľné. Návštevy nepridávajú podmienky dokončenia ani nútené čakanie.
-- Sedem plnohodnotnejších priestorových zvieratiek, nohy a charakteristické časti tela; zlatá stopa sledujúca čepeľ; odlietajúce kocky kliatby a veselá oslava; lepší vzájomný odstup, pohľad cez plece a vyčistenie blízkej dekorácie v zábere. Zachované počty 83 pozemných a 498 vzdušných obyvateľov a najviac dva dobrovoľné útoky súčasne.
+Príbeh Auriho, desať diamantov, tri svätyne a finále zostávajú. Stavanie je dobrovoľné, v bezpečí a nezastupuje úlohy dobrodružstva. Žiadny ďalší level ani vzdelávací režim sa v tomto balíku nepridáva.
 
-Základ 1.5–1.7: mapa +25 %, osem scenérií, šesť bočných glád, intro z kociek, jedna letová hladina, voľný pohyb po kopcoch, súvislé pohorie, plynulé svetlo/počasie, bohatšie scenérie a voda, Vicky s pohyblivým copom a vlkom, meč s automatickým zlatým úderom pri podržaní. Dokončenie ostáva 10 diamantov, 3 svätyne, 13 príbehových strážcov, korene a truhlica.
-
-Dokončené schválené body 1–4 vo verzii 1.9:
-
-1. Jemnejšia Vicky: tvár, ofina, cop, lakte a beh, reakcia na vlka, diamant a svätyňu.
-2. Tri ručne komponované výhľady: mostík pod vodopádom, lúka svätyne, ružová záhrada k hradu; lokálna slnečná hmla a sviežejšia tráva.
-3. Krátka pomoc pri váhaní: priechodné zlaté labky, sprievodný vlk, pulzujúce ciele, voliteľný miestny hlas; menšie tlačidlo vlka dolu.
-4. Čitateľné finále: jasné upozornenia, zlatá príležitosť zasiahnuť, viditeľné korene štítu, spoločná oslava a rozkvitnutie finálnej čistinky.
-
-Navyše detské hlavné menu: svieža zelená, zlatý zaoblený názov a veľké ružové Hrať. Svet a ovládanie ostávajú súčasťou levelu 1.
-
-Ďalšie možnosti, zatiaľ neimplementované: fyzické testovanie na iPhone/iPade a prvé hranie Vicky; profesionálne nahrané slovenské repliky; neskôr interaktívne učenie podľa ďalšieho zadania. Žiadny druhý level sa nevytváral.
+Ďalšie rozhodnutia až po hraní na skutočnom zariadení: veľkosť stavebných polí na malom displeji, užitočnosť kamery, náročnosť súbojov a prvý čas prechodu. Plná editácia terénu a synchronizácia stavieb medzi zariadeniami sú samostatné budúce zmeny.

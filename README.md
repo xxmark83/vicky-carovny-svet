@@ -1,3 +1,19 @@
+## Verzia 2.0 — tvorivá lúka, živšie zvieratká a skalné scenérie
+
+Stále jediný level **Čarovný les**: 10 diamantov, 3 svätyne, rovnaký príbeh a finále.
+
+- **Tvorivá lúka pri úvode**: 18 × 18 polí, do 8 kociek na výšku, najviac 600 kociek. Tráva, drevo, kameň, ružové a kvetinové kocky. Vstup tlačidlom v hlavnom menu alebo pri lúke počas chôdze. Dobrodružstvo pri stavaní odpočíva; hráčka sa vráti na pôvodné voľné miesto.
+- Klik/tap na zem položí kocku, na vrch alebo bok existujúcej pridá susednú. Priehľadný náhľad, guma, 50 krokov histórie, otočenie kamery po 45° a priblíženie. Kocky potrebujú spojenie so zemou; po odstránení opory sa odpojené vrátia do košíka (jedným krokom späť sa obnoví celá časť).
+- Stavba sa samostatne ukladá do `vicky-creative-meadow-v1` v localStorage každých 500 ms po zmene a pri odchode/skrytí stránky. Zostane pri reštarte aj víťazstve. História krokov sa zachová počas otvorenej hry, neukladá sa medzi obnoveniami stránky. Pri zlyhaní úložiska sa zobrazí upozornenie. Stavba nie je synchronizovaná medzi zariadeniami.
+- Lesné zvieratká sa pohybujú mimo bezpečnej lúky. Nové kocky blokujú chôdzu pri zemi; pristávanie hľadá voľný stĺpec, neprechádza cez strechu. Predmety, hlavná cesta a príbeh ležia mimo stavebného pozemku.
+- Sedem druhov má spoločné efektívne animácie nôh a vlastné blízke gestá: kravička skláňa hlavu, panda zdvíha ruky, zajačik skáče a hýbe uškami, mačička kýva chvostom. Zásah rozhýbe telo/hlavu, oslobodené zvieratko sa poteší a roamingové potom odbehne. Priestorové voxelové telá, počty obyvateľov a pravidlá súbojov zostávajú zachované.
+- Vodopád má nepravidelné skalné vrstvy, tri podopreté kaskády, mokré brehy, paprade a penu na troch úrovniach. Horské ohraničenie má erózne žľaby, skalné ramená, sedlá a výraznejšie skalné steny. Vrcholy naďalej prevyšujú letovú hladinu.
+- Responzívne stavebné ovládanie: veľké tlačidlá, mobil na výšku/šírku a tablet. Nepoužíva nové knižnice, externé modely ani platené služby.
+
+Overenie: 82 automatických testov vrátane dvoch úplných prejdení príbehu, build a vizuálne/funkčné skúšky v Chrome. Rozmery telefónu/tabletu sú simulované; fyzický iPhone/iPad a Safari neboli overené. Grafika je štylizované procedurálne 3D, nie reprodukcia referenčnej ilustrácie. Stavanie sa týka tvorivej lúky; terén celého lesa sa nekopá ani neprestavuje.
+
+---
+
 # VICKY A ČAROVNÝ SVET
 
 Hrateľný **level 1 — Čarovný les**. React 19, TypeScript, Three.js/react-three-fiber, Vite. Bez backendu alebo API kľúčov.

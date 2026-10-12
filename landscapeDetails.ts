@@ -1,0 +1,7 @@
+import type {Block} from './world';
+// Three asymmetric shelves hold the water; the central cave mouth remains open.
+export function waterfallRocks():Block[]{const b:Block[]=[],add=(x:number,y:number,z:number,s:Block['s'],c:string)=>b.push({p:[x,y,z],s,c});
+ for(let row=0;row<6;row++)for(let col=0;col<10;col++){const x=9.1+col*1.7,z=-47-row*1.65,h=8.6+row*2+Math.sin(col*.9+row*.7)*1.8+(col<2||col>7?1.3:0);for(let y=0;y<h;y+=1.15){const layer=Math.min(1.15,h-y),indent=Math.sin(col*1.3+Math.floor(y/3)*2.1)*.2;if(row===0&&Math.abs(x-17)<2.8&&y<4.2)continue;add(x+indent,y+layer/2,z,[1.8,layer+.02,1.8],['#71858a','#93a49e','#849493','#a8b2a3'][Math.floor(y/2.3+col*.3+row)%4]);}add(x,h+.12,z,[1.8,.24,1.8],col%3?'#8caf53':'#a2c968');}
+ for(const [y,z,w] of [[12,-48.8,7.2],[4,-45.1,8]]){add(17,y-.25,z,[w,.45,3.6],'#67898a');for(const side of [-1,1]){add(17+side*(w/2+.5),y+.4,z,[1.1,1.2,3.2],'#617f80');add(17+side*(w/2+.5),y+1.05,z,[1.15,.15,3.2],'#8cbb61');}}
+ for(let i=0;i<28;i++){const side=i%2?-1:1,x=17+side*(4.7+(i%4)*.65),z=-45-Math.floor(i/2)*.8,y=1+(i%7)*1.5;add(x,y,z,[.12,1.7,.14],'#558f53');for(let j=0;j<3;j++)add(x+side*.12,y-.5+j*.4,z,[.44,.16,.48],j%2?'#81b769':'#9cc876');}
+ for(let i=0;i<15;i++){const a=i*2.4,x=17+Math.sin(a)*(4.5+i%3),z=-40+Math.cos(a)*3;if(z<-42&&Math.abs(x-17)<3)continue;add(x,.22,z,[1.1,.45,.85],i%2?'#8eaaa2':'#6f9693');add(x,.48,z,[.8,.1,.65],'#9fc77c');}return b;}

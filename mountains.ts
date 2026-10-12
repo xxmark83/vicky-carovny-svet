@@ -13,6 +13,10 @@ export function mountainHeight(x:number,z:number){
  const base=groundHeight({x:cx,z:cz});
  let h=d<RIDGE_DISTANCE?base+(ridge-base)*Math.pow(smooth(d/RIDGE_DISTANCE),1.3):ridge+(outer-ridge)*smooth((d-RIDGE_DISTANCE)/35);
  // Small rock strata break the slopes without the old repeated pyramid steps.
+ const along=Math.abs(x-cx)>Math.abs(z-cz)?z:x;
+ const folded=Math.pow(Math.abs(Math.sin(along*.083+Math.sin(along*.028)*1.8)),3);
+ // Eroded gullies, broad shoulders and projecting buttresses between the wooded foot and crest.
+ if(d<72)h+=(folded*15-5)*Math.sin(Math.PI*d/72)**2+Math.sin(along*.21+d*.16)*Math.min(3,d*.12)*Math.sin(Math.PI*d/72);
  h+=Math.sin(x*.3+z*.23)*Math.sin(d*.18)*Math.min(2.4,d*.15);
  if(d>105)h*=1-.3*smooth((d-105)/35);
  return Math.max(base,Math.round(h*2)/2);
@@ -20,7 +24,7 @@ export function mountainHeight(x:number,z:number){
 export function mountainMeshData(){
  const positions:number[]=[],colors:number[]=[],step=3,b=WORLD_BOUNDS;
  const shade=(x:number,y:number,z:number)=>{const snow=y>92+Math.sin(x*.11+z*.14)*5,green=y<26+Math.sin(z*.08)*6;
- const c=snow?[.72,.8,.84]:green?[.045,.13,.045]:y<50?[.095,.17,.105]:[.16,.22,.23];
+ const c=snow?[.72,.8,.84]:green?[.07,.18,.065]:y<50?[.14,.23,.15]:[.25,.3,.3];
  const v=.93+Math.sin(x*.41+z*.33)*.045;return c.map(n=>n*v);};
  const add=(points:number[][])=>{for(const v of points){positions.push(...v);colors.push(...shade(v[0],v[1],v[2]));}};
  // No faces or hidden box interiors inside the playable map.

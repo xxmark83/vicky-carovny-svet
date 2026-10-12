@@ -1,10 +1,10 @@
-import {CHEST,GEMS,SHRINES} from './map';
+import {CHEST,GEMS,SHRINES,CREATIVE_MEADOW} from './map';
 import type {Vec} from './map';
 export const TERRAIN_CELL=1.25;
 const clamp=(v:number)=>Math.max(0,Math.min(1,v));
 const smooth=(v:number)=>{const t=clamp(v);return t*t*(3-2*t);};
 const cache=new Map<string,number>();
-const flats=[{x:0,z:12,inner:7,outer:26},{...CHEST,inner:12,outer:25},...GEMS.map(p=>({...p,inner:2.2,outer:8})),...SHRINES.map(p=>({...p,inner:5,outer:13})),{x:17,z:-37,inner:13,outer:23}];
+const flats=[{...CREATIVE_MEADOW,inner:16,outer:23},{x:0,z:12,inner:7,outer:26},{...CHEST,inner:12,outer:25},...GEMS.map(p=>({...p,inner:2.2,outer:8})),...SHRINES.map(p=>({...p,inner:5,outer:13})),{x:17,z:-37,inner:13,outer:23}];
 // A fixed lattice gives both render modes identical hills and collision heights.
 export function terrainBlockHeight(ix:number,iz:number):number{
  const key=`${ix}:${iz}`;const hit=cache.get(key);if(hit!==undefined)return hit;
