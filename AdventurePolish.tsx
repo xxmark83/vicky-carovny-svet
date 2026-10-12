@@ -17,7 +17,7 @@ export function AdventurePolish({game,low}:{game:Game;low:boolean}){
  const gold=useMemo(()=>new THREE.MeshBasicMaterial({color:'#ffd25c',transparent:true,opacity:.9,depthWrite:false,toneMapped:false}),[]);
  useEffect(()=>()=>{glow.dispose();gold.dispose();mist.dispose();},[glow,gold,mist]);
  useFrame(()=>{
-  const t=game.elapsed+game.portalTime,w=weatherForWorld(game);mist.uniforms.tone.value.set(w.sun);mist.uniforms.strength.value=(low?.055:.09)*(1-w.overcast*.45);haze.current.forEach((m,i)=>{if(!m)return;m.visible=!game.flying&&distance(VISTAS[i],game.player)<58;m.quaternion.copy(camera.quaternion);});let n=0;
+  const t=game.elapsed+game.portalTime,w=weatherForWorld(game);mist.uniforms.tone.value.set(w.sun);mist.uniforms.strength.value=(low?.055:.09)*(1-w.overcast*.45);haze.current.forEach((m,i)=>{if(!m)return;m.visible=!game.flying&&distance(VISTAS[i],game.player)<58;m.quaternion.copy(camera.quaternion);});gold.opacity=Math.min(.9,Math.max(0,(game.guide.until-game.elapsed)/2));let n=0;
   if(game.mode==='playing'&&!game.flying&&!game.landing&&game.guide.until>game.elapsed){
    // The route follows collision-safe A*, so the hint does not point through trunks or water.
    let last={x:game.player.x,z:game.player.z};for(const p of game.guide.path){if(distance(last,p)<1.7)continue;if(distance(game.player,p)>11||n>84)break;const yaw=Math.atan2(p.x-last.x,p.z-last.z),side=Math.floor(n/4)%2?1:-1;

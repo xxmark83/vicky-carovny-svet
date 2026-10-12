@@ -2,7 +2,7 @@ import {meadowSanctuary} from './building';
 import {momentSanctuary,releaseCurse} from './moments';
 import type {Game} from './game';
 import {ANIMAL_KINDS} from './creatures';
-import {WORLD_BOUNDS,FLIGHT_Y,distance,random,SHRINES,CHEST,segmentDistance} from './map';
+import {WORLD_BOUNDS,FLIGHT_Y,distance,random,segmentDistance} from './map';
 import type {Vec} from './map';
 export const GROUND_ROAMERS=70;
 export const GROUND_TOTAL=13+GROUND_ROAMERS;
@@ -26,7 +26,7 @@ function spacingGrid(g:Game){const cells=new Map<string,Roamer[]>(),key=(e:Roame
 export function updateCrowd(g:Game,dt:number){
  if(g.inCave){g.swordBalls=[];g.crowdAttacks=[];return;}const separation=spacingGrid(g);
  const air=g.flying&&g.flightY>FLIGHT_Y-1,layerReady=!g.landing&&(!g.flying||air);
- const sanctuary=meadowSanctuary(g.player)||momentSanctuary(g)||SHRINES.some(p=>distance(p,g.player)<6)||distance(g.player,CHEST)<19||distance(g.player,{x:0,z:12})<10;
+ const sanctuary=meadowSanctuary(g.player)||momentSanctuary(g)||g.layout.shrines.some(p=>distance(p,g.player)<6)||distance(g.player,g.layout.chest)<19||distance(g.player,{x:0,z:12})<10;
  const storyThreat=g.enemies.some(e=>e.hp>0&&distance(e,g.player)<11);
  // Reserve the two slots for warnings already on screen before choosing newcomers.
  const active=layerReady&&(air||!sanctuary&&!storyThreat)?g.crowd.filter(e=>e.hp>0&&e.air===air&&distance(e,g.player)<(e.windup>0||e.rush>0?20:air?11:5)).sort((a,b)=>Number(b.windup>0||b.rush>0)-Number(a.windup>0||a.rush>0)||distance(a,g.player)-distance(b,g.player)).slice(0,2):[];
@@ -52,7 +52,7 @@ export function updateCrowd(g:Game,dt:number){
   if(d<(e.air?3:2.2)){const a=Math.atan2(e.x-g.player.x,e.z-g.player.z);goal={x:g.player.x+Math.sin(a)*(e.air?3.4:2.6),z:g.player.z+Math.cos(a)*(e.air?3.4:2.6)};}
   // Cats circle; pigs weave; pandas keep a slow, readable front shield.
   if(threat&&e.kind===6&&d<4.5){const a=Math.atan2(e.x-g.player.x,e.z-g.player.z)+e.turn*.65;goal={x:g.player.x+Math.sin(a)*3,z:g.player.z+Math.cos(a)*3};}
-  if(!e.air&&(e.z<-152)!==(goal.z<-152)){goal={x:32,z:e.z<-152?-144:-160};if(Math.abs(e.x-32)>3&&Math.abs(e.z+152)>9)goal={x:32,z:e.z<-152?-163:-141};}
+  if(!g.desert&&!e.air&&(e.z<-152)!==(goal.z<-152)){goal={x:32,z:e.z<-152?-144:-160};if(Math.abs(e.x-32)>3&&Math.abs(e.z+152)>9)goal={x:32,z:e.z<-152?-163:-141};}
   const push=separation(e),length=Math.max(.1,distance(e,goal));let a=Math.atan2((goal.x-e.x)/length+push.x*.85,(goal.z-e.z)/length+push.z*.85);if(e.kind===3)a+=Math.sin(g.elapsed*3+e.id)*.45;
   let speed=(e.air?2.3+e.kind*.2:1.3+e.kind*.08)*(threat?1.1:1);
   if(e.kind===1)speed*=.65;if(e.kind===5)speed*=.3+Math.max(0,Math.sin(g.elapsed*7+e.id))*1.8;

@@ -1,4 +1,46 @@
-# Verzia 2.1 — Rozprávkové dobrodružstvo
+# VICKY A ČAROVNÝ SVET · verzia 2.2
+
+Dve hrateľné 3D dobrodružstvá: **1. Čarovný les** a **2. Zlatá púšť**. React 19, TypeScript, Three.js/react-three-fiber a Vite; bez backendu, API kľúčov a platených služieb.
+
+- Hra: https://vicky-carovny-svet.vercel.app/
+- Zdroj: https://github.com/xxmark83/vicky-carovny-svet
+
+## Nový level 2 — Zlatá púšť
+
+Auri vedie Vicky a vlka do vyschnutej púšte. Vyslobodia strážcov, vrátia vodu trom oázam a v slnečnom chráme získajú **Slnečné srdce**. Vlastná trasa cez duny, osem pomenovaných scenérií, palmové oázy, pyramída, farebné skalné útvary, veterná brána, karavanový tábor a chrám. Hory ohraničujú všetky strany nad spoločnou letovou hladinou.
+
+- 10 vlastných diamantov, 3 oázy, 13 príbehových strážcov, dvojfázový finálny súboj s tromi slnečnými pečaťami a truhlica. Oáza po vyslobodení svojich strážcov obnoví vodu, rozkvitne a uzdraví Vicky.
+- Nové priestorové zvieratká: ťava, púštna líška a skarabeus. Majú rovnakú malú voxelovú mriežku 0,115 m ako lesné zvieratká. Prasiatko, ovečka, zajačik a mačička dopĺňajú obsadenie. Zostáva 70 putujúcich pozemných a 498 vzdušných obyvateľov; dobrovoľné súboje povoľujú len dva súčasné útoky.
+- Chôdza mimo cesty, prechod cez mierne duny, jedna letová výška 40 m, zlaté gule z meča, bezpečné pristávanie. Pozemné úlohy zostávajú pri zemi.
+- Dobrovoľný slnečný medailón pri západných ruinách a tri vlastné letové oblúky. Tajomstvá neblokujú dokončenie.
+- Vlastný preskočiteľný 60-sekundový živý 3D prelet s predstavením púštnych postavičiek a veľkým Hrať. Pokračovanie uloženia intro neopakuje. Hudba a efekty sú predvolene zapnuté, grafika detailná; prvé gesto odomkne zvuk podľa pravidiel prehliadača.
+- Oba svety sa vyberajú priamo v menu. Lesné víťazstvo ponúkne cestu do púšte; netreba les znovu dohrávať, aby sa dal nový level vyskúšať.
+
+## Posledné doladenie levelu 1
+
+Zlaté labky vlka zaniknú po dosiahnutom pokroku a na konci pomoci plynulo vyblednú. Vlk v bezpečnej chvíli po nečinnosti urobí hravé gesto alebo sa prevalí; pohyb, boj a pomoc majú prednosť. Lístie a kmene pred hrdinkou miznú pri kamere plynulejším dierovaním bez samovoľného otáčania pohľadu. Pohyb sa šmýka po okrajoch stromov a kaktusov, aby sa Vicky nezasekávala na ich rohoch.
+
+Pri stavbe vlk obchádza lúku, mačička, ovečka a zajačik prídu na návštevu a Auri krúži nad výtvorom. Ide o pokojné dekoratívne návštevy, bez nových povinných úloh. Stavanie zostáva na lesnej lúke 18 × 18 polí, do 8 kociek na výšku a do 600 kociek celkom; svetový terén sa neprestavuje.
+
+## Ukladanie a kompatibilita
+
+Každý svet má vlastný postup: `vicky-forest-save-v1` a `vicky-desert-save-v1`. Staré lesné uloženie bez poľa `level` ostáva kompatibilné. Prepnutie sveta ani reštart púšte nezmení postup lesa. Stavba používa samostatné `vicky-creative-meadow-v1`, lesná hviezdna odmena `vicky-forest-reward-v1` a púštne dokončenie `vicky-desert-reward-v1`. Všetko je lokálne v tomto prehliadači, bez synchronizácie medzi zariadeniami.
+
+## Overenie 2.2
+
+**100 automatických testov a úspešný produkčný build.** Testy prejdú celý les aj púšť reálnou kolíznou mapou; púšť aj iba mečom, vrátane troch oáz, pečatí a truhlice. Púštna automatická trasa trvá približne šesť minút simulovaného herného času. To nie je namerané prvé hranie dieťaťa; cieľ 5–10 minút treba overiť s Vicky.
+
+V Chrome boli prakticky skúšané menu a oddelené pokračovania, púštne intro, chôdza, let a streľba, pristávanie, oživenie oázy, druhá fáza strážcu, truhlica a oslava, návštevy lúky a priehľadnosť stromov. Mobilné rozmery predstavujú responzívnu skúšku, nie fyzický iPhone/iPad ani meranie stabilných FPS v Safari. Skutočný detský playtest ostáva na rodičovi; priložený krátky zoznam pomôže zaznamenať problémy bez navádzania.
+
+Grafika je procedurálne štylizované voxelové 3D. Nevznikol fotorealistický model ani objektívne merateľná 70 % zhoda s referenčnou ilustráciou. Oba levely zdieľajú prehľadné súboje, HUD a príbehovú štruktúru; púšť má vlastnú krajinu, rozmiestnenie a nové zvieratá.
+
+---
+
+## História zmien do verzie 2.1
+
+Nasledujúce záznamy opisujú vtedajší stav jednotlivých vydaní.
+
+## Verzia 2.1 — Rozprávkové dobrodružstvo
 
 Stále iba level 1. Desať diamantov, tri svätyne, pôvodná mapa, príbeh, počty obyvateľov a dokončenie ostávajú.
 

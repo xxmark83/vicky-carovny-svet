@@ -3,7 +3,7 @@ import type {Game} from './game';
 import {introCaption} from './cinematic';
 // OS-local Slovak/Czech voice only, with no microphone or external speech service.
 export function VoiceGuide({game,enabled,introSound=false,volume=.5}:{game:Game;enabled:boolean;introSound?:boolean;volume?:number}){
- const seen=useRef(''),owner=useRef<Game>(game),introTitle=game.mode==='intro'?introCaption(game.introTime).title:'';
+ const seen=useRef(''),owner=useRef<Game>(game),introTitle=game.mode==='intro'?introCaption(game.introTime,game.level).title:'';
  useEffect(()=>{if(owner.current!==game){owner.current=game;seen.current='';}if(!('speechSynthesis' in window))return;const intro=game.mode==='intro'&&introSound;
   if(!intro&&(!enabled||game.mode!=='playing')){window.speechSynthesis.cancel();return;}
   const id=intro?introTitle:`hint-${game.voiceHintId}`;if(seen.current===id||!intro&&!game.voiceHintId)return;
