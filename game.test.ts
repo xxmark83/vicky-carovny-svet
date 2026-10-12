@@ -1,3 +1,4 @@
+import {PerspectiveCamera,Vector3} from 'three';
 import {revealPassage,updateMoments,bloomStrength,momentSanctuary} from './moments.ts';
 import {happyCreatureBlocks} from './creatures.ts';
 import {voxelGeometry} from './PopulationView.tsx';
@@ -212,3 +213,5 @@ test('guidance dismisses immediately on meaningful progress without changing col
 test('wolf plays only when safe and idle, and builder inspection never changes story clock or blocks',()=>{const g=quietGame();g.friendIdle=8.5;updatePersonality(g,.05);assert.equal(g.wolfMood,'roll');g.attackTime=.2;updatePersonality(g,.05);assert.equal(g.friendIdle,0);const menu=new Game();menu.build.place({x:8,y:0,z:8,kind:1});menu.enterBuild();const save=menu.save(),build=menu.build.save(),before={...menu.wolf};for(let i=0;i<100;i++)menu.update(.05,idle());assert.ok(distance(before,menu.wolf)>.1);assert.ok(menu.canMove(menu.wolf));assert.deepEqual(menu.save(),save);assert.deepEqual(menu.build.save(),build);});
 
 test('small desert facial features survive voxelization on the shared lattice',()=>{for(const [kind,color] of [[0,'#26373b'],[1,'#343740'],[2,'#253f4d']] as const){const blocks=desertCreature(kind,[]);const eyes=blocks.filter(b=>b.c===color);assert.ok(eyes.some(b=>b.p[0]<0)&&eyes.some(b=>b.p[0]>0),`kind ${kind} keeps both eyes`);assert.ok(eyes.every(b=>b.s.every(n=>n===.115)));}assert.ok(desertCreature(2,[]).filter(b=>b.c==='#f4d881').length>=2);});
+
+test('desert reunion keeps Vicky inside a portrait frame with no random cactus foreground',()=>{const shot=introCameraAt(60,'desert'),hero=introHeroAt(60,true,'desert'),camera=new PerspectiveCamera(58,390/844,.1,550);camera.position.set(...shot.position);camera.lookAt(...shot.look);camera.updateMatrixWorld();const face=new Vector3(...hero.position).add(new Vector3(0,1.5,0)).project(camera);assert.ok(Math.abs(face.x)<.65&&Math.abs(face.y)<.55);assert.ok(DESERT_OBSTACLES.every(o=>distance(o,{x:0,z:-280})>=12));});

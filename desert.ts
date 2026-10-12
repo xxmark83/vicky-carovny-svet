@@ -18,6 +18,8 @@ export function desertHeight(p:Vec){const flatten=Math.min(...[{x:0,z:12},...DES
 export type DesertObstacle=Vec&{radius:number;height:number;kind:'tree'|'rock';variant:number};
 export const DESERT_OBSTACLES:DesertObstacle[]=[];
 const rng=random(22026);for(let i=0;i<450;i++){const p={x:-82+rng()*164,z:20-rng()*330};const route=desertPathDistance(p);if(route<5||distance(p,DESERT_SECRET)<9||[...DESERT_GEMS,...DESERT_HOMES,...DESERT_SHRINES,DESERT_CHEST,{x:0,z:12}].some(v=>distance(v,p)<7)||distance(p,{x:52,z:-117})<23||DESERT_OBSTACLES.some(o=>distance(o,p)<4))continue;DESERT_OBSTACLES.push({...p,radius:i%4?.65:1.4,height:i%4?2.4+rng()*2:1.3+rng()*3,kind:i%4?'tree':'rock',variant:i%5});}
+// Keep the authored intro reunion clear from random foreground cacti.
+for(let i=DESERT_OBSTACLES.length-1;i>=0;i--)if(distance(DESERT_OBSTACLES[i],{x:0,z:-280})<12)DESERT_OBSTACLES.splice(i,1);
 DESERT_OBSTACLES.push({x:52,z:-117,radius:14,height:20,kind:'rock',variant:9});
 const cells=new Map<string,DesertObstacle[]>();for(const o of DESERT_OBSTACLES){const k=`${Math.floor(o.x/16)}:${Math.floor(o.z/16)}`;if(!cells.has(k))cells.set(k,[]);cells.get(k)!.push(o);}
 export function desertBlocked(p:Vec,padding=.38){const x=Math.floor(p.x/16),z=Math.floor(p.z/16);for(let ix=x-1;ix<=x+1;ix++)for(let iz=z-1;iz<=z+1;iz++)for(const o of cells.get(`${ix}:${iz}`)||[])if(o.variant===9?Math.abs(p.x-o.x)<15+padding&&Math.abs(p.z-o.z)<15+padding:distance(p,o)<o.radius+padding)return true;return false;}

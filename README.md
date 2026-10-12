@@ -28,7 +28,7 @@ Každý svet má vlastný postup: `vicky-forest-save-v1` a `vicky-desert-save-v1
 
 ## Overenie 2.2
 
-**101 automatických testov a úspešný produkčný build.** Testy prejdú celý les aj púšť reálnou kolíznou mapou; púšť aj iba mečom, vrátane troch oáz, pečatí a truhlice. Púštna automatická trasa trvá približne šesť minút simulovaného herného času. To nie je namerané prvé hranie dieťaťa; cieľ 5–10 minút treba overiť s Vicky.
+**102 automatických testov a úspešný produkčný build.** Testy prejdú celý les aj púšť reálnou kolíznou mapou; púšť aj iba mečom, vrátane troch oáz, pečatí a truhlice. Púštna automatická trasa trvá približne šesť minút simulovaného herného času. To nie je namerané prvé hranie dieťaťa; cieľ 5–10 minút treba overiť s Vicky.
 
 V Chrome boli prakticky skúšané menu a oddelené pokračovania, púštne intro, chôdza, let a streľba, pristávanie, oživenie oázy, druhá fáza strážcu, truhlica a oslava, návštevy lúky a priehľadnosť stromov. Mobilné rozmery predstavujú responzívnu skúšku, nie fyzický iPhone/iPad ani meranie stabilných FPS v Safari. Skutočný detský playtest ostáva na rodičovi; priložený krátky zoznam pomôže zaznamenať problémy bez navádzania.
 
