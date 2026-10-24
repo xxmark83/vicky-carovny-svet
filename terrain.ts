@@ -21,7 +21,7 @@ export function terrainBlockHeight(ix:number,iz:number):number{
  // A real cross-valley ravine, with one broad bridge supported above its river.
  const ravine=1-smooth((Math.abs(z-BRIDGE.z)-5)/8);
  if(Math.abs(x-BRIDGE.x)>5.3)h-=ravine*14;
- if(Math.abs(x-BRIDGE.x)<=5.3&&Math.abs(z-BRIDGE.z)<9)h=valleyElevation(BRIDGE.z);
+ const approach=(1-smooth((Math.abs(z-BRIDGE.z)-14)/14))*(1-smooth((Math.abs(x-BRIDGE.x)-5.3)/3));h=h*(1-approach)+valleyElevation(BRIDGE.z)*approach;
  const water=valleyWaterSurface(p);if(water!==undefined)h=water-.8;
  const royal=1-smooth((distance(p,CASTLE)-30)/18);h=h*(1-royal)+95*royal;
  const footbridge=onValleyFootbridge(p);if(footbridge)h=footbridge.y;

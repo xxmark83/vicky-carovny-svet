@@ -1,3 +1,4 @@
+import {CASTLE,CASCADES} from './valleyLayout';
 import {softAnimalGeometry} from './SoftAnimals';
 import {CinematicFinish} from './CinematicFinish';
 import {ValleyWorld} from './ValleyWorld';
@@ -70,7 +71,8 @@ function CameraRig({game,input,low}:{game:Game;input:React.RefObject<Input>;low:
  for(let i=1;i<=8;i++){const t=i/8,g=game.standing({x:game.player.x+(pos.x-game.player.x)*t,z:game.player.z+(pos.z-game.player.z)*t});pos.y=Math.max(pos.y,h+.25+(g+.3-h-.25)/t);}}
  desiredLook.set(game.player.x-Math.sin(a)*(air?10:10),h+(air?4.8:3.3),game.player.z-Math.cos(a)*(air?3:2.6));}
  if(!['menu','intro','won'].includes(game.mode)&&!game.inCave){pos.x=THREE.MathUtils.clamp(pos.x,game.bounds.minX+4,game.bounds.maxX-4);pos.z=THREE.MathUtils.clamp(pos.z,game.bounds.minZ+4,game.bounds.maxZ-4);}
- if(camera instanceof THREE.PerspectiveCamera){camera.fov=THREE.MathUtils.damp(camera.fov,game.mode==='intro'?58:game.flying?64:portrait?59:52+Math.min(2,game.heroSpeed*.55),3,dt);camera.far=1050;camera.updateProjectionMatrix();}
+ const scenic=game.desert||game.inCave?0:Math.max(Math.max(0,1-distance(game.player,CASTLE)/100),...CASCADES.map(p=>Math.max(0,1-distance(game.player,p)/85)));
+ if(camera instanceof THREE.PerspectiveCamera){camera.fov=THREE.MathUtils.damp(camera.fov,game.mode==='intro'?58:game.flying?64:portrait?59:52+scenic*10+Math.min(2,game.heroSpeed*.55),3,dt);camera.far=1050;camera.updateProjectionMatrix();}
  if(scene.fog instanceof THREE.Fog){scene.fog.near=THREE.MathUtils.damp(scene.fog.near,game.inCave?8:game.desert?55:game.mode==='intro'||game.flying?280:170,2,dt);scene.fog.far=THREE.MathUtils.damp(scene.fog.far,game.inCave?24:game.desert?430:game.mode==='intro'||game.flying?950:790,2,dt);}
 
  if(previous.current.cave!==game.inCave||(previous.current.mode!==game.mode&&(game.mode==='intro'||game.mode==='playing'||game.mode==='menu'||game.mode==='building'))){camera.position.copy(pos);look.copy(desiredLook);}previous.current={mode:game.mode,cave:game.inCave};const ease=1-Math.exp(-Math.min(dt,.1)*4);camera.position.lerp(pos,ease);look.lerp(desiredLook,ease);camera.lookAt(look);if(game.hurtFlash>0&&game.mode==='playing'){camera.position.x+=Math.sin(game.elapsed*80)*game.hurtFlash*.12;}
