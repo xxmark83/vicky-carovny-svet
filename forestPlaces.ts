@@ -8,14 +8,14 @@ export const FOREST_COTTAGES=[
  {x:13,z:-139,roof:'#c09a65',name:'Rybářský domeček'},
  {x:51,z:-140,roof:'#b8796c',name:'Domeček zahradnice'},
  {x:64,z:-169,roof:'#bd80a1',name:'Růžový domeček'},
-].map(forestPoint);
+].map(forestPoint).map((p,i)=>i===3?{...p,x:108,z:-282}:p);
 export const FOREST_GARDENS=[{x:9,z:-5},{x:59,z:-130}].map(forestPoint);
 export const VILLAGE_TRAILS=[
  [{x:0,z:-12},{x:30,z:-13.4}],
  [{x:32,z:-139},{x:13,z:-134.4}],
  [{x:32,z:-139},{x:51,z:-135.4}],
  [{x:32,z:-169},{x:64,z:-164.4}],
-].map(pair=>pair.map(forestPoint));
+].map(pair=>pair.map(forestPoint)).map((pair,i)=>i===3?[pair[0],{x:108,z:-277.4}]:pair);
 export const villageTrailDistance=(p:Vec)=>Math.min(...VILLAGE_TRAILS.map(([a,b])=>segmentDistance(p,a,b)));
 export const CHERRY_TREES=Array.from({length:26},(_,i)=>{
  const center=i<12?{x:37,z:0}:{x:-23,z:-281},a=i*2.39996,r=5+(i%4)*2;

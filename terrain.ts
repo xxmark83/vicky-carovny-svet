@@ -1,6 +1,6 @@
 import {CHEST,GEMS,SHRINES,CREATIVE_MEADOW,pathDistance,distance} from './map';
 import type {Vec} from './map';
-import {BRIDGE,CASTLE,valleyElevation,valleyWaterSurface,onValleyFootbridge} from './valleyLayout';
+import {BRIDGE,CASTLE,valleyElevation,valleyWaterSurface,onValleyFootbridge,valleyBankHeight} from './valleyLayout';
 export const TERRAIN_CELL=2;
 const smooth=(v:number)=>{const t=Math.max(0,Math.min(1,v));return t*t*(3-2*t);};
 const cache=new Map<string,number>();
@@ -22,6 +22,7 @@ export function terrainBlockHeight(ix:number,iz:number):number{
  const ravine=1-smooth((Math.abs(z-BRIDGE.z)-5)/8);
  if(Math.abs(x-BRIDGE.x)>5.3)h-=ravine*14;
  const approach=(1-smooth((Math.abs(z-BRIDGE.z)-14)/14))*(1-smooth((Math.abs(x-BRIDGE.x)-5.3)/3));h=h*(1-approach)+valleyElevation(BRIDGE.z)*approach;
+ h=valleyBankHeight(p,h);
  const water=valleyWaterSurface(p);if(water!==undefined)h=water-.8;
  const royal=1-smooth((distance(p,CASTLE)-30)/18);h=h*(1-royal)+95*royal;
  const footbridge=onValleyFootbridge(p);if(footbridge)h=footbridge.y;
