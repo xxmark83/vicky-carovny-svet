@@ -274,3 +274,18 @@ test('main walking route has meaningful length and castle remains below flight a
 });
 
 test('rounded animal meshes retain finite body-part centers, vertex colors and recognizable scale',()=>{for(let k=0;k<7;k++){const g=softAnimalGeometry(k),happy=softAnimalGeometry(k,true);for(const mesh of [g,happy]){const positions=mesh.getAttribute('position'),centers=mesh.getAttribute('cubeCenter'),colors=mesh.getAttribute('color');assert.equal(positions.count,centers.count);assert.equal(colors.count,positions.count);assert.ok([...positions.array].every(Number.isFinite));mesh.computeBoundingBox();assert.ok(mesh.boundingBox!.max.y>1.5&&mesh.boundingBox!.max.y<2.7);assert.ok(mesh.boundingBox!.max.z-mesh.boundingBox!.min.z>1);}g.dispose();happy.dispose();}});
+
+import {forestLookLayout,inForestLook} from './forestLookLayout.ts';
+test('the forest art slice stays bounded and has a predictable mobile geometry budget',()=>{
+ const high=forestLookLayout(false),low=forestLookLayout(true);
+ assert.ok(high.stones.length>300&&high.stones.length<650);
+ assert.ok(high.plants.length>400&&high.plants.length<1000);
+ assert.ok(low.plants.length<high.plants.length*.4);
+ assert.deepEqual(low.stones,high.stones);
+ for(const group of Object.values(high))for(const p of group){assert.ok(inForestLook(p));assert.ok([p.x,p.y,p.z,p.yaw,p.size].every(Number.isFinite));assert.ok(p.size>0);}
+});
+test('new forest plants leave gems, shrines and the secret doorway readable',()=>{
+ const {plants,rocks}=forestLookLayout();
+ for(const p of [...plants,...rocks]){assert.ok(GEMS.every(g=>distance(g,p)>=2));assert.ok(SHRINES.every(s=>distance(s,p)>=4));assert.ok(Math.hypot(p.x-25,p.z+46)>=5);}
+ const g=new Game();assert.equal(g.layout.gems.length,10);assert.equal(g.layout.shrines.length,3);assert.equal(g.enemies.length,13);
+});

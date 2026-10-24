@@ -56,3 +56,10 @@ Při první návštěvě jsou efekty, hudba, hlasová pomoc a podrobná grafika 
 ## Ukládání a kompatibilita
 
 Staré adresy a klíče úložiště zůstávají funkční: `vicky-forest-save-v1`, `vicky-desert-save-v1`, `vicky-creative-meadow-v1`, `vicky-forest-reward-v1` a `vicky-desert-reward-v1`. Lesní uložení bez pole `level` je stále kompatibilní. Změna názvu hry nemaže postup ani stavby. Každý svět se ukládá samostatně v daném prohlížeči; mezi zařízeními se postup nesynchronizuje.
+
+
+## Grafická ukázka 3.0.1 — začátek Kouzelného lesa
+
+Samostatná výtvarná zkouška pro vstupní cestu a jeskynní vodopád: zaoblená kamenná dlažba, prostorové papradiny a květy, tráva, drobné listy v korunách, mechové kameny, členitější skalní kulisa a voda s proudy, pěnou, odlesky a jemnou tříští. Nové rostliny jsou instancované; úsporné nastavení omezuje jejich počet. Terén, kolize, souřadnice cílů a ukládání se nemění. Druhý level používá původní vodní materiál.
+
+Tato ukázka stále používá WebGLRenderer. Přechod na WebGPU není součástí této první výtvarné zkoušky. Před ním je potřeba převést vlastní shadery a postprocessing a porovnat výkon na skutečných zařízeních.
