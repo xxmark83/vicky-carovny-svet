@@ -14,8 +14,24 @@ import assert from 'node:assert/strict';
 import { Game, GEMS, SHRINES, CHEST, OBSTACLES, PATH, groundHeight, validateSave, distance, WORLD_BOUNDS,FLIGHT_Y,INTRO_SECONDS,NEW_GLADES, type Input, type Vec } from './game.ts';
 import { createLandscape } from './world.ts';
 import {groundMeshData} from './Ground.tsx';
+import {FOREST_COTTAGES,FOREST_GARDENS,cottageBlocked} from './forestPlaces.ts';
 import {creatureBlocks} from './creatures.ts';
 const idle=():Input=>({x:0,z:0,attack:false,jump:false,magic:false,interact:false});
+test('village houses block walking and landing without covering objectives or bridge',()=>{
+ const g=new Game();for(const h of FOREST_COTTAGES){assert.equal(g.canMove(h),false);assert.equal(g.canMove({x:h.x,z:h.z+4.7}),true);}
+ for(const p of [...GEMS,...SHRINES,CHEST,{x:32,z:-152}])assert.equal(cottageBlocked(p),false);
+ g.mode='playing';Object.assign(g.player,FOREST_COTTAGES[0]);g.flying=true;g.flightY=FLIGHT_Y;g.toggleFlight();assert.ok(g.landingGoal);assert.equal(g.canMove(g.landingGoal!),true);
+ const desert=new Game(undefined,'desert');for(const h of FOREST_COTTAGES)assert.equal(desert.canMove(h),!desert.layout.obstacles.some(o=>distance(o,h)<o.radius+.38));
+});
+test('optional gardening gives feedback without altering story progress and is unavailable in flight or danger',()=>{
+ const g=new Game();g.mode='playing';g.enemies.forEach(e=>e.hp=0);g.crowd.forEach(e=>e.hp=0);Object.assign(g.player,FOREST_GARDENS[0]);
+ assert.equal(g.nearbyAction,'Zalít zahrádku');const before=g.save();g.interact();assert.equal(g.gardenBloom?.index,0);assert.ok(g.gardenBloom!.until>g.elapsed);assert.deepEqual(g.save(),before);
+ assert.equal(g.gardenAction,-1);g.elapsed+=5;assert.equal(g.gardenAction,0);g.flying=true;assert.equal(g.gardenAction,-1);g.flying=false;g.enemies[0].hp=3;Object.assign(g.enemies[0],g.player);assert.equal(g.gardenAction,-1);
+ const desert=new Game(undefined,'desert');Object.assign(desert.player,FOREST_GARDENS[0]);assert.equal(desert.gardenAction,-1);
+});
+test('older forest saves inside a newly added cottage relocate to safe ground',()=>{
+ const g=new Game();const saved=g.save();saved.player={...FOREST_COTTAGES[0]};const restored=new Game(saved);assert.ok(restored.canMove(restored.player));assert.equal(restored.gems.size,g.gems.size);assert.equal(restored.shrines.size,g.shrines.size);
+});
 test('pause freezes gameplay and jump lands',()=>{const g=new Game();g.mode='playing';g.update(.05,{...idle(),jump:true});assert.ok(g.player.y>0);g.mode='paused';const before=g.save();for(let i=0;i<30;i++)g.update(.05,{...idle(),z:-1});assert.deepEqual(g.save(),before);g.mode='playing';for(let i=0;i<40;i++)g.update(.05,idle());assert.equal(g.player.y,0);});
 test('diamonds are collected once, and save roundtrip preserves checkpoints',()=>{const g=new Game();g.mode='playing';Object.assign(g.player,GEMS[0]);g.update(.05,idle());g.update(.05,idle());assert.equal(g.gems.size,1);g.enemies[0].hp=0;const data=g.save();assert.ok(validateSave(data));const restored=new Game(data);assert.deepEqual(restored.save(),data);assert.equal(validateSave({...data,gems:[300]}),false);});
 test('river requires bridge and boundaries block movement',()=>{const g=new Game();assert.equal(g.canMove({x:0,z:-152}),false);assert.equal(g.canMove({x:32,z:-152}),true);assert.equal(g.canMove({x:88,z:0}),false);});

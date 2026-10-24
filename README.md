@@ -1,9 +1,17 @@
-# Vikoušek a kouzelný svět · 2.3
+# Vikoušek a kouzelný svět · 2.4
 
 Dvě hratelná 3D dobrodružství: **Kouzelný les** a **Zlatá poušť**. React, TypeScript, Three.js/react-three-fiber a Vite. Hra běží v prohlížeči bez účtu a backendu.
 
 - Hra: https://vicky-carovny-svet.vercel.app/
 - Zdrojový kód: https://github.com/xxmark83/vicky-carovny-svet
+
+## Nové ve verzi 2.4
+
+První level má čtyři původní domky u vodopádu a potoka, dvě záhonové zahrádky, nové spojovací pěšiny, rákosové břehy a třešňové háje s padajícími lístky a včelími úly. Dřevo, šindele, kámen, kůra a tráva mají vlastní původní pixelové materiály. Les začíná v jasném denním světle; vysoká kvalita používá podrobnější stíny.
+
+Zahrádku lze bezpečně zalít kontextovým tlačítkem: květy se na dvacet sekund rozvinou. Jde o dobrovolnou drobnost bez sběru dalších předmětů. Zálivka je dočasná, neukládá se jako nová příběhová povinnost. Domky jsou venkovní dekorace, nemají otevíratelné interiéry. Jejich půdorysy blokují chůzi i přistání. Starší uložení uvnitř nového domku se přemístí na bezpečné místo. Hlavní úkoly, stavby a druhý level zůstávají zachované.
+
+112 testů ověřuje i kolize domků, přistání, kompatibilitu uložení a dobrovolnou zálivku. Snímky Minecraftu sloužily jako inspirace pro kompozici krajiny; grafické podklady nejsou převzaté z Minecraftu.
 
 ## Nové ve verzi 2.3
 
@@ -48,6 +56,6 @@ npm run build
 npm run dev
 ```
 
-109 automatických testů ověřuje oba světy, dokončení příběhu, pohyb, let, stavění, ukládání a nové zvukové události i výběr českého hlasu. Produkční build je úspěšný. V Chrome byla navíc měřena skutečná syntéza 33 zvukových scénářů, samostatné přepínače hudby a efektů a ztišení hudby při řeči.
+112 automatických testů ověřuje oba světy, dokončení příběhu, pohyb, let, stavění, ukládání a nové zvukové události i výběr českého hlasu. Produkční build je úspěšný. V Chrome byla navíc měřena skutečná syntéza 33 zvukových scénářů, samostatné přepínače hudby a efektů a ztišení hudby při řeči.
 
 Mobilní rozměry v prohlížeči ověřují rozložení, nenahrazují fyzický iPhone/iPad ani zkoušku dítětem. Cílových 5–10 minut prvního hraní je nutné ověřit s Vikouškem. Grafika je stylizované procedurální voxelové 3D; nelze slíbit měřitelnou procentní shodu s referenční ilustrací.

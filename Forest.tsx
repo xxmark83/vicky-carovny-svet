@@ -1,3 +1,4 @@
+import {forestTexture} from './forestTextures';
 import {waterfallRocks} from './landscapeDetails';
 import {Water} from './Water';
 import {MountainRange} from './MountainRange';
@@ -6,22 +7,13 @@ import {Ground} from './Ground';
 import { useEffect, useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { CHEST, SHRINES, Game, groundHeight, random, zoneIndex } from './game';
+import { CHEST, SHRINES, Game, groundHeight, zoneIndex } from './game';
 import { createLandscape, gladeBlocks } from './world';
 import type { Surface, Block } from './world';
 import { Box, Cubes } from './Voxel';
-function pixelTexture(surface:Surface){
- const canvas=document.createElement('canvas');canvas.width=canvas.height=32;const c=canvas.getContext('2d')!,r=random(surface.length*327+surface.charCodeAt(0));c.fillStyle='#eee';c.fillRect(0,0,32,32);
- for(let y=0;y<32;y+=2)for(let x=0;x<32;x+=2){const v=Math.floor(205+r()*50);c.fillStyle=`rgb(${v},${v},${v})`;c.fillRect(x,y,2,2);}
- if(surface==='bark'){for(let x=0;x<32;x+=4){c.fillStyle=x%8?'#a1a1a1':'#f4f4f4';c.fillRect(x,0,1+r()*2,32);}for(let i=0;i<12;i++){c.fillStyle='#888';c.fillRect(r()*32,r()*32,2,5);}}
- if(surface==='grass'||surface==='leaf'){for(let i=0;i<35;i++){c.fillStyle=i%2?'#fff':'#c3c3c3';c.fillRect(r()*32,r()*32,2,1+r()*3);}}
- if(surface==='stone'||surface==='earth'){for(let i=0;i<20;i++){c.fillStyle=i%3?'#aaa':'#fff';c.fillRect(r()*32,r()*32,2+r()*3,2);}}
-
- const tex=new THREE.CanvasTexture(canvas);tex.magFilter=THREE.NearestFilter;tex.minFilter=THREE.NearestMipmapLinearFilter;tex.colorSpace=THREE.SRGBColorSpace;tex.wrapS=tex.wrapT=THREE.RepeatWrapping;return tex;
-}
 export function Landscape({low,game}:{low:boolean;game:Game}){
  const uniforms=useMemo(()=>({hero:{value:new THREE.Vector3()},time:{value:0},fade:{value:1},blooms:{value:[...SHRINES,CHEST].map(p=>new THREE.Vector4(p.x,groundHeight(p),p.z,0))}}),[]);
- const chunks=useMemo(()=>createLandscape(low),[low]);const materials=useMemo(()=>Object.fromEntries((['grass','earth','bark','leaf','stone','decor'] as Surface[]).map(surface=>[surface,new THREE.MeshStandardMaterial({map:pixelTexture(surface),roughness:1,alphaTest:0})])) as Record<Surface,THREE.MeshStandardMaterial>,[]);
+ const chunks=useMemo(()=>createLandscape(low),[low]);const materials=useMemo(()=>Object.fromEntries((['grass','earth','bark','leaf','stone','decor'] as Surface[]).map(surface=>[surface,new THREE.MeshStandardMaterial({map:forestTexture(surface),roughness:1,alphaTest:0})])) as Record<Surface,THREE.MeshStandardMaterial>,[]);
  useMemo(()=>{for(const surface of Object.keys(materials) as Surface[]){const m=materials[surface],foliage=['leaf','bark','decor'].includes(surface);m.onBeforeCompile=shader=>{shader.uniforms.vickyHero=uniforms.hero;shader.uniforms.vickyTime=uniforms.time;shader.uniforms.vickyFade=uniforms.fade;shader.uniforms.forestBlooms=uniforms.blooms;shader.vertexShader='varying vec3 vickyWorld;\nuniform float vickyTime;\n'+shader.vertexShader;shader.vertexShader=shader.vertexShader.replace('#include <project_vertex>',`#include <project_vertex>
  vec4 vp=vec4(transformed,1.0);
  #ifdef USE_INSTANCING
