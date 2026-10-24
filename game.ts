@@ -1,3 +1,4 @@
+import type {CharacterKind} from './characters';
 import {forestPoint,DESERT_BOUNDS,DESERT_FLIGHT_Y,BRIDGE,VALLEY_REVISION,valleyWaterSurface,onValleyFootbridge,VALLEY_FOOTBRIDGES,castleBlocked,valleyCliffBlocked,CASTLE,CASCADES} from './valleyLayout';
 import {CHERRY_TREES,cottageBlocked,forestTreeClearing,nearbyGarden,FOREST_GARDENS} from './forestPlaces';
 import {SoundQueue} from './soundDesign';
@@ -48,6 +49,7 @@ export function obstacleBlocked(p:Vec,padding=.38){if(valleyCliffBlocked(p)||cas
 export type Projectile=Vec&{y:number;vx:number;vz:number;life:number;kind:'bolt'|'wave';radius:number;previousRadius:number;hit:boolean};
 export type Saved = {version:1;level?:LevelId;landscape?:number;player:Vec;gems:number[];dead:number[];shrines:number[];heals:number[];elapsed:number;checkpoint:Vec;flight?:{y:number;yaw:number;pitch:number};adventure?:{cave:boolean;secret:boolean;rings:number[];scenes:number[];encounters:number[]};guardian?:{hp:number;phase:1|2;roots:number[]};roamDead?:number[];moments?:{passage:boolean;auri:boolean}};
 export class Game {
+ character:CharacterKind='vicky';
  readonly level:LevelId;
  get info(){return levelInfo(this.level);}
  get desert(){return this.level==='desert';}

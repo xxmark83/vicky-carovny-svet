@@ -63,3 +63,10 @@ Staré adresy a klíče úložiště zůstávají funkční: `vicky-forest-save-
 Samostatná výtvarná zkouška pro vstupní cestu a jeskynní vodopád: zaoblená kamenná dlažba, prostorové papradiny a květy, tráva, drobné listy v korunách, mechové kameny, členitější skalní kulisa a voda s proudy, pěnou, odlesky a jemnou tříští. Nové rostliny jsou instancované; úsporné nastavení omezuje jejich počet. Terén, kolize, souřadnice cílů a ukládání se nemění. Druhý level používá původní vodní materiál.
 
 Tato ukázka stále používá WebGLRenderer. Přechod na WebGPU není součástí této první výtvarné zkoušky. Před ním je potřeba převést vlastní shadery a postprocessing a porovnat výkon na skutečných zařízeních.
+
+
+## Výběr postavy 3.0.2
+
+V hlavním menu si dítě vybere Vikouška nebo slepici. Nová originální 3D slepice má velké oči, červený hřebínek, oranžový krk, zelenomodré peří a zakřivený ocas podle dodané vizuální reference. Má vlastní animace běhu, hlavy, křídel, skoku, letu a meče. Zvolená postava funguje v obou světech, v intru i na tvořivé louce. Volba se ukládá samostatně pod `vikousek-character-v1`; nemění uložený příběh, stavbu, rychlost, sílu ani kolize.
+
+Aktuální náhled testovací větve: https://vicky-carovny-svet-git-upgrade-forest-art-slice-balazmarek-2201.vercel.app/

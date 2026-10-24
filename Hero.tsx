@@ -1,3 +1,4 @@
+import {ChickenHero} from './ChickenHero';
 import {introHeroAt,introCastIndex} from './cinematic';
 import {heroPose} from './heroMotion';
 import {useEffect,useMemo,useRef} from 'react';
@@ -10,7 +11,7 @@ function Box({p=[0,0,0],s=[1,1,1],c}:{p?:[number,number,number];s?:[number,numbe
 import {HairLocks} from './Hair';
 import {Sword} from './Sword';
 function shirtTexture(){const c=document.createElement('canvas');c.width=256;c.height=160;const x=c.getContext('2d')!;x.fillStyle='#fff8ef';x.fillRect(0,0,256,160);x.textAlign='center';x.fillStyle='#2f3442';x.font='900 35px sans-serif';x.fillText('VIKOUŠEK',128,67);x.font='58px sans-serif';x.fillStyle='#f087b7';x.fillText('♥',128,132);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;}
-export function Hero({game,hero=false}:{game:Game;hero?:boolean}){
+function VickyHero({game,hero=false}:{game:Game;hero?:boolean}){
  const root=useRef<THREE.Group>(null),body=useRef<THREE.Group>(null),head=useRef<THREE.Group>(null),left=useRef<THREE.Group>(null),right=useRef<THREE.Group>(null),elbows=useRef<(THREE.Group|null)[]>([]),legs=useRef<(THREE.Group|null)[]>([]),knees=useRef<(THREE.Group|null)[]>([]),eyes=useRef<THREE.Group>(null),hair=useRef<THREE.Group>(null),tip=useRef<THREE.Group>(null),middle=useRef<THREE.Group>(null),smile=useRef<THREE.Group>(null),surprised=useRef<THREE.Mesh>(null),brows=useRef<(THREE.Group|null)[]>([]),pupils=useRef<(THREE.Group|null)[]>([]),motion=useRef({speed:0,turn:0});const texture=useMemo(shirtTexture,[]);
  useEffect(()=>()=>texture.dispose(),[texture]);
  useFrame(({clock},dt)=>{if(game.mode==='paused')return;const t=game.mode==='menu'?clock.elapsedTime:game.mode==='intro'?game.introTime:game.elapsed+game.portalTime,joy=game.mode==='won'||game.mode==='intro'&&t>=57||game.heroReaction==='joy',faceJoy=joy||hero,surprise=game.heroReaction==='surprise',determined=game.swordCharge>.25||game.heroReaction==='determined',air=game.flying||game.mode==='intro'&&introHeroAt(t,false,game.level).flying,pet=game.petTime>0&&!game.walking;const pose=heroPose(game),speed=pose.speed,phase=game.heroGait,step=pose.run,compression=Math.sin(Math.min(1,game.landingTime/.45)*Math.PI)*.16;
@@ -52,3 +53,5 @@ export function Hero({game,hero=false}:{game:Game;hero?:boolean}){
  {game.flying&&<mesh position={[0,.55,0]} rotation={[-Math.PI/2,0,0]}><torusGeometry args={[.83,.03,4,24]}/><meshBasicMaterial color="#ffdc7d"/></mesh>}
  </group>;
 }
+
+export function Hero(props:{game:Game;hero?:boolean}){return props.game.character==='chicken'?<ChickenHero {...props}/>:<VickyHero {...props}/>;}

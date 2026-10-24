@@ -289,3 +289,20 @@ test('new forest plants leave gems, shrines and the secret doorway readable',()=
  for(const p of [...plants,...rocks]){assert.ok(GEMS.every(g=>distance(g,p)>=2));assert.ok(SHRINES.every(s=>distance(s,p)>=4));assert.ok(Math.hypot(p.x-25,p.z+46)>=5);}
  const g=new Game();assert.equal(g.layout.gems.length,10);assert.equal(g.layout.shrines.length,3);assert.equal(g.enemies.length,13);
 });
+
+import {chickenGeometry} from './chickenGeometry.ts';
+import {characterKind} from './characters.ts';
+test('alternate character defaults safely and does not change story progress or movement rules',()=>{
+ assert.equal(characterKind('chicken'),'chicken');for(const v of [null,undefined,'unknown',{},'vicky'])assert.equal(characterKind(v),'vicky');
+ for(const level of ['forest','desert'] as const){const human=new Game(undefined,level),bird=new Game(undefined,level);bird.character='chicken';human.mode=bird.mode='playing';
+  for(let i=0;i<90;i++){human.update(1/60,{...idle(),z:-1});bird.update(1/60,{...idle(),z:-1});}
+  assert.deepEqual(bird.save(),human.save());assert.equal(bird.player.x,human.player.x);assert.equal(bird.player.z,human.player.z);
+  human.toggleFlight();bird.toggleFlight();assert.equal(bird.flying,human.flying);assert.equal(bird.flightTargetY,human.flightTargetY);
+ }
+});
+test('the chicken sculpt has finite coloured geometry and a bounded mesh budget',()=>{
+ const meshes=chickenGeometry();let total=0;
+ try{for(const mesh of Object.values(meshes)){const p=mesh.getAttribute('position'),c=mesh.getAttribute('color');assert.ok(p.count>0);assert.equal(p.count,c.count);for(const n of p.array)assert.ok(Number.isFinite(n));assert.ok(mesh.boundingSphere!.radius>0);total+=p.count;}
+  assert.ok(total<80000);assert.ok(meshes.head.boundingBox!.max.y>.8);assert.ok(meshes.tail.boundingBox!.min.z<-1.4);assert.ok(meshes.eyes.boundingBox!.max.x>.4);
+ }finally{Object.values(meshes).forEach(m=>m.dispose());}
+});
