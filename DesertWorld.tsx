@@ -1,9 +1,10 @@
+import {DESERT_BOUNDS as WORLD_BOUNDS} from './valleyLayout';
 import {useMemo,useRef} from 'react';
 import {useFrame,useThree} from '@react-three/fiber';
 import * as THREE from 'three';
 import type {Game} from './game';
 import type {Block} from './world';
-import {random,distance,WORLD_BOUNDS} from './map';
+import {random,distance} from './map';
 import {DESERT_OBSTACLES,DESERT_SHRINES,DESERT_SECRET,DESERT_SCENES,DESERT_PATH,desertHeight,desertPathDistance} from './desert';
 import {Cubes,Box,boxGeometry} from './Voxel';
 import {Sign} from './Scenery';

@@ -1,12 +1,12 @@
 import type {Game,Input} from './game';
-import {distance,FLIGHT_Y} from './map';
+import {distance} from './map';
 import {attackCrowd,shootBall} from './population';
 
 export const CHARGE_SECONDS=1.05;
 // A tap responds immediately. Holding the SAME control repeatedly releases a
 // charged strike: a child never has to time a release or find another button.
 export function updateSword(g:Game,dt:number,input:Input,tap:boolean){
- if(input.attackCancel||g.landing||(g.flying&&g.flightY<FLIGHT_Y-1)){g.cancelSword();input.attackCancel=false;return;}
+ if(input.attackCancel||g.landing||(g.flying&&g.flightY<g.flightPlane-1)){g.cancelSword();input.attackCancel=false;return;}
  const pressed=tap||input.attack&&!g.swordHeld;
  g.swordHeld=input.attack;
  if(pressed)g.swordBuffer=.22;

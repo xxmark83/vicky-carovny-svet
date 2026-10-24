@@ -15,13 +15,9 @@ export function createLandscape(low=false):WorldChunk[]{
   const h=o.height*(o.variant===2?.7:1);const trunk=o.variant===4?1.05:.75;add('bark',[o.x,y+h*.39,o.z],[trunk,h*.78,trunk],theme===1||theme===4?'#eee8d3':o.variant===1?'#b49a6d':'#b2824e');
   for(let j=0;j<(low?2:4);j++){const a=j*1.6+o.variant;add('bark',[o.x+Math.sin(a)*.65,y+.17,o.z+Math.cos(a)*.65],[.3,.35,1.8],'#80522f',a);}
   const colors=theme===7?['#e89dc0','#d77bb0','#eeb5cc']:theme===1?['#b4cb73','#c4d48a','#93b95c']:theme===4?['#8bb796','#a2c6a3','#74a888']:theme===6?['#6499a3','#78aca9','#6d9d85']:o.variant===3?['#ca72a3','#df92b8','#ac5287']:o.variant===2?['#6d9e28','#8fb83e','#547c27']:['#397b30','#57973b','#80ac43'];
-  const leafSize=low?1.4:.9,rx=o.variant===2?2.3:3.1+(i%4)*.18,ry=o.variant===2?3.6:2.3+(i%3)*.25;
-  for(let iy=-2;iy<=2;iy++)for(let ix=-3;ix<=3;ix++)for(let iz=-3;iz<=3;iz++){
-   const px=ix*leafSize,pz=iz*leafSize,py=iy*leafSize;const bend=Math.sin(iy*.9+i)*.42;const norm=((px-bend)**2+(pz-Math.cos(i)*.35)**2)/(rx*rx)+py*py/(ry*ry);if(norm>1.12||norm<.48||rng()<.08)continue;
-   add('leaf',[o.x+px,y+h*.72+py+1,o.z+pz],[leafSize*1.02,leafSize*1.02,leafSize*1.02],colors[Math.floor(rng()*3)]);
-  }
-  add('leaf',[o.x,y+h*.72+3,o.z],[leafSize,leafSize,leafSize],colors[1]);
-  if(!low){add('bark',[o.x+1,y+h*.64,o.z],[2.6,.35,.4],'#875731',.35);add('bark',[o.x-.8,y+h*.7,o.z+.5],[2.1,.3,.4],'#875731',-.4);for(let j=0;j<3;j++){const a=j*2.1+i;add('leaf',[o.x+Math.sin(a)*2.15,y+h*.7+.5+j*.35,o.z+Math.cos(a)*2.15],[2.2,1.6,2.1],colors[j]);}}
+  // Broad, asymmetric clusters create an organic silhouette with fewer instances.
+  for(let j=0;j<(low?3:7);j++){const a=j*2.399+i*.7,rad=j===0?0:1.6+(j%2)*.7;add('leaf',[o.x+Math.sin(a)*rad,y+h*.76+1+(j%3)*.9,o.z+Math.cos(a)*rad],[3.6+(j%3)*.6,2.8+(j%2)*.8,3.7],colors[j%3]);}
+  if(!low){add('bark',[o.x+1,y+h*.64,o.z],[2.6,.35,.4],'#875731',.35);add('bark',[o.x-.8,y+h*.7,o.z+.5],[2.1,.3,.4],'#875731',-.4);}
  }
  // Dense wildflower strips hug both sides of the path; decorative plants never block controls.
  const plant=(p:Vec,i:number)=>{if(inBuildLot(p,2)||reservedForestPlace(p))return;if(p.z>-43&&p.z<-12&&Math.abs(p.x-(18+Math.sin((p.z+38)/1.45*.35)*2))<2)return;if(distance(p,{x:10,z:-98})<3.8||p.z<-146&&p.z>-158||distance(p,CHEST)<5||SHRINES.some(s=>distance(s,p)<2.8))return;const y=groundHeight(p);const a=rng()*Math.PI;const h=.35+rng()*.6;
@@ -30,10 +26,10 @@ export function createLandscape(low=false):WorldChunk[]{
   else{add('leaf',[p.x,y+h*.35,p.z],[.13,h*.7,.12],'#3e752d');for(let j=0;j<(low?2:3);j++)add('leaf',[p.x+Math.sin(a+j*2.1)*.2,y+h*.35,p.z+Math.cos(a+j*2.1)*.2],[.17,.13,.75],['#7aaa38','#58942f','#8eb941'][i%3],a+j*2.1);}
  };
  for(let i=1;i<PATH.length;i++){const a=PATH[i-1],b=PATH[i],len=distance(a,b),nx=(b.z-a.z)/len,nz=-(b.x-a.x)/len;for(let d=0;d<len;d+=low?1.2:.65)for(const side of [-1,1])for(let k=0;k<(low?2:3);k++){const off=2.6+k*.75+rng()*.35;plant({x:a.x+(b.x-a.x)*d/len+nx*side*off,z:a.z+(b.z-a.z)*d/len+nz*side*off},Math.floor(rng()*10000));}}
- for(let i=0;i<(low?1750:4000);i++){const p={x:WORLD_BOUNDS.minX+rng()*175,z:24-rng()*342};if(pathDistance(p)>2.4)plant(p,i);}
+ for(let i=0;i<(low?3500:8000);i++){const p={x:WORLD_BOUNDS.minX+rng()*(WORLD_BOUNDS.maxX-WORLD_BOUNDS.minX),z:WORLD_BOUNDS.maxZ-rng()*(WORLD_BOUNDS.maxZ-WORLD_BOUNDS.minZ)};if(pathDistance(p)>2.4)plant(p,i);}
  for(let i=1;i<PATH.length;i++){const a=PATH[i-1],b=PATH[i],len=distance(a,b),nx=(b.z-a.z)/len,nz=-(b.x-a.x)/len;for(let d=2;d<len;d+=low?7:4)for(const side of [-1,1]){const p={x:a.x+(b.x-a.x)*d/len+nx*side*(4.8+rng()*1.3),z:a.z+(b.z-a.z)*d/len+nz*side*(4.8+rng()*1.3)};if(reservedForestPlace(p)||GEMS.some(g=>distance(g,p)<3)||SHRINES.some(g=>distance(g,p)<5)||distance(p,CHEST)<9||p.z<-145&&p.z>-160)continue;const y=groundHeight(p),h=.7+rng()*.9;add('leaf',[p.x,y+h*.5,p.z],[1.8,h,1.6],side>0?'#6e9b33':'#4d872f');add('leaf',[p.x+.4,y+h,p.z],[1.2,.7,1.3],'#81aa39');}}
  // Leafy understory fills the wide gaps while keeping gems and shrine clearings readable.
- for(let i=0;i<(low?525:950);i++){const p={x:WORLD_BOUNDS.minX+rng()*175,z:24-rng()*342};if(inBuildLot(p,3)||reservedForestPlace(p)||SCENES.some(m=>distance(m,p)<5)||pathDistance(p)<4.2||GEMS.some(g=>distance(g,p)<2.5)||SHRINES.some(g=>distance(g,p)<4)||distance(p,CHEST)<8||p.z<-145&&p.z>-160)continue;const y=groundHeight(p);add('leaf',[p.x,y+.55,p.z],[1.5,.95,1.4],i%3?'#477c29':'#719b31');add('leaf',[p.x+.5,y+.9,p.z],[.9,.6,1],'#699d36');}
+ for(let i=0;i<(low?800:1600);i++){const p={x:WORLD_BOUNDS.minX+rng()*(WORLD_BOUNDS.maxX-WORLD_BOUNDS.minX),z:WORLD_BOUNDS.maxZ-rng()*(WORLD_BOUNDS.maxZ-WORLD_BOUNDS.minZ)};if(inBuildLot(p,3)||reservedForestPlace(p)||SCENES.some(m=>distance(m,p)<5)||pathDistance(p)<4.2||GEMS.some(g=>distance(g,p)<2.5)||SHRINES.some(g=>distance(g,p)<4)||distance(p,CHEST)<8||p.z<-145&&p.z>-160)continue;const y=groundHeight(p);add('leaf',[p.x,y+.55,p.z],[1.5,.95,1.4],i%3?'#477c29':'#719b31');add('leaf',[p.x+.5,y+.9,p.z],[.9,.6,1],'#699d36');}
  for(let i=0;i<100;i++){const a=i*2.399,r=6+(i%9)*.9;plant({x:CHEST.x+Math.sin(a)*r,z:CHEST.z+Math.cos(a)*r},i*4);}
  for(const p of SHRINES)for(let i=0;i<16;i++){const a=i*Math.PI/8;plant({x:p.x+Math.sin(a)*4.5,z:p.z+Math.cos(a)*4.5},i*4);}
  return [...chunks.values()];

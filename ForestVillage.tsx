@@ -1,3 +1,4 @@
+import {forestPoint,BRIDGE} from './valleyLayout';
 import {useEffect,useMemo,useRef} from 'react';
 import {useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
@@ -55,14 +56,14 @@ function villageBlocks(){
  }
  // Reed beds and textured riprap give the existing river a readable shoreline.
  for(let i=0;i<135;i++){
-  const x=-76+i*1.15;if(Math.abs(x-32)<7)continue;
-  for(const side of [-1,1]){const z=-152+side*(4.4+(i%3)*.23),y=groundHeight({x,z});
+  const x=-76+i*1.15;if(Math.abs(x-BRIDGE.x)<7)continue;
+  for(const side of [-1,1]){const z=BRIDGE.z+side*(4.4+(i%3)*.23),y=groundHeight({x,z});
    add('stone',[x,y+.12,z],[.7,.25,.65],i%3?'#a8b7a1':'#8d9b91');
    if(i%2===0){add('leaf',[x,y+.55,z],[.1,1.1,.1],'#719648');add('decor',[x,y+1.05,z],[.17,.35,.17],'#bca66e');}
   }
  }
  // Original beehives, tucked into the cherry groves; no attacks or collection requirement.
- for(const p of [{x:38,z:4},{x:-29,z:-278}]){const y=groundHeight(p);add('bark',[p.x,y+.6,p.z],[.22,1.2,.22],'#8a6741');for(let i=0;i<4;i++)add('planks',[p.x,y+1+i*.22,p.z],[1.1-Math.abs(i-1.5)*.17,.24,.85],'#d9b46a');add('decor',[p.x,y+1.23,p.z+.44],[.3,.14,.02],'#554633');}
+ for(const p of [{x:38,z:4},{x:-29,z:-278}].map(forestPoint)){const y=groundHeight(p);add('bark',[p.x,y+.6,p.z],[.22,1.2,.22],'#8a6741');for(let i=0;i<4;i++)add('planks',[p.x,y+1+i*.22,p.z],[1.1-Math.abs(i-1.5)*.17,.24,.85],'#d9b46a');add('decor',[p.x,y+1.23,p.z+.44],[.3,.14,.02],'#554633');}
  return b;
 }
 
@@ -88,11 +89,11 @@ export function ForestVillage({game,low}:{game:Game;low:boolean}){
    o.position.set(x,groundHeight(tree)+7*(1-phase)+.3,z);o.rotation.set(t*.3+i,i,t+i);o.scale.set(.14,.025,.21);o.updateMatrix();petals.current!.setMatrixAt(n++,o.matrix);
   }
   petals.current!.count=n;petals.current!.instanceMatrix.needsUpdate=true;
-  for(let i=0;i<6;i++){const p=i<3?{x:38,z:4}:{x:-29,z:-278},a=t*1.8+i*2.1;o.position.set(p.x+Math.sin(a)*1.3,groundHeight(p)+1.8+Math.sin(t*3+i)*.3,p.z+Math.cos(a)*1.1);o.rotation.set(0,-a,0);o.scale.set(.16,.12,.23);o.updateMatrix();bees.current!.setMatrixAt(i,o.matrix);}bees.current!.instanceMatrix.needsUpdate=true;
+  for(let i=0;i<6;i++){const p=forestPoint(i<3?{x:38,z:4}:{x:-29,z:-278}),a=t*1.8+i*2.1;o.position.set(p.x+Math.sin(a)*1.3,groundHeight(p)+1.8+Math.sin(t*3+i)*.3,p.z+Math.cos(a)*1.1);o.rotation.set(0,-a,0);o.scale.set(.16,.12,.23);o.updateMatrix();bees.current!.setMatrixAt(i,o.matrix);}bees.current!.instanceMatrix.needsUpdate=true;
  });
  return <>{(Object.keys(blocks) as Craft[]).map(k=><Cubes key={k} blocks={blocks[k]} material={mats[k]} castShadow={!low||k!=='leaf'}/>)}
-  <Sign text="Vesnička u potoka" color="#e8ce8d" position={[27,groundHeight({x:27,z:-135}),-135]}/>
-  <Sign text="Růžový háj" color="#f4b4ce" position={[-13,groundHeight({x:-13,z:-275}),-275]}/>
+  <Sign text="Vesnička u potoka" color="#e8ce8d" position={[forestPoint({x:27,z:-135}).x,groundHeight(forestPoint({x:27,z:-135})),forestPoint({x:27,z:-135}).z]}/>
+  <Sign text="Růžový háj" color="#f4b4ce" position={[forestPoint({x:-13,z:-275}).x,groundHeight(forestPoint({x:-13,z:-275})),forestPoint({x:-13,z:-275}).z]}/>
   {FOREST_GARDENS.map((p,i)=><Sign key={i} text="Klepni a zalij zahrádku" color="#b8df94" position={[p.x-3,groundHeight({x:p.x-3,z:p.z+3}),p.z+3]}/>)}
   <instancedMesh ref={blooms} args={[boxGeometry,undefined,36]} frustumCulled={false}><meshStandardMaterial roughness={.85}/></instancedMesh>
   <instancedMesh ref={petals} args={[boxGeometry,undefined,56]} frustumCulled={false}><meshStandardMaterial color="#ffc4df" side={THREE.DoubleSide} roughness={.8}/></instancedMesh>

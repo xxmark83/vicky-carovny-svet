@@ -5,8 +5,8 @@ import {useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 import type {Game} from './game';
 import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
-const tailoredGeometry=new RoundedBoxGeometry(1,1,1,2,.065);
-function Box({p=[0,0,0],s=[1,1,1],c}:{p?:[number,number,number];s?:[number,number,number];c:string}){return <mesh position={p} scale={s} geometry={tailoredGeometry} castShadow receiveShadow><meshStandardMaterial color={c} roughness={.86}/></mesh>;}
+const tailoredGeometry=new RoundedBoxGeometry(1,1,1,3,.13);
+function Box({p=[0,0,0],s=[1,1,1],c}:{p?:[number,number,number];s?:[number,number,number];c:string}){return <mesh position={p} scale={s} geometry={tailoredGeometry} castShadow receiveShadow><meshStandardMaterial color={c} roughness={.72}/></mesh>;}
 import {HairLocks} from './Hair';
 import {Sword} from './Sword';
 function shirtTexture(){const c=document.createElement('canvas');c.width=256;c.height=160;const x=c.getContext('2d')!;x.fillStyle='#fff8ef';x.fillRect(0,0,256,160);x.textAlign='center';x.fillStyle='#2f3442';x.font='900 35px sans-serif';x.fillText('VIKOUŠEK',128,67);x.font='58px sans-serif';x.fillStyle='#f087b7';x.fillText('♥',128,132);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;return t;}

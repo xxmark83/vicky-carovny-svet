@@ -1,17 +1,18 @@
+import {forestPoint} from './valleyLayout';
 import {groundHeight} from './terrain';
 import {SHRINES,random,pathDistance,distance} from './map';
 import type {Block} from './world';
-export const VISTAS=[{x:17,z:-31,name:'Vodopád duhových kapek'},{...SHRINES[0],name:'Louka tří světel'},{x:0,z:-282,name:'Auriho zahrada'}];
+export const VISTAS=[{...forestPoint({x:17,z:-31}),name:'Vodopád duhových kapek'},{...SHRINES[0],name:'Louka tří světel'},{...forestPoint({x:0,z:-282}),name:'Auriho zahrada'}];
 // Authored foreground/midground frames. All substantial shapes stay outside mission lanes.
 export function vistaBlocks(index:number):Block[]{
  const center=VISTAS[index],b:Block[]=[],r=random(1919+index);
- const add=(x:number,y:number,z:number,s:[number,number,number],c:string)=>b.push({p:[x,groundHeight({x,z})+y,z],s,c});
+ const add=(x:number,y:number,z:number,s:[number,number,number],c:string)=>b.push({p:[x+center.x-(index===0?17:index===1?SHRINES[0].x:0),groundHeight({x:x+center.x-(index===0?17:index===1?SHRINES[0].x:0),z:z+center.z-(index===0?-31:index===1?SHRINES[0].z:-282)})+y,z+center.z-(index===0?-31:index===1?SHRINES[0].z:-282)],s,c});
  const flower=(x:number,z:number,c:string,h=.65)=>{add(x,h/2,z,[.065,h,.065],'#4c8e39');for(const [dx,dz] of [[.15,0],[-.15,0],[0,.15],[0,-.15]])add(x+dx,h,z+dz,[.23,.09,.23],c);add(x,h+.055,z,[.14,.1,.14],'#ffda58');};
  const blossom=(x:number,z:number,h:number,c:string)=>{add(x,h/2,z,[.62,h,.62],'#a27a4c');for(let j=0;j<12;j++){const a=j*2.4;add(x+Math.sin(a)*(1+j%2*.65),h-.5+j%3*.65,z+Math.cos(a)*(1+j%2*.65),[1.7,1,1.7],j%3?c:'#ffd2e5');}};
  const bank=(x:number,z:number,n:number)=>{for(let j=0;j<n;j++){const px=x+j*.9,pz=z+Math.sin(j*.8)*.6;add(px,.22,pz,[1.2,.5,1],'#93a593');add(px,.5,pz,[1.2,.12,.95],'#8fbc51');}};
  if(index===0){bank(7,-38,5);bank(23,-34,4);for(let i=0;i<12;i++){const z=-36+i*.95;flower(12+Math.sin(i)*.5,z,i%2?'#fff6d5':'#f3aad6');flower(23+Math.cos(i)*.8,z,'#b7dcff');}
   // A low garden footbridge crosses the existing waterfall stream; the center remains wide.
-  for(let i=0;i<14;i++)b.push({p:[12.6+i*.69,.27,-27.5],s:[.66,.24,3],c:i%2?'#ba8c50':'#d6ac69'});
+  for(let i=0;i<0;i++)b.push({p:[12.6+i*.69,.27,-27.5],s:[.66,.24,3],c:i%2?'#ba8c50':'#d6ac69'});
   for(const z of [-29,-26]){for(const x of [12.5,17,21.5])add(x,.85,z,[.16,1.5,.16],'#906437');add(17,1.55,z,[9.3,.12,.12],'#d8b578');}
   blossom(26,-36,5.7,'#eea3c5');blossom(8,-24,4.7,'#b4cf74');
  }
