@@ -1,3 +1,4 @@
+import {softAnimalGeometry} from './SoftAnimals.ts';
 import {forestPoint,BRIDGE,CASTLE,VALLEY_REVISION,valleyElevation} from './valleyLayout.ts';
 import {PerspectiveCamera,Vector3} from 'three';
 import {revealPassage,updateMoments,bloomStrength,momentSanctuary} from './moments.ts';
@@ -271,3 +272,5 @@ test('old forest coordinates migrate once while current saves, cave interiors an
 test('main walking route has meaningful length and castle remains below flight and enclosing peaks',()=>{
  const length=PATH.slice(1).reduce((n,p,i)=>n+distance(p,PATH[i]),0);assert.ok(length>=600&&length<950,`route ${length}m`);assert.ok(groundHeight(CASTLE)+37<FLIGHT_Y);assert.ok(SHRINES.every(p=>groundHeight(p)<100));
 });
+
+test('rounded animal meshes retain finite body-part centers, vertex colors and recognizable scale',()=>{for(let k=0;k<7;k++){const g=softAnimalGeometry(k),happy=softAnimalGeometry(k,true);for(const mesh of [g,happy]){const positions=mesh.getAttribute('position'),centers=mesh.getAttribute('cubeCenter'),colors=mesh.getAttribute('color');assert.equal(positions.count,centers.count);assert.equal(colors.count,positions.count);assert.ok([...positions.array].every(Number.isFinite));mesh.computeBoundingBox();assert.ok(mesh.boundingBox!.max.y>1.5&&mesh.boundingBox!.max.y<2.7);assert.ok(mesh.boundingBox!.max.z-mesh.boundingBox!.min.z>1);}g.dispose();happy.dispose();}});

@@ -20,5 +20,7 @@ export function forestTexture(kind:ForestTexture){
   for(let y=0;y<64;y+=16)for(let x=0;x<64;x+=16){const off=(y/16)%2?8:0,v=207+Math.floor(r()*40);for(const wrap of [-64,0,64]){rect(x+off+wrap+1,y+1,14,14,v);rect(x+off+wrap+2,y+2,12,2,252);rect(x+off+wrap+12,y+4,2,10,v-35);for(let k=0;k<4;k++)rect(x+off+wrap+3+r()*8,y+5+r()*7,2,2,v-20);}}
  }
  if(kind==='earth')for(let i=0;i<100;i++)rect(Math.floor(r()*32)*2,Math.floor(r()*32)*2,2+r()*4,2,155+Math.floor(r()*65));
- const t=new THREE.CanvasTexture(canvas);t.magFilter=THREE.NearestFilter;t.minFilter=THREE.NearestMipmapLinearFilter;t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=4;return t;
+ // Gentle surface grain suits the rounded scenery; building blocks retain their own pixel textures.
+ if(kind==='leaf'){rect(0,0,64,64,244);for(let i=0;i<95;i++)rect(r()*64,r()*64,1+r()*3,1+r()*2,218+Math.floor(r()*32));}
+ const t=new THREE.CanvasTexture(canvas);t.magFilter=THREE.LinearFilter;t.minFilter=THREE.LinearMipmapLinearFilter;t.colorSpace=THREE.SRGBColorSpace;t.wrapS=t.wrapT=THREE.RepeatWrapping;t.anisotropy=4;return t;
 }

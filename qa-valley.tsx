@@ -1,0 +1,11 @@
+import {useRef,useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import Scene from './Scene';
+import {Game,groundHeight,SHRINES,CHEST} from './game';
+import type {Input} from './game';
+import {BRIDGE,forestPoint} from './valleyLayout';
+const poses=[{name:'Vstup',x:0,z:12,yaw:0},{name:'Vesnička',...forestPoint({x:32,z:-135}),yaw:0},{name:'Velký most',x:BRIDGE.x,z:BRIDGE.z+16,yaw:0},{name:'Vodopády',x:104,z:-310,yaw:-.35},{name:'Růžová terasa',x:SHRINES[2].x,z:SHRINES[2].z+15,yaw:0},{name:'Zámek',x:CHEST.x,z:CHEST.z+12,yaw:0},{name:'Průlet',x:0,z:-90,yaw:0,air:true}];
+function App(){const [pose,setPose]=useState(0),[low,setLow]=useState(false),[game,setGame]=useState(()=>new Game()),[status,setStatus]=useState('Načítání');const input=useRef<Input>({x:0,z:0,attack:false,jump:false,magic:false,interact:false});
+ const select=(i:number)=>{const p=poses[i],g=new Game();g.mode='playing';Object.assign(g.player,p);Object.assign(g.wolf,{x:p.x-2,z:p.z+1});g.cameraYaw=p.yaw;g.invulnerable=99999;if(p.air){g.flying=true;g.flightY=g.flightPlane;g.player.y=g.flightPlane-groundHeight(p);}setGame(g);setPose(i);};
+ return <><div style={{position:'fixed',inset:0}}><Scene key={`${pose}-${low}`} game={game} input={input} low={low} onReady={()=>setStatus('3D připraveno')} onError={()=>setStatus('CHYBA 3D')} onSlow={()=>setStatus('Pomalejší vykreslování')}/></div><nav style={{position:'fixed',bottom:12,left:12,right:12,display:'flex',gap:8,flexWrap:'wrap',fontFamily:'sans-serif'}}>{poses.map((p,i)=><button key={p.name} onClick={()=>select(i)} style={{padding:12,borderRadius:12,border:'1px solid #e9cf9d',background:i===pose?'#f2c66c':'#234b3c',color:i===pose?'#243e34':'#fff'}}>{p.name}</button>)}<button onClick={()=>setLow(!low)}>{low?'Úsporná':'Podrobná'}</button><span style={{background:'#fff',padding:8}}>{status}</span></nav></>;
+}createRoot(document.getElementById('root')!).render(<App/>);

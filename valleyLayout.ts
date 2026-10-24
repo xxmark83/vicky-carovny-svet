@@ -16,3 +16,16 @@ export function valleyElevation(z:number){
  for(let i=1;i<VALLEY_TERRACES.length;i++){const a=VALLEY_TERRACES[i-1],b=VALLEY_TERRACES[i];if(z>=b.z){const t=Math.max(0,Math.min(1,(a.z-z)/(a.z-b.z))),s=t*t*(3-2*t);return a.y+(b.y-a.y)*s;}}
  return 95;
 }
+
+export const CASCADES=[{x:76,z:-442,top:98,bottom:70,width:15},{x:91,z:-332,top:70,bottom:45,width:19},{x:76,z:-210,top:45,bottom:23,width:16},{x:40,z:-112,top:23,bottom:9,width:12}];
+// Shared water footprint for bed shaping, vegetation exclusion and safe landing.
+export function valleyWaterSurface(p:Point):number|undefined{
+ for(const c of CASCADES){if(Math.abs(p.x-c.x)<c.width*.5+3){if(p.z>=c.z&&p.z<c.z+18)return c.bottom+.1;if(p.z<c.z&&p.z>c.z-16)return c.top+.05;}}
+ for(let i=0;i<CASCADES.length-1;i++){const a=CASCADES[i],b=CASCADES[i+1],t=(p.z-a.z-18)/(b.z-a.z-27);if(t>=0&&t<=1&&Math.abs(p.x-(a.x+(b.x-a.x)*t))<4)return a.bottom+(b.top-a.bottom)*t+.04;}
+ return undefined;
+}
+
+export const VALLEY_FOOTBRIDGES=[{x:83.5,z:-375,y:70},{x:83.5,z:-255,y:45},{x:58,z:-145,y:23}];
+export const onValleyFootbridge=(p:Point)=>VALLEY_FOOTBRIDGES.find(b=>Math.abs(p.x-b.x)<13&&Math.abs(p.z-b.z)<2.8);
+
+export function castleBlocked(p:Point,pad=.38){return Math.abs(p.x-CASTLE.x)<12+pad&&p.z<CASTLE.z-6&&p.z>CASTLE.z-25;}

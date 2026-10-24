@@ -1,6 +1,6 @@
 import {CHEST,GEMS,SHRINES,CREATIVE_MEADOW,pathDistance,distance} from './map';
 import type {Vec} from './map';
-import {BRIDGE,valleyElevation} from './valleyLayout';
+import {BRIDGE,valleyElevation,valleyWaterSurface,onValleyFootbridge} from './valleyLayout';
 export const TERRAIN_CELL=2;
 const smooth=(v:number)=>{const t=Math.max(0,Math.min(1,v));return t*t*(3-2*t);};
 const cache=new Map<string,number>();
@@ -22,6 +22,8 @@ export function terrainBlockHeight(ix:number,iz:number):number{
  const ravine=1-smooth((Math.abs(z-BRIDGE.z)-5)/8);
  if(Math.abs(x-BRIDGE.x)>5.3)h-=ravine*14;
  if(Math.abs(x-BRIDGE.x)<=5.3&&Math.abs(z-BRIDGE.z)<9)h=valleyElevation(BRIDGE.z);
+ const water=valleyWaterSurface(p);if(water!==undefined)h=water-.8;
+ const footbridge=onValleyFootbridge(p);if(footbridge)h=footbridge.y;
  h=Math.max(0,h);cache.set(key,h);return h;
 }
 export function groundHeight(p:Vec):number{
@@ -29,4 +31,4 @@ export function groundHeight(p:Vec):number{
  const a=terrainBlockHeight(ix,iz),b=terrainBlockHeight(ix+1,iz),c=terrainBlockHeight(ix,iz+1),d=terrainBlockHeight(ix+1,iz+1);
  return a+(b-a)*fx+(c-a)*fz+(a-b-c+d)*fx*fz;
 }
-export function standingHeight(p:Vec){return Math.abs(p.x-BRIDGE.x)<=5.3&&Math.abs(p.z-BRIDGE.z)<9?valleyElevation(BRIDGE.z)+.28:groundHeight(p);}
+export function standingHeight(p:Vec){const bridge=onValleyFootbridge(p);if(bridge)return bridge.y+.28;return Math.abs(p.x-BRIDGE.x)<=5.3&&Math.abs(p.z-BRIDGE.z)<9?valleyElevation(BRIDGE.z)+.28:groundHeight(p);}
