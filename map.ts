@@ -25,4 +25,4 @@ export const MEADOWS=[{x:24,z:-18,r:13,name:'Květinový vršek'},{x:-18,z:-65,r
 
 export const FLIGHT_Y=FOREST_FLIGHT_Y;
 export const INTRO_SECONDS=FOREST_LEVEL.introSeconds;
-export const NEW_GLADES=[{x:-77,z:-25,r:8,kind:0},{x:77,z:-68,r:9,kind:1},{x:-77,z:-116,r:8,kind:2},{x:77,z:-188,r:9,kind:3},{x:-77,z:-257,r:8,kind:4},{x:77,z:-285,r:8,kind:5}].map(forestPoint);
+export const NEW_GLADES=[{x:-77,z:-25,r:8,kind:0},{x:77,z:-68,r:9,kind:1},{x:-77,z:-116,r:8,kind:2},{x:77,z:-188,r:9,kind:3},{x:-77,z:-257,r:8,kind:4},{x:77,z:-285,r:8,kind:5}].map(forestPoint).map(p=>({...p,x:p.kind===3||p.kind===5?p.x+30:p.x}));
