@@ -1,3 +1,4 @@
+import {CAVE} from './adventure';
 import type {Game} from './game';
 import {distance} from './map';
 import type {Vec} from './map';
@@ -27,7 +28,7 @@ export function updateGuidance(g:Game,dt:number){
  if(d<s.best-2){s.best=d;s.wander=0;}else s.wander+=dt;
  s.idle=g.walking||g.attackTime>0||g.swordHeld?0:s.idle+dt;
  const danger=guidanceDanger(g);
- if(danger||g.landing||g.petTime>0||g.auriLanding||(!g.desert&&!g.inCave&&!g.passageOpen&&distance(g.player,{x:17,z:-40})<22)){s.until=0;s.path=[];s.idle=0;s.wander=0;return;}
+ if(danger||g.landing||g.petTime>0||g.auriLanding||(!g.desert&&!g.inCave&&!g.passageOpen&&distance(g.player,CAVE.entry)<22)){s.until=0;s.path=[];s.idle=0;s.wander=0;return;}
  if(s.until>g.elapsed&&g.elapsed>=s.retry&&!g.flying){s.retry=g.elapsed+1.5;s.path=findRoute(g.player,target,p=>g.canMove(p),4000,!g.desert);}
  if(s.until<=g.elapsed){s.path=[];if((s.idle>=12||s.wander>=35)&&s.cooldown===0&&g.messageUntil<g.elapsed){
   s.path=g.flying?[]:findRoute(g.player,target,p=>g.canMove(p),6000,!g.desert);s.retry=g.elapsed+1.5;

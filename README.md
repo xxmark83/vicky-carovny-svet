@@ -1,27 +1,37 @@
-# Vikoušek a kouzelný svět · 2.4
+# Vikoušek a kouzelný svět — 3.0.0
 
-Dvě hratelná 3D dobrodružství: **Kouzelný les** a **Zlatá poušť**. React, TypeScript, Three.js/react-three-fiber a Vite. Hra běží v prohlížeči bez účtu a backendu.
+Lesní údolí podle výtvarné předlohy: skutečný výškový svět, pěší výprava k zámku a jednoduchý čarovný let. React 19, TypeScript, react-three-fiber 9, Three.js 0.180, Vite a Vercel.
 
-- Hra: https://vicky-carovny-svet.vercel.app/
-- Zdrojový kód: https://github.com/xxmark83/vicky-carovny-svet
+## Nové v 3.0
 
-## Nové ve verzi 2.4
+- Lesní mapa má 400 × 550 herních metrů. Hlavní klikatá cesta měří přibližně 713 metrů, zámek stojí na terase 95 metrů nad vstupem. Věže dosahují přibližně 136 metrů a okolní hřebeny přesahují letovou hladinu 140 metrů.
+- Spojitý terén s údolím, svahy, horní zahradou a roklí. Hlavní most má vyrovnané nájezdy, tři menší mosty umožňují boční průzkum přes vodní ramena.
+- Čtyři velké kaskády na východním svahu s navazujícími vodními plochami, upraveným dnem, skalami a vodní mlhou. Malý vodopád zůstává vstupem do původní tajné jeskyně.
+- Nový zámek s pěti věžemi, růžovými střechami, okny, římsami a zahradními záhony.
+- Měkčí koruny stromů a kameny, válcové kmeny, jemnější povrchy, sedm oblých modelů lesních zvířátek, zaoblený vlk a oblečení, podrobnější prameny vlasů. Vikoušek má v běžném světě přibližně 1,8 metru.
+- Jemná záře světel a kouzel v podrobné grafice, barevné skalní svahy a mlha do dálky. Vzdálené koruny mají méně trojúhelníků; úsporný režim vynechává obrazové efekty. Automatické snížení kvality při dlouhodobě pomalém vykreslování zůstává.
+- Pohyb, pomoc vlka, mapa, letové souboje, bezpečné přistávání, intro a výšky předmětů jsou přizpůsobeny novému světu. Let a návrat na zem nevyžadují ovládání výšky.
+- Příběh nadále vyžaduje 10 diamantů, tři svatyně a osvobození 13 příběhových strážců. Dobrovolná zvířátka, zahrádky, stavění a tajemství zůstávají. Poušť si zachovává vlastní hranice i původní letovou hladinu 40 metrů.
+- Staré lesní souřadnice se při načtení jednou převedou. Sesbírané věci a postup zůstanou. Interiér jeskyně a stavby na tvořivé louce zůstávají na svých vlastních souřadnicích.
 
-První level má čtyři původní domky u vodopádu a potoka, dvě záhonové zahrádky, nové spojovací pěšiny, rákosové břehy a třešňové háje s padajícími lístky a včelími úly. Dřevo, šindele, kámen, kůra a tráva mají vlastní původní pixelové materiály. Les začíná v jasném denním světle; vysoká kvalita používá podrobnější stíny.
+## Ověření a rozsah
 
-Zahrádku lze bezpečně zalít kontextovým tlačítkem: květy se na dvacet sekund rozvinou. Jde o dobrovolnou drobnost bez sběru dalších předmětů. Zálivka je dočasná, neukládá se jako nová příběhová povinnost. Domky jsou venkovní dekorace, nemají otevíratelné interiéry. Jejich půdorysy blokují chůzi i přistání. Starší uložení uvnitř nového domku se přemístí na bezpečné místo. Hlavní úkoly, stavby a druhý level zůstávají zachované.
+`npm test` ověřuje 115 scénářů včetně skutečného průchodu kolizní mapou obou světů, souboje samotným mečem, dokončení příběhu, migrace uložených pozic, výšek, přistání a mezí modelů. Lesní simulační trasa po regionálních zastávkách trvá přibližně 615 herních sekund; nejde o měření prvního hraní dítětem.
 
-112 testů ověřuje i kolize domků, přistání, kompatibilitu uložení a dobrovolnou zálivku. Snímky Minecraftu sloužily jako inspirace pro kompozici krajiny; grafické podklady nejsou převzaté z Minecraftu.
+`npm run build` provádí kontrolu TypeScriptu a produkční sestavení. Prohlížečová kontrola pokrývá hlavní scenérie a mobilní rozložení. Fyzický iPhone/iPad, Safari a hraní dítětem jsou stále nutné k ověření výkonu a obtížnosti.
 
-## Nové ve verzi 2.3
+Výsledkem je stylizovaná hra vykreslovaná v reálném čase. Nejde o filmový render ani o zaručenou procentní shodu s referenční AI ilustrací. Domky a zámek jsou venkovní scenérie; jejich interiéry nejsou nové herní prostory. Hory vymezují mapu, nejsou dalším neomezeným světem. Uložení zůstává místní v prohlížeči.
 
-Celá hra má české texty, návody, názvy zvířátek a příběhy. Hrdinka se jmenuje Vikoušek, při přímém oslovení „Vikoušku“. Nové jméno je i v menu, názvu stránky a na tričku.
+## Spuštění
 
-Zlatý meč má vlastní zvuk švihu, silného úderu a střely. Dopad, cinknutí štítu, rozbití kořene či pečeti a rozpadnutí kletby znějí odlišně. Osvobození doprovází veselá stylizovaná odpověď daného zvířátka. Zvuky vznikají přímo pomocí Web Audio; nejde o nahrávky skutečných zvířat ani převzaté zvukové efekty.
+```sh
+npm ci
+npm test
+npm run build
+npm run dev
+```
 
-Zvukové události používají samostatnou frontu: úder už nepřepíše zásah a osvobození. Plošný útok slučuje stejné zvuky, aby dvanáct zvířátek nespustilo dvanáct stejných fanfár najednou. Krátké obálky a kompresor omezují přebuzení. Hudba mírně ustoupí efektům a výrazněji vyprávění.
-
-Vyprávění vybírá výhradně český systémový hlas, přednostně dostupný hlas v zařízení. Čeká i na opožděné načtení seznamu hlasů. Intro představuje zvířátka; při hraní zazní příběhové okamžiky, první a poslední diamant a krátká pomoc vlka. Každý běžný zásah ani diamant nekomentuje. Při pauze a změně světa se řeč zastaví. Pokud český hlas není dostupný, nastavení to vysvětlí a pokyny zůstávají na obrazovce. Konkrétní zabarvení hlasu závisí na zařízení; nejde o studiově namluvenou vypravěčku.
+Zvukové efekty, původní hudba, česká hlasová pomoc a podrobná grafika jsou při prvním spuštění zapnuté. Uložené preference se respektují. Prohlížeč odemkne zvuk až po klepnutí. Přepínače zvuku, hudby, hlasu a grafiky jsou v pauze.
 
 ## Oba světy
 
@@ -47,15 +57,3 @@ Při první návštěvě jsou efekty, hudba, hlasová pomoc a podrobná grafika 
 
 Staré adresy a klíče úložiště zůstávají funkční: `vicky-forest-save-v1`, `vicky-desert-save-v1`, `vicky-creative-meadow-v1`, `vicky-forest-reward-v1` a `vicky-desert-reward-v1`. Lesní uložení bez pole `level` je stále kompatibilní. Změna názvu hry nemaže postup ani stavby. Každý svět se ukládá samostatně v daném prohlížeči; mezi zařízeními se postup nesynchronizuje.
 
-## Spuštění a ověření
-
-```sh
-npm ci
-npm test
-npm run build
-npm run dev
-```
-
-112 automatických testů ověřuje oba světy, dokončení příběhu, pohyb, let, stavění, ukládání a nové zvukové události i výběr českého hlasu. Produkční build je úspěšný. V Chrome byla navíc měřena skutečná syntéza 33 zvukových scénářů, samostatné přepínače hudby a efektů a ztišení hudby při řeči.
-
-Mobilní rozměry v prohlížeči ověřují rozložení, nenahrazují fyzický iPhone/iPad ani zkoušku dítětem. Cílových 5–10 minut prvního hraní je nutné ověřit s Vikouškem. Grafika je stylizované procedurální voxelové 3D; nelze slíbit měřitelnou procentní shodu s referenční ilustrací.
