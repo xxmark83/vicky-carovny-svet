@@ -19,5 +19,5 @@ export function updateWolf(g:Game,dt:number){
  const clear=(a:Vec,b:Vec)=>{const len=distance(a,b);for(let t=1;t<=Math.ceil(len/.65);t++){const f=Math.min(1,t*.65/len);if(!g.canMove({x:a.x+(b.x-a.x)*f,z:a.z+(b.z-a.z)*f}))return false;}return true;};
  if(clear(g.wolf,goal)){g.wolfPath=[];}
  else if(g.elapsed>=g.wolfPlanAt&&(distance(goal,g.wolfGoal)>3||!g.wolfPath.length)){g.wolfPath=findRoute(g.wolf,goal,p=>g.canMove(p),8000,!g.desert);g.wolfPlanAt=g.elapsed+1.2;g.wolfGoal={...goal};}
- while(g.wolfPath.length&&distance(g.wolf,g.wolfPath[0])<.35)g.wolfPath.shift();const next=g.wolfPath[0]||goal;const a=Math.atan2(next.x-g.wolf.x,next.z-g.wolf.z);g.wolf.yaw=a;const speed=Math.min(distance(g.wolf,next),dt*Math.min(g.flying?6:7,Math.max(.3,(d-.6)*3)));g.move(g.wolf,Math.sin(a)*speed,Math.cos(a)*speed);
+ while(g.wolfPath.length&&distance(g.wolf,g.wolfPath[0])<.35)g.wolfPath.shift();const next=g.wolfPath[0]||goal;const a=Math.atan2(next.x-g.wolf.x,next.z-g.wolf.z);g.wolf.yaw+=Math.atan2(Math.sin(a-g.wolf.yaw),Math.cos(a-g.wolf.yaw))*Math.min(1,dt*8);const speed=Math.min(distance(g.wolf,next),dt*Math.min(g.flying?6:7,Math.max(.3,(d-.6)*3)));g.move(g.wolf,Math.sin(a)*speed,Math.cos(a)*speed);
 }

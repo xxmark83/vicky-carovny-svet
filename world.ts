@@ -9,11 +9,12 @@ import type { Vec } from './game';
 export type Block={p:[number,number,number];s:[number,number,number];c:string;r?:number};
 export type Surface='grass'|'earth'|'bark'|'leaf'|'stone'|'decor';
 export type WorldChunk={key:string;surface:Surface;blocks:Block[]};
-export function createLandscape(low=false):WorldChunk[]{
+export function createLandscape(low=false,authoredTrees=false):WorldChunk[]{
  const chunks=new Map<string,WorldChunk>();const rng=random(12026),caveBacking=forestPoint({x:17,z:-52});
  const add=(surface:Surface,p:[number,number,number],s:[number,number,number],c:string,r=0)=>{const key=`${Math.floor(p[0]/28)}:${Math.floor(p[2]/28)}:${surface}`;if(!chunks.has(key))chunks.set(key,{key,surface,blocks:[]});chunks.get(key)!.blocks.push({p,s,c,r});};
  for(const [i,o] of OBSTACLES.entries()){
   if(o.kind==='rock'&&distance(o,caveBacking)<.01)continue;const y=groundHeight(o),theme=SCENES.findIndex(p=>distance(p,o)<p.r+9);
+  if(authoredTrees)continue;
   if(o.kind==='rock'){add('stone',[o.x,y+o.height*.4,o.z],[o.radius*1.4,o.height,o.radius*1.3],['#79877f','#8e9a8b','#6d7b75'][i%3],o.variant);add('grass',[o.x,y+o.height*.9,o.z],[o.radius*1.35,.24,o.radius*1.25],'#668e33');continue;}
   const h=o.height*(o.variant===2?.7:1);const trunk=o.variant===4?1.05:.75;add('bark',[o.x,y+h*.39,o.z],[trunk,h*.78,trunk],theme===1||theme===4?'#eee8d3':o.variant===1?'#b49a6d':'#b2824e');
   for(let j=0;j<(low?2:4);j++){const a=j*1.6+o.variant;add('bark',[o.x+Math.sin(a)*.65,y+.17,o.z+Math.cos(a)*.65],[.3,.35,1.8],'#80522f',a);}

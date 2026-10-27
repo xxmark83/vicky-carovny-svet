@@ -104,3 +104,10 @@
 .mode-menu .intro-content{scrollbar-color:#b6ce81 #315c3b55}.mode-menu .intro-content::-webkit-scrollbar{width:5px}.mode-menu .intro-content::-webkit-scrollbar-thumb{background:#b6ce81;border-radius:6px}
 @media(min-width:701px) and (min-height:701px) and (max-height:900px){.mode-menu .intro h1{font-size:70px;margin:10px 0 12px}.mode-menu .intro-copy{margin:9px 0 11px}.mode-menu .character-picker{margin-top:12px}}
 .mode-menu .intro-content{pointer-events:auto}
+/* The playfield stays open between the two small status clusters. */
+.child-hud .game-header{background:transparent;border:0;box-shadow:none;backdrop-filter:none;padding:0;gap:9px}
+.child-hud .health-card{background:#203f34dd;border:1px solid #e0dfa95c;border-radius:22px;padding:6px 12px 6px 6px;gap:9px}
+.child-hud .counters{margin-left:auto;background:#203f34dd;border:1px solid #e0dfa95c;border-radius:19px;padding:8px 13px;gap:16px}
+.child-hud .tools{background:#203f34dd;border-radius:17px;border:1px solid #e0dfa95c}
+@media(max-width:600px){.child-hud .health-card{padding:4px 7px 4px 4px;gap:5px}.child-hud .counters{padding:8px 9px;gap:9px}.child-hud .health-card .hearts{gap:1px}.child-hud .health-card .hearts svg{width:14px;height:14px}.child-hud .avatar{width:31px;height:31px}.child-hud .tools button{width:44px;height:44px}}
+@media(prefers-reduced-motion:reduce){.cue-hit,.cinema-caption,.game-message{animation:none!important;transition:none!important}}

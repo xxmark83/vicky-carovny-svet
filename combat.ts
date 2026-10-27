@@ -1,3 +1,4 @@
+import {CHILD_COMBAT,storyAttackSlot} from './combatBudget';
 import {meadowSanctuary} from './building';
 import {momentSanctuary} from './moments';
 import type {Game} from './game';
@@ -20,7 +21,7 @@ export function updateCombat(g:Game,dt:number,grounded:boolean){
   }continue;}
   if(d>22)continue;e.cooldown=Math.max(0,e.cooldown-dt);const yaw=Math.atan2(g.player.x-e.x,g.player.z-e.z);if(kind==='panda')e.yaw+=Math.atan2(Math.sin(yaw-e.yaw),Math.cos(yaw-e.yaw))*Math.min(1,dt*1.8);else e.yaw=yaw;
   const trigger=kind==='cow'?8:kind==='skeleton'?11:kind==='blue'?8:kind==='guardian'&&e.cycle%2===1?6:kind==='guardian'?2.6:kind==='panda'?2.5:1.9;
-  if(d<trigger&&e.cooldown===0){e.attackKind=kind==='cow'?'charge':kind==='skeleton'?'bolt':kind==='blue'||kind==='guardian'&&e.cycle%2===1?'wave':'strike';e.windupMax=e.attackKind==='charge'?1.15:e.attackKind==='bolt'?1.15:e.attackKind==='wave'?1.4:kind==='guardian'?1.05:kind==='panda'?1.1:.8;e.windup=e.windupMax;e.aim={x:Math.sin(yaw),z:Math.cos(yaw)};e.cycle++;}
+  if(d<trigger&&e.cooldown===0&&storyAttackSlot(g,e.id)){e.attackKind=kind==='cow'?'charge':kind==='skeleton'?'bolt':kind==='blue'||kind==='guardian'&&e.cycle%2===1?'wave':'strike';e.windupMax=e.attackKind==='charge'?1.15:e.attackKind==='bolt'?1.15:e.attackKind==='wave'?1.4:kind==='guardian'?1.05:kind==='panda'?1.1:.8;e.windupMax=Math.max(CHILD_COMBAT.minimumWarning,e.windupMax);e.windup=e.windupMax;e.aim={x:Math.sin(yaw),z:Math.cos(yaw)};e.cycle++;}
   else if(e.hit===0){let direction=1,speed=kind==='guardian'?1:kind==='cow'?1.2:kind==='panda'?1.05:1.55;if(kind==='skeleton'){if(d<4.5)direction=-1;else if(d<7)direction=0;}else if(d<1.7)direction=0;const a=distance(e,e.home)>16?Math.atan2(e.home.x-e.x,e.home.z-e.z):yaw;const before={x:e.x,z:e.z};g.move(e,Math.sin(a)*speed*direction*dt,Math.cos(a)*speed*direction*dt);e.gait+=distance(before,e)*6;}
   if(d<1.1&&d>.01)g.move(e,-Math.sin(e.yaw)*dt,-Math.cos(e.yaw)*dt);
   if(distance(e,g.wolf)<2.4&&d<7&&g.wolfCooldown===0){g.hitEnemy(e,.5,'wolf');g.wolfCooldown=2;g.wolfMood='protect';g.wolfMoodTime=.7;}

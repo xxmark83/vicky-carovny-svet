@@ -1,3 +1,4 @@
+import {CHILD_COMBAT} from './combatBudget';
 import {BRIDGE} from './valleyLayout';
 import {meadowSanctuary} from './building';
 import {momentSanctuary,releaseCurse} from './moments';
@@ -31,7 +32,7 @@ export function updateCrowd(g:Game,dt:number){
  const sanctuary=meadowSanctuary(g.player)||momentSanctuary(g)||g.layout.shrines.some(p=>distance(p,g.player)<6)||distance(g.player,g.layout.chest)<19||distance(g.player,{x:0,z:12})<10;
  const storyThreat=g.enemies.some(e=>e.hp>0&&distance(e,g.player)<11);
  // Reserve the two slots for warnings already on screen before choosing newcomers.
- const active=layerReady&&(air||!sanctuary&&!storyThreat)?g.crowd.filter(e=>e.hp>0&&e.air===air&&distance(e,g.player)<(e.windup>0||e.rush>0?20:air?11:5)).sort((a,b)=>Number(b.windup>0||b.rush>0)-Number(a.windup>0||a.rush>0)||distance(a,g.player)-distance(b,g.player)).slice(0,2):[];
+ const active=layerReady&&(air||!sanctuary&&!storyThreat&&!g.projectiles.length&&g.invulnerable===0)?g.crowd.filter(e=>e.hp>0&&e.air===air&&distance(e,g.player)<(e.windup>0||e.rush>0?20:air?11:5)).sort((a,b)=>Number(b.windup>0||b.rush>0)-Number(a.windup>0||a.rush>0)||distance(a,g.player)-distance(b,g.player)).slice(0,air?CHILD_COMBAT.airAttackers:CHILD_COMBAT.groundAttackers):[];
  for(const e of g.crowd){
   e.freed=Math.max(0,e.freed-dt);e.hit=Math.max(0,e.hit-dt);e.guard=Math.max(0,e.guard-dt);e.stun=Math.max(0,e.stun-dt);
   if(e.hp<=0){if(e.freed>3.5)e.yaw=Math.atan2(g.player.x-e.x,g.player.z-e.z);else if(e.freed>0){const a=Math.atan2(e.x-g.player.x,e.z-g.player.z);travel(e,g,a,dt*(e.kind===5?2.1:1.8),false,dt);}continue;}

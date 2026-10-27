@@ -1,5 +1,5 @@
 import {softAnimalGeometry} from './SoftAnimals.ts';
-import {forestPoint,BRIDGE,CASTLE,VALLEY_REVISION,valleyElevation} from './valleyLayout.ts';
+import {forestPoint,BRIDGE,CASTLE,VALLEY_REVISION,valleyElevation,valleyWaterSurface} from './valleyLayout.ts';
 import {PerspectiveCamera,Vector3} from 'three';
 import {revealPassage,updateMoments,bloomStrength,momentSanctuary} from './moments.ts';
 import {happyCreatureBlocks} from './creatures.ts';
@@ -148,8 +148,8 @@ test('cat circles and bunny hops with a distinct pace; panda protects its front'
  for(let i=0;i<12;i++){cat.g.elapsed+=.05;bunny.g.elapsed+=.05;updateCrowd(cat.g,.05);updateCrowd(bunny.g,.05);}assert.ok(Math.abs(cat.e.x-70)>.3);assert.ok(distance(cat.e,bunny.e)>.3);
  const {g,e}=isolatedAnimal(1);g.update(.05,{...idle(),attackTap:true});assert.ok(Math.abs(e.hp-1.65)<.001);assert.ok(e.guard>0);
 });
-test('only two crowd attack warnings are active; other layers and sanctuaries stay safe',()=>{
- const {g,e}=isolatedAnimal(0);const herd=g.crowd.filter(a=>!a.air).slice(0,12);herd.forEach((a,i)=>Object.assign(a,{hp:2,x:e.x+(i%3)*.1,z:e.z+Math.floor(i/3)*.1,cooldown:0}));updateCrowd(g,.05);assert.equal(herd.filter(a=>a.windup>0).length,2);g.flying=true;g.flightY=FLIGHT_Y;updateCrowd(g,.05);assert.equal(herd.filter(a=>a.windup>0).length,0);
+test('only one ground crowd attack warning is active; other layers and sanctuaries stay safe',()=>{
+ const {g,e}=isolatedAnimal(0);const herd=g.crowd.filter(a=>!a.air).slice(0,12);herd.forEach((a,i)=>Object.assign(a,{hp:2,x:e.x+(i%3)*.1,z:e.z+Math.floor(i/3)*.1,cooldown:0}));updateCrowd(g,.05);assert.equal(herd.filter(a=>a.windup>0).length,1);g.flying=true;g.flightY=FLIGHT_Y;updateCrowd(g,.05);assert.equal(herd.filter(a=>a.windup>0).length,0);
  g.flying=false;Object.assign(g.player,SHRINES[0]);herd.forEach(a=>Object.assign(a,{x:g.player.x,z:g.player.z,cooldown:0}));updateCrowd(g,.05);assert.equal(herd.filter(a=>a.windup>0).length,0);assert.equal(g.health,5);
 });
 test('blue animal fires a slow visible shot, and sheep creates an avoidable wave',()=>{
@@ -276,10 +276,10 @@ test('main walking route has meaningful length and castle remains below flight a
 test('rounded animal meshes retain finite body-part centers, vertex colors and recognizable scale',()=>{for(let k=0;k<7;k++){const g=softAnimalGeometry(k),happy=softAnimalGeometry(k,true);for(const mesh of [g,happy]){const positions=mesh.getAttribute('position'),centers=mesh.getAttribute('cubeCenter'),colors=mesh.getAttribute('color');assert.equal(positions.count,centers.count);assert.equal(colors.count,positions.count);assert.ok([...positions.array].every(Number.isFinite));mesh.computeBoundingBox();assert.ok(mesh.boundingBox!.max.y>1.5&&mesh.boundingBox!.max.y<2.7);assert.ok(mesh.boundingBox!.max.z-mesh.boundingBox!.min.z>1);}g.dispose();happy.dispose();}});
 
 import {forestLookLayout,inForestLook} from './forestLookLayout.ts';
-test('the forest art slice stays bounded and has a predictable mobile geometry budget',()=>{
+test('the full forest art pass stays bounded and has a predictable mobile geometry budget',()=>{
  const high=forestLookLayout(false),low=forestLookLayout(true);
- assert.ok(high.stones.length>300&&high.stones.length<650);
- assert.ok(high.plants.length>400&&high.plants.length<1000);
+ assert.ok(high.stones.length>2200&&high.stones.length<4200);
+ assert.ok(high.plants.length>2000&&high.plants.length<6000);
  assert.ok(low.plants.length<high.plants.length*.4);
  assert.deepEqual(low.stones,high.stones);
  for(const group of Object.values(high))for(const p of group){assert.ok(inForestLook(p));assert.ok([p.x,p.y,p.z,p.yaw,p.size].every(Number.isFinite));assert.ok(p.size>0);}
@@ -305,4 +305,15 @@ test('the chicken sculpt has finite coloured geometry and a bounded mesh budget'
  try{for(const mesh of Object.values(meshes)){const p=mesh.getAttribute('position'),c=mesh.getAttribute('color');assert.ok(p.count>0);assert.equal(p.count,c.count);for(const n of p.array)assert.ok(Number.isFinite(n));assert.ok(mesh.boundingSphere!.radius>0);total+=p.count;}
   assert.ok(total<80000);assert.ok(meshes.head.boundingBox!.max.y>.8);assert.ok(meshes.tail.boundingBox!.min.z<-1.4);assert.ok(meshes.eyes.boundingBox!.max.x>.4);
  }finally{Object.values(meshes).forEach(m=>m.dispose());}
+});
+
+import {CHILD_COMBAT} from './combatBudget.ts';
+test('clustered story guards take turns and warnings remain readable for a child',()=>{
+ const g=new Game();g.mode='playing';g.crowd.forEach(e=>e.hp=0);Object.assign(g.player,{x:70,z:-40});g.enemies.forEach((e,i)=>Object.assign(e,{x:70+i*.15,z:-42,home:{x:70+i*.15,z:-42},hp:i<6?2:0,cooldown:0,stunned:0}));
+ let sawWarning=false;for(let frame=0;frame<140;frame++){g.update(.05,idle());const warnings=g.enemies.filter(e=>e.windup>0||e.charge>0);assert.ok(warnings.length<=CHILD_COMBAT.groundAttackers);if(warnings.length){sawWarning=true;assert.ok(warnings[0].windupMax>=CHILD_COMBAT.minimumWarning);}}
+ assert.ok(sawWarning);
+});
+test('hurt grace preserves health during a readable recovery interval',()=>{const g=quietGame();g.damage();assert.equal(g.health,4);for(let i=0;i<40;i++){g.update(.05,idle());g.damage();}assert.equal(g.health,4);assert.ok(g.invulnerable>0);});
+test('full-valley detail reaches the castle while leaving water and bridge clear',()=>{
+ const {stones,plants}=forestLookLayout();assert.ok(stones.some(p=>p.z<-440));assert.ok(plants.some(p=>p.z<-440));for(const p of [...stones,...plants]){assert.equal(valleyWaterSurface(p),undefined);assert.ok(Math.abs(p.z-BRIDGE.z)>=12);}
 });

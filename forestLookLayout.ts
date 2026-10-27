@@ -1,10 +1,12 @@
-import {PATH,GEMS,SHRINES,random,distance,pathDistance} from './map';
+import {PATH,GEMS,SHRINES,CHEST,WORLD_BOUNDS,random,distance,pathDistance} from './map';
 import {reservedForestPlace} from './forestPlaces';
+import {valleyWaterSurface,BRIDGE} from './valleyLayout';
+import {inBuildLot} from './building';
 import {groundHeight} from './terrain';
 import type {Vec} from './map';
 
-// The first art pass is deliberately bounded: the entrance and waterfall approach.
-export const FOREST_LOOK_BOUNDS={minX:-62,maxX:43,minZ:-82,maxZ:18};
+// The final art pass covers the full authored valley; runtime cells cull nearby detail.
+export const FOREST_LOOK_BOUNDS={...WORLD_BOUNDS};
 export function inForestLook(p:Vec){const b=FOREST_LOOK_BOUNDS;return p.x>b.minX&&p.x<b.maxX&&p.z>b.minZ&&p.z<b.maxZ;}
 export type LookPlacement={x:number;y:number;z:number;size:number;yaw:number;kind:number;pitch?:number};
 export function forestLookLayout(low=false){
@@ -13,15 +15,15 @@ export function forestLookLayout(low=false){
   const a=PATH[i-1],b=PATH[i],len=distance(a,b),dx=(b.x-a.x)/len,dz=(b.z-a.z)/len;
   for(let d=.7;d<len;d+=1.05)for(let row=-2;row<=2;row++){
    const offset=row*.86+(rng()-.5)*.1,x=a.x+dx*(d+(row%2)*.45)-dz*offset,z=a.z+dz*(d+(row%2)*.45)+dx*offset;
-   if(!inForestLook({x,z})||reservedForestPlace({x,z},-.5))continue;
+   if(!inForestLook({x,z})||reservedForestPlace({x,z},-.5)||Math.abs(z-BRIDGE.z)<12||valleyWaterSurface({x,z})!==undefined)continue;
    stones.push({x,y:groundHeight({x,z})+.025,z,size:.83+rng()*.1,yaw:(rng()-.5)*.18,kind:Math.floor(rng()*5)});
   }
  }
- const protectedPlace=(p:Vec)=>reservedForestPlace(p,1)||GEMS.some(g=>distance(p,g)<2)||SHRINES.some(s=>distance(p,s)<4)||Math.hypot(p.x-25,p.z+46)<5;
+ const protectedPlace=(p:Vec)=>inBuildLot(p,2)||valleyWaterSurface(p)!==undefined||Math.abs(p.z-BRIDGE.z)<12||distance(p,CHEST)<6||reservedForestPlace(p,1)||GEMS.some(g=>distance(p,g)<2)||SHRINES.some(s=>distance(p,s)<4)||Math.hypot(p.x-25,p.z+46)<5;
  // Groups follow the trail rather than a random carpet over the whole map.
  for(let i=1;i<PATH.length;i++){
   const a=PATH[i-1],b=PATH[i],len=distance(a,b),dx=(b.x-a.x)/len,dz=(b.z-a.z)/len;
-  for(let d=0;d<len;d+=low?2.2:1.15)for(const side of [-1,1])for(let row=0;row<(low?2:4);row++){
+  for(let d=0;d<len;d+=low?2.5:1.6)for(const side of [-1,1])for(let row=0;row<(low?1:3);row++){
    const offset=side*(2.8+row*1.05+rng()*.8),x=a.x+dx*d-dz*offset,z=a.z+dz*d+dx*offset,p={x,z};
    if(!inForestLook(p)||protectedPlace(p))continue;
    if(Math.abs(groundHeight({x:x+1,z})-groundHeight({x:x-1,z}))>1.8)continue;
