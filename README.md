@@ -56,3 +56,33 @@ Při první návštěvě jsou efekty, hudba, hlasová pomoc a podrobná grafika 
 ## Ukládání a kompatibilita
 
 Staré adresy a klíče úložiště zůstávají funkční: `vicky-forest-save-v1`, `vicky-desert-save-v1`, `vicky-creative-meadow-v1`, `vicky-forest-reward-v1` a `vicky-desert-reward-v1`. Lesní uložení bez pole `level` je stále kompatibilní. Změna názvu hry nemaže postup ani stavby. Každý svět se ukládá samostatně v daném prohlížeči; mezi zařízeními se postup nesynchronizuje.
+
+
+## Grafická ukázka 3.0.1 — začátek Kouzelného lesa
+
+Samostatná výtvarná zkouška pro vstupní cestu a jeskynní vodopád: zaoblená kamenná dlažba, prostorové papradiny a květy, tráva, drobné listy v korunách, mechové kameny, členitější skalní kulisa a voda s proudy, pěnou, odlesky a jemnou tříští. Nové rostliny jsou instancované; úsporné nastavení omezuje jejich počet. Terén, kolize, souřadnice cílů a ukládání se nemění. Druhý level používá původní vodní materiál.
+
+Tato ukázka stále používá WebGLRenderer. Přechod na WebGPU není součástí této první výtvarné zkoušky. Před ním je potřeba převést vlastní shadery a postprocessing a porovnat výkon na skutečných zařízeních.
+
+
+## Výběr postavy 3.0.2
+
+V hlavním menu si dítě vybere Vikouška nebo slepici. Nová originální 3D slepice má velké oči, červený hřebínek, oranžový krk, zelenomodré peří a zakřivený ocas podle dodané vizuální reference. Má vlastní animace běhu, hlavy, křídel, skoku, letu a meče. Zvolená postava funguje v obou světech, v intru i na tvořivé louce. Volba se ukládá samostatně pod `vikousek-character-v1`; nemění uložený příběh, stavbu, rychlost, sílu ani kolize.
+
+Aktuální náhled testovací větve: https://vicky-carovny-svet-git-upgrade-forest-art-slice-balazmarek-2201.vercel.app/
+
+## Finální výtvarná a herní úprava lesa 3.1.0
+
+Celá hlavní trasa nyní sdílí kamennou dlažbu, prostorové květiny, trávu a kapradiny. Drobné dekorace se vykreslují v okolních buňkách, zatímco vzdálený les používá jednodušší geometrii. Tři původní rodiny stromů a mechový kámen jsou vlastní modely GLB (glTF 2.0), dohromady 346 144 bajtů. Modely mají normalizované měřítko, počátek u země a dvě úrovně detailu; kolize a původní souřadnice cílů zůstávají autoritou. Při selhání stahování modelů zůstává jednoduchá místní náhradní geometrie. Zdroj modelů je v `scripts/forest-assets.mjs`; `npm run assets:build` je přegeneruje, `npm run test:assets` kontroluje strukturu a rozpočty. Žádné placené ani cizí modely.
+
+Všechny hlavní vodopády používají proudy, pěnu a odlesky. Kamenné břehy, drobné zídky a opěry zámku doplňují kompozici. Oblaka mají zaoblené siluety. Vikoušek a vlk mají měkčí tvary; lesní skřítek a kostěný strážce mají nové prostorové modely s pohyblivými končetinami. Kamera kontroluje také kmeny, při změně rozehrané hry se správně přemístí. Simulace má vlastní frame hook oddělený od kamery.
+
+Na zemi zahajuje útok jen jeden příběhový strážce nebo jedno okolní zvířátko; ve vzduchu mohou varovat nejvýše dva útočníci. Příběhoví strážci mají nejméně 1,1 s přípravu, po zranění je 2,2 s ochrany. Počty obyvatel, diamanty, svatyně, souboje s finálním strážcem, stavby, uložený postup i druhý level zůstávají zachovány. HUD má oddělené malé skupiny v horních rozích.
+
+### Renderer a místní ověřování
+
+Dětská testovací verze zůstává na **WebGL2**. `qa/engine-check.html` je samostatná vývojová zkouška WebGPURendereru a vody v TSL; `?backend=webgl` ověří jeho WebGL backend. Oba backendy vykreslí nové GLB modely a vodu. Současné efekty založené na `onBeforeCompile`, GLSL a EffectComposer však nemají automatickou shodu, proto se WebGPU nepřepíná do hry. Výsledek není benchmark celé hry ani doklad rychlejšího WebGPU. WebAssembly není přidáno.
+
+`qa/playtest.html?qa=1` nabízí místní kontrolní stanoviště bez změn skutečných uložených her. Obě QA stránky jsou určeny vývojovému serveru a nejsou produkčními vstupními stránkami. `?qa=1` v hlavní hře zapíná pouze opt-in textový výpis FPS a počtů vykreslení. Běžná dětská adresa jej neobsahuje.
+
+Cílová mobilní rychlost je stabilních 30 FPS; skutečný iPhone/iPad se Safari a delší zahřívání musí potvrdit test na zařízení. Responzivní náhled na stolním Chrome není náhradou tohoto měření. Po této verzi se mají řešit chyby a zkušenosti z dětského hraní, nikoli přidávat další povinné úkoly.

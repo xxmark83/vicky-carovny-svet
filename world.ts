@@ -1,3 +1,5 @@
+import {forestPoint} from './valleyLayout';
+import {inForestLook} from './forestLookLayout';
 import {valleyWaterSurface,BRIDGE} from './valleyLayout';
 import {CHERRY_TREES,reservedForestPlace} from './forestPlaces';
 import {inBuildLot} from './building';
@@ -7,11 +9,12 @@ import type { Vec } from './game';
 export type Block={p:[number,number,number];s:[number,number,number];c:string;r?:number};
 export type Surface='grass'|'earth'|'bark'|'leaf'|'stone'|'decor';
 export type WorldChunk={key:string;surface:Surface;blocks:Block[]};
-export function createLandscape(low=false):WorldChunk[]{
- const chunks=new Map<string,WorldChunk>();const rng=random(12026);
+export function createLandscape(low=false,authoredTrees=false):WorldChunk[]{
+ const chunks=new Map<string,WorldChunk>();const rng=random(12026),caveBacking=forestPoint({x:17,z:-52});
  const add=(surface:Surface,p:[number,number,number],s:[number,number,number],c:string,r=0)=>{const key=`${Math.floor(p[0]/28)}:${Math.floor(p[2]/28)}:${surface}`;if(!chunks.has(key))chunks.set(key,{key,surface,blocks:[]});chunks.get(key)!.blocks.push({p,s,c,r});};
  for(const [i,o] of OBSTACLES.entries()){
-  if(o.kind==='rock'&&o.x===17&&o.z===-52)continue;const y=groundHeight(o),theme=SCENES.findIndex(p=>distance(p,o)<p.r+9);
+  if(o.kind==='rock'&&distance(o,caveBacking)<.01)continue;const y=groundHeight(o),theme=SCENES.findIndex(p=>distance(p,o)<p.r+9);
+  if(authoredTrees)continue;
   if(o.kind==='rock'){add('stone',[o.x,y+o.height*.4,o.z],[o.radius*1.4,o.height,o.radius*1.3],['#79877f','#8e9a8b','#6d7b75'][i%3],o.variant);add('grass',[o.x,y+o.height*.9,o.z],[o.radius*1.35,.24,o.radius*1.25],'#668e33');continue;}
   const h=o.height*(o.variant===2?.7:1);const trunk=o.variant===4?1.05:.75;add('bark',[o.x,y+h*.39,o.z],[trunk,h*.78,trunk],theme===1||theme===4?'#eee8d3':o.variant===1?'#b49a6d':'#b2824e');
   for(let j=0;j<(low?2:4);j++){const a=j*1.6+o.variant;add('bark',[o.x+Math.sin(a)*.65,y+.17,o.z+Math.cos(a)*.65],[.3,.35,1.8],'#80522f',a);}
@@ -21,7 +24,7 @@ export function createLandscape(low=false):WorldChunk[]{
   if(!low){add('bark',[o.x+1,y+h*.64,o.z],[2.6,.35,.4],'#875731',.35);add('bark',[o.x-.8,y+h*.7,o.z+.5],[2.1,.3,.4],'#875731',-.4);}
  }
  // Dense wildflower strips hug both sides of the path; decorative plants never block controls.
- const plant=(p:Vec,i:number)=>{if(Math.abs(groundHeight({x:p.x+1,z:p.z})-groundHeight({x:p.x-1,z:p.z}))>2||Math.abs(groundHeight({x:p.x,z:p.z+1})-groundHeight({x:p.x,z:p.z-1}))>2||valleyWaterSurface(p)!==undefined||inBuildLot(p,2)||reservedForestPlace(p))return;if(p.z>-43&&p.z<-12&&Math.abs(p.x-(18+Math.sin((p.z+38)/1.45*.35)*2))<2)return;if(distance(p,{x:10,z:-98})<3.8||Math.abs(p.z-BRIDGE.z)<12||distance(p,CHEST)<5||SHRINES.some(s=>distance(s,p)<2.8))return;const y=groundHeight(p);const a=rng()*Math.PI;const h=.35+rng()*.6;
+ const plant=(p:Vec,i:number)=>{if(inForestLook(p))return;if(Math.abs(groundHeight({x:p.x+1,z:p.z})-groundHeight({x:p.x-1,z:p.z}))>2||Math.abs(groundHeight({x:p.x,z:p.z+1})-groundHeight({x:p.x,z:p.z-1}))>2||valleyWaterSurface(p)!==undefined||inBuildLot(p,2)||reservedForestPlace(p))return;if(p.z>-43&&p.z<-12&&Math.abs(p.x-(18+Math.sin((p.z+38)/1.45*.35)*2))<2)return;if(distance(p,{x:10,z:-98})<3.8||Math.abs(p.z-BRIDGE.z)<12||distance(p,CHEST)<5||SHRINES.some(s=>distance(s,p)<2.8))return;const y=groundHeight(p);const a=rng()*Math.PI;const h=.35+rng()*.6;
   if(i%4===0){const c=['#fff5c5','#ff9cc1','#9acbef','#ffd25c','#df72af'][i%5];add('decor',[p.x,y+h*.5,p.z],[.07,h,.07],'#437b28');add('decor',[p.x,y+h,p.z],[.37,.12,.37],c);add('decor',[p.x,y+h+.075,p.z],[.12,.08,.12],'#f5ca4e');if(!low){add('decor',[p.x+.21,y+h-.03,p.z],[.13,.12,.2],c);add('decor',[p.x-.21,y+h-.03,p.z],[.13,.12,.2],c);}}
   else if(i%9===0){add('decor',[p.x,y+.24,p.z],[.13,.48,.13],'#e7d7aa');add('decor',[p.x,y+.48,p.z],[.65,.2,.63],i%2?'#ec847b':'#dca94c');add('decor',[p.x-.13,y+.59,p.z+.05],[.16,.035,.16],'#fff0c4');}
   else{add('leaf',[p.x,y+h*.35,p.z],[.13,h*.7,.12],'#3e752d');for(let j=0;j<(low?2:3);j++)add('leaf',[p.x+Math.sin(a+j*2.1)*.2,y+h*.35,p.z+Math.cos(a+j*2.1)*.2],[.17,.13,.75],['#7aaa38','#58942f','#8eb941'][i%3],a+j*2.1);}
