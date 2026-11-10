@@ -8,7 +8,7 @@ import {weatherForWorld,atmosphereForWorld} from './weather';
 import {ambienceRates,AMBIENCE_CAP} from './ambienceRates';
 // 3.6.0 decoration only. These particles live in the view; the game, its saves and its tests never see them.
 type Mote={kind:'dust'|'splash'|'pollen'|'leaf'|'sparkle';x:number;y:number;z:number;vx:number;vy:number;vz:number;life:number;max:number;size:number;spin:number;color:THREE.Color};
-const C={path:new THREE.Color('#b9a57c'),grass:new THREE.Color('#9fb878'),sand:new THREE.Color('#d6bf88'),stone:new THREE.Color('#aab4b8'),splash:new THREE.Color('#e6f4ff'),pollen:new THREE.Color('#fff6cf'),gem:new THREE.Color('#bff3ff'),shrine:new THREE.Color('#c9ffd6'),leaves:['#8fbf4a','#c9c24a','#e0a04a','#6fa83f'].map(c=>new THREE.Color(c))};
+const C={path:new THREE.Color('#b9a57c'),grass:new THREE.Color('#9fb878'),sand:new THREE.Color('#d6bf88'),stone:new THREE.Color('#aab4b8'),splash:new THREE.Color('#e6f4ff'),pollen:new THREE.Color('#fff6cf'),gem:new THREE.Color('#bff3ff'),shrine:new THREE.Color('#c9ffd6'),leaves:['#8fbf4a','#c9c24a','#ffb3d1','#ff8fc0','#fff0f6','#ffc1dd'].map(c=>new THREE.Color(c))};
 export function Ambience({game,low}:{game:Game;low:boolean}){
  const mesh=useRef<THREE.InstancedMesh>(null),motes=useRef<Mote[]>([]),due=useRef({dust:0,splash:0,pollen:0,leaf:0,sparkle:0}),last=useRef({game,y:0,vy:0}),o=useMemo(()=>new THREE.Object3D(),[]);
  useFrame(({camera},delta)=>{const m=mesh.current;if(!m)return;const list=motes.current;if(last.current.game!==game){list.length=0;last.current={game,y:0,vy:0};}

@@ -408,3 +408,18 @@ test('the sky deepens overhead by day, turns violet at dusk and greys under clou
  assert.ok(grey.glow<day.glow&&day.glow<dusk.glow&&dusk.glow<=.5);
  let prev=hex(skyGradient(weatherAt(0)).zenith);for(let t=1;t<720;t++){const now=hex(skyGradient(weatherAt(t)).zenith);for(let i=0;i<3;i++)assert.ok(Math.abs(now[i]-prev[i])<6);prev=now;}
 });
+import {bloomLayout,lanternLights,BLOOM_COLORS,BLOOM_CELL} from './bloomLayout.ts';
+import {pathDistance as bloomPathDistance,GEMS as BLOOM_GEMS,SHRINES as BLOOM_SHRINES,CHEST as BLOOM_CHEST} from './map.ts';
+import {inBuildLot as bloomBuildLot} from './building.ts';
+import {valleyWaterSurface as bloomWater} from './valleyLayout.ts';
+import {groundHeight as bloomGround} from './terrain.ts';
+test('blossoms line the forest trail and meadows without covering the path, water, building lot or goals',()=>{
+ const cells=bloomLayout(),all=cells.flatMap(c=>c.blooms),low=bloomLayout(true).flatMap(c=>c.blooms);
+ assert.ok(all.length>6000&&all.length<14000);assert.ok(low.length<all.length*.3&&low.length>800);assert.deepEqual(bloomLayout().map(c=>c.blooms.length),cells.map(c=>c.blooms.length));
+ for(const c of cells)for(const b of c.blooms){assert.ok(Math.abs(b.x-c.x)<=BLOOM_CELL/2&&Math.abs(b.z-c.z)<=BLOOM_CELL/2);assert.ok(bloomPathDistance(b)>2.5);assert.equal(bloomWater(b),undefined);assert.ok(!bloomBuildLot(b,2));assert.ok(Math.hypot(b.x-BLOOM_CHEST.x,b.z-BLOOM_CHEST.z)>6);assert.ok(Math.abs(b.y-bloomGround(b))<1e-9);assert.ok(b.color>=0&&b.color<BLOOM_COLORS.length);}
+ for(const g of BLOOM_GEMS)assert.ok(all.every(b=>Math.hypot(b.x-g.x,b.z-g.z)>=1.6));for(const s of BLOOM_SHRINES)assert.ok(all.every(b=>Math.hypot(b.x-s.x,b.z-s.z)>=4));
+ assert.ok(all.filter(b=>bloomPathDistance(b)<6).length>all.length*.3);assert.equal(new Set(all.map(b=>b.color)).size,BLOOM_COLORS.length);
+ // Decoration only: a new game has exactly the obstacles and walkable ground it had before.
+ const g=new Game();assert.ok(all.slice(0,400).every(b=>g.layout.obstacles.every(o=>o.x!==b.x||o.z!==b.z)));
+ const lights=lanternLights();assert.ok(lights.length>15&&lights.length<120);for(const l of lights){const d=bloomPathDistance(l);assert.ok(d>1.5&&d<4.6);assert.ok(Math.abs(l.y-bloomGround(l)-2.7)<1e-9);}
+});

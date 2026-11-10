@@ -159,3 +159,15 @@ První krok ke krásnější grafice. Vše je jen ozdoba: kolize, terén, příb
 - **Déšť**: kapky těsně před kamerou se už nekreslí, takže nepůsobí jako tlusté bílé čáry.
 
 `npm test` ověřuje 134 scénářů. V prohlížeči na počítači byla na stránce `qa/playtest.html` vidět obloha ve dne, za šera, při letu i v úsporné grafice, sytější barvy, prach od nohou a déšť bez tlustých čar. Neověřeno: šplíchance, jiskřičky, pyl a lístky nebyly na snímcích spolehlivě rozeznat; prach v poušti a v jeskyni; mobilní šířka a rychlost na skutečném telefonu. Skutečně členitější terén a nové modely tato verze nepřináší.
+
+## Rozkvetlý les 3.7.0
+
+První level se přibližuje pohádkové předloze: cesta lemovaná květy, teplé světlo a lucerny. Jen Kouzelný les; poušť se nemění. Vše je ozdoba: kolize, terén, příběh, souboje ani uložené hry se nemění.
+
+- **Květinové lemy**: přes jedenáct tisíc kvítků v sedmi barvách ve shlucích podél celé cesty a na osmi loukách, s trsy trávy. Jemně se vlní ve větru, za deště víc. Nerostou na dlažbě, ve vodě, na stavební ploše, u diamantů, svatyní ani u pokladu.
+- **Úspora**: květy jsou jeden malý model kreslený po dlaždicích 32 m; dlaždice dál než 105 m (v úsporné grafice 70 m) se nekreslí. Úsporná grafika má asi šestinu květů.
+- **Lucerny**: každá lucerna u cesty má teplou záři, ve dne sotva znatelnou, za šera a pod mraky silnější.
+- **Okvětní lístky** poletují lesem spolu s listím.
+- **Teplejší barvy** v podrobné grafice.
+
+`npm test` ověřuje 135 scénářů. V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět květy u vstupu ve dne i za šera, záře luceren, pohled z letu a úsporná grafika; konzole bez chyb. Neověřeno: rychlost (měření FPS se na QA stránce tentokrát nenačetlo), mobilní šířka a skutečný telefon, květy na vzdálenějších částech cesty a na loukách zblízka, vlnění v pohybu. Předloze se tato verze blíží barvami a hustotou květů, ne úrovní modelů, postav ani osvětlení.
