@@ -171,3 +171,18 @@ První level se přibližuje pohádkové předloze: cesta lemovaná květy, tepl
 - **Teplejší barvy** v podrobné grafice.
 
 `npm test` ověřuje 135 scénářů. V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět květy u vstupu ve dne i za šera, záře luceren, pohled z letu a úsporná grafika; konzole bez chyb. Neověřeno: rychlost (měření FPS se na QA stránce tentokrát nenačetlo), mobilní šířka a skutečný telefon, květy na vzdálenějších částech cesty a na loukách zblízka, vlnění v pohybu. Předloze se tato verze blíží barvami a hustotou květů, ne úrovní modelů, postav ani osvětlení.
+
+## Světlo, poklady a kvetoucí koruny 3.8.0
+
+Další krok k pohádkové předloze, jen v Kouzelném lese. Vše je ozdoba: kolize, terén, příběh, souboje ani uložené hry se nemění.
+
+- **Kvetoucí koruny**: asi dva z pěti stromů do 16 m od cesty mají v koruně růžové, bílé nebo fialkové květy.
+- **Mech a popínavky**: stromy u cesty mají mechový polštář u paty; na těch nejbližších se po kmeni vine kvetoucí popínavka.
+- **Sluneční paprsky**: mezi kmeny padají jemné pruhy světla. Naklánějí se podle slunce, stojí na místě a mizí pod mraky, za deště, za šera a při letu.
+- **Diamanty** mají měkkou modrou záři a sloupek světla, takže jsou vidět z dálky.
+- **Poklad** jiskří zlatě; **meč** při každém švihu odhazuje zlaté jiskry (světelná stopa meče byla už dřív).
+- Úsporná grafika má asi šestinu ozdob korun, bez popínavek a méně paprsků.
+
+`npm test` ověřuje 136 scénářů. V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět květy v korunách, záře a sloupek světla diamantu a úsporná grafika; konzole bez chyb. Paprsky byly napoprvé příliš silné a zakrývaly výhled, proto jsou teď velmi jemné – po ztlumení jsem je na snímku spolehlivě nerozeznal. Neověřeno: jiskry meče a pokladu, mech a popínavky zblízka, rychlost (měření FPS se nenačetlo), mobilní šířka a skutečný telefon.
+
+Z předlohy dál chybí: členitější terén, oblé postavy, nové modely stromů, zámek na skále s vodopády a kamenný most, odlesky na vodě.

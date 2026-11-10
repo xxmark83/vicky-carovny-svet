@@ -423,3 +423,15 @@ test('blossoms line the forest trail and meadows without covering the path, wate
  const g=new Game();assert.ok(all.slice(0,400).every(b=>g.layout.obstacles.every(o=>o.x!==b.x||o.z!==b.z)));
  const lights=lanternLights();assert.ok(lights.length>15&&lights.length<120);for(const l of lights){const d=bloomPathDistance(l);assert.ok(d>1.5&&d<4.6);assert.ok(Math.abs(l.y-bloomGround(l)-2.7)<1e-9);}
 });
+import {canopyLayout,sunShaftSpots,CANOPY_COLORS,CANOPY_CELL} from './canopyLayout.ts';
+test('blossom, moss and vines dress only real trees near the trail and sunbeams stay anchored to the world',()=>{
+ const g=new Game(),before=JSON.stringify(g.layout.obstacles),cells=canopyLayout(g.layout.obstacles),all=cells.flatMap(c=>c.puffs),low=canopyLayout(g.layout.obstacles,true).flatMap(c=>c.puffs);
+ assert.equal(JSON.stringify(g.layout.obstacles),before);assert.ok(all.length>2000&&all.length<6000);assert.ok(low.length<all.length*.3&&low.length>200);assert.deepEqual(canopyLayout(g.layout.obstacles).map(c=>c.puffs.length),cells.map(c=>c.puffs.length));
+ const trees=g.layout.obstacles.filter(o=>o.kind==='tree');
+ for(const c of cells)for(const p of c.puffs){assert.ok(Math.abs(p.x-c.x)<=CANOPY_CELL/2&&Math.abs(p.z-c.z)<=CANOPY_CELL/2);assert.ok(p.color>=0&&p.color<CANOPY_COLORS.length&&p.size>0&&p.flat>0);}
+ for(const p of all.filter((_,i)=>i%7===0))assert.ok(trees.some(t=>Math.hypot(t.x-p.x,t.z-p.z)<3.4&&bloomPathDistance(t)<=16));
+ assert.equal(canopyLayout(g.layout.obstacles.filter(o=>o.kind!=='tree')).length,0);
+ const here={x:3,z:-40},a=sunShaftSpots(here),b=sunShaftSpots({x:4,z:-41});assert.ok(a.length>2&&a.length<=49);assert.ok(sunShaftSpots(here,true).length<=a.length);for(const s of a){assert.ok(s.fade>0&&s.fade<=1);assert.ok(Math.hypot(s.x-here.x,s.z-here.z)<34);}
+ // A step of the heroine must not move the beams she already sees.
+ const shared=a.filter(s=>b.some(t=>t.x===s.x&&t.z===s.z));assert.ok(shared.length>=Math.min(a.length,b.length)-3);
+});
