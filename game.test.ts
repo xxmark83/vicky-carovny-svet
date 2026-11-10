@@ -435,3 +435,14 @@ test('blossom, moss and vines dress only real trees near the trail and sunbeams 
  // A step of the heroine must not move the beams she already sees.
  const shared=a.filter(s=>b.some(t=>t.x===s.x&&t.z===s.z));assert.ok(shared.length>=Math.min(a.length,b.length)-3);
 });
+import {cragLayout,bridgeDress,CRAG_FALLS,CRAG_TONES,BRIDGE_HALF_WIDTH} from './cragLayout.ts';
+import {FOREST_BOUNDS as CRAG_BOUNDS,CASTLE as CRAG_CASTLE,BRIDGE as CRAG_BRIDGE} from './valleyLayout.ts';
+test('the castle crag and its waterfalls stand beyond the walkable world and the bridge keeps its full width',()=>{
+ const g=new Game(),crags=cragLayout();assert.ok(crags.length>40&&crags.length<70);assert.deepEqual(cragLayout(),crags);
+ for(const c of crags){assert.ok(c.z+c.d*.62<CRAG_BOUNDS.minZ);assert.ok(!g.canMove({x:c.x,z:c.z}));assert.ok(c.tone>=0&&c.tone<CRAG_TONES.length&&c.h>4);}
+ assert.equal(CRAG_FALLS.length,2);for(const f of CRAG_FALLS){assert.ok(f.z<CRAG_BOUNDS.minZ&&!g.canMove({x:f.x,z:f.z}));assert.ok(Math.abs(f.x-CRAG_CASTLE.x)>25);assert.ok(crags.every(c=>c.z<f.z-1||Math.abs(c.x-f.x)>f.width*.5+3.5));}
+ assert.ok(crags.some(c=>c.h>30));
+ const d=bridgeDress();assert.equal(d.lamps.length,4);assert.equal(d.arches.length,3);for(const s of d.stones)assert.ok(Math.abs(s.x-CRAG_BRIDGE.x)-s.w*.62>=4.9);for(const l of d.lamps)assert.ok(Math.abs(l.x-CRAG_BRIDGE.x)>BRIDGE_HALF_WIDTH);for(const a of d.arches)assert.ok(a.y+a.radius<d.y+.2);
+ // The deck is exactly as walkable as before the stone was added.
+ for(let dx=-4;dx<=4;dx+=2)for(let dz=-9;dz<=9;dz+=3)assert.ok(g.canMove({x:CRAG_BRIDGE.x+dx,z:CRAG_BRIDGE.z+dz}));
+});

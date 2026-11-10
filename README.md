@@ -186,3 +186,13 @@ Další krok k pohádkové předloze, jen v Kouzelném lese. Vše je ozdoba: kol
 `npm test` ověřuje 136 scénářů. V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět květy v korunách, záře a sloupek světla diamantu a úsporná grafika; konzole bez chyb. Paprsky byly napoprvé příliš silné a zakrývaly výhled, proto jsou teď velmi jemné – po ztlumení jsem je na snímku spolehlivě nerozeznal. Neověřeno: jiskry meče a pokladu, mech a popínavky zblízka, rychlost (měření FPS se nenačetlo), mobilní šířka a skutečný telefon.
 
 Z předlohy dál chybí: členitější terén, oblé postavy, nové modely stromů, zámek na skále s vodopády a kamenný most, odlesky na vodě.
+
+## Zámek na skále a kamenný most 3.9.0
+
+Jen Kouzelný les. Vše je ozdoba: kolize, terén, příběh, souboje ani uložené hry se nemění.
+
+- **Skalní stěna za zámkem**: za Auriho zámkem se zvedá rozeklaná skála se zelenými čepicemi a dvěma vodopády s mlhou u paty. Stojí celá za hranicí světa, kam se nedá dojít.
+- **Praporky**: na pěti věžích zámku vlají růžové a zlaté praporky.
+- **Kamenný most**: most přes rokli má po stranách kamenné zídky, pod mostovkou tři kamenné oblouky a v rozích čtyři lucerny se září. Dřevěná mostovka i zábradlí zůstaly, šířka pro chůzi je stejná.
+
+`npm test` ověřuje 137 scénářů. V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět skála s oběma vodopády z letu, vodopád ze země, kamenné zídky a lucerny mostu; konzole bez chyb. Na stolním počítači v panelu prohlížeče ukázalo měření u mostu 81 FPS při 347 voláních vykreslení a 1,7 milionu trojúhelníků – to nic neříká o telefonu. Neověřeno: praporky a oblouky pod mostem jsem na snímcích nerozeznal, mlha u vodopádů zblízka, mobilní šířka a skutečný telefon. Stávající čtyři vodopády v údolí, vesnička a model zámku se neměnily.
