@@ -111,3 +111,22 @@
 .child-hud .tools{background:#203f34dd;border-radius:17px;border:1px solid #e0dfa95c}
 @media(max-width:600px){.child-hud .health-card{padding:4px 7px 4px 4px;gap:5px}.child-hud .counters{padding:8px 9px;gap:9px}.child-hud .health-card .hearts{gap:1px}.child-hud .health-card .hearts svg{width:14px;height:14px}.child-hud .avatar{width:31px;height:31px}.child-hud .tools button{width:44px;height:44px}}
 @media(prefers-reduced-motion:reduce){.cue-hit,.cinema-caption,.game-message{animation:none!important;transition:none!important}}
+
+/* Kamarádi: album and the new-friend toast */
+.friends-menu b{display:inline-block;vertical-align:middle;line-height:1.2;margin-left:6px;padding:2px 8px;border-radius:10px;background:#326e3f;color:#fff5b6;font-size:.85em}
+.album-backdrop{z-index:30}.album-modal{max-width:560px}
+.album-grid{list-style:none;margin:18px 0 12px;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.album-grid li{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 8px;border-radius:16px;background:#fff8d81f;border:2px solid #d2e99833;color:#fff5b6;font:800 11px 'Trebuchet MS',sans-serif;text-align:center;min-height:86px}
+.album-grid .album-icon{font-size:36px;line-height:1.1}
+.album-grid .found{background:#fff8d83d;border-color:#ffe48f}
+.album-grid .missing{border-style:dashed}.album-grid .missing .album-icon{filter:brightness(0);opacity:.28}.album-grid .missing b{font-size:16px;opacity:.7}
+.album-grid small{position:absolute;top:4px;right:6px;font-size:9px;color:#eaf2c7;opacity:.85}
+.friend-toast{position:absolute;top:calc(env(safe-area-inset-top,0px) + 118px);left:50%;transform:translateX(-50%);z-index:24;display:flex;align-items:center;gap:12px;padding:8px 16px 8px 10px;border-radius:26px;background:#fff6cf;color:#326e3f;border:3px solid #ffd96b;box-shadow:0 6px 0 #c9973a66;font-family:'Trebuchet MS',sans-serif;pointer-events:none;animation:friend-pop .55s cubic-bezier(.3,1.7,.5,1) both}
+.friend-toast>span{font-size:38px;line-height:1;animation:friend-wiggle 1.1s ease-in-out infinite}
+.friend-toast small{display:block;font-size:9px;font-weight:800;letter-spacing:1.6px;color:#b9772a}.friend-toast b{font-size:17px;white-space:nowrap}
+.friend-toast i{font-style:normal;font-weight:800;font-size:12px;padding:4px 9px;border-radius:12px;background:#326e3f;color:#fff5b6}
+@keyframes friend-pop{from{transform:translateX(-50%) scale(.3);opacity:0}to{transform:translateX(-50%) scale(1);opacity:1}}
+@keyframes friend-wiggle{0%,100%{transform:rotate(-9deg)}50%{transform:rotate(9deg)}}
+@media(max-width:560px){.album-grid{grid-template-columns:repeat(4,1fr);gap:7px}.album-grid .album-icon{font-size:30px}}
+@media(max-height:500px){.friend-toast{top:calc(env(safe-area-inset-top,0px) + 62px);padding:4px 12px 4px 8px}.friend-toast>span{font-size:28px}.friend-toast b{font-size:14px}.album-grid li{min-height:64px;padding:6px 4px}.album-grid .album-icon{font-size:26px}}
+@media(prefers-reduced-motion:reduce){.friend-toast,.friend-toast>span{animation:none}}

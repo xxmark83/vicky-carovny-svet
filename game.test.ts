@@ -317,3 +317,29 @@ test('hurt grace preserves health during a readable recovery interval',()=>{cons
 test('full-valley detail reaches the castle while leaving water and bridge clear',()=>{
  const {stones,plants}=forestLookLayout();assert.ok(stones.some(p=>p.z<-440));assert.ok(plants.some(p=>p.z<-440));for(const p of [...stones,...plants]){assert.equal(valleyWaterSurface(p),undefined);assert.ok(Math.abs(p.z-BRIDGE.z)>=12);}
 });
+import {Friends,FRIEND_CAST,FOREST_FRIENDS,friendId,validateFriends,meadowVisitor,visitorSpot} from './friends.ts';
+import {attackCrowd} from './population.ts';
+import {inBuildLot as lotContains} from './building.ts';
+test('a freed animal becomes a lasting friend and only the first of its kind is announced',()=>{
+ const g=new Game();g.friends=new Friends();g.mode='playing';const [first,second]=g.crowd.filter(e=>!e.air&&e.kind===4);
+ for(const e of [first,second]){Object.assign(e,{x:g.player.x+1,z:g.player.z});}
+ const voice=g.voiceHintId;attackCrowd(g,3,5);
+ assert.equal(first.hp,0);assert.ok(g.friends.has(4));assert.equal(g.friends.size,1);assert.equal(g.newFriend?.id,4);assert.equal(g.voiceHintId,voice+1);assert.match(g.voiceHint,/Ovečka/);
+ if(second.hp>0)attackCrowd(g,3,5);assert.equal(g.friends.freed[4],2);assert.equal(g.friends.size,1);assert.equal(g.voiceHintId,voice+1);
+});
+test('story animals join the same collection and the story save never carries it',()=>{
+ const g=new Game();g.friends=new Friends();g.mode='playing';const cow=g.enemies[1];g.hitEnemy(cow,99);
+ assert.equal(cow.hp,0);assert.ok(g.friends.has(0));assert.equal(g.friends.size,1);assert.equal('friends' in g.save(),false);
+ const skeleton=g.enemies[3];g.hitEnemy(skeleton,99);assert.equal(g.friends.size,1);
+ const again=new Game();again.friends=g.friends;assert.ok(again.friends.has(0));
+});
+test('desert animals get their own album places and broken saves are ignored',()=>{
+ assert.deepEqual([0,1,2,3,6].map(k=>friendId(k,true)),[7,8,9,3,6]);assert.deepEqual([0,2,6].map(k=>friendId(k,false)),[0,2,6]);assert.equal(FRIEND_CAST.length,10);
+ const f=new Friends();assert.equal(f.add(8),true);assert.equal(f.add(8),false);assert.equal(f.add(99),false);const copy=new Friends(JSON.parse(JSON.stringify(f.save())));assert.deepEqual(copy.freed,f.freed);
+ for(const bad of [null,{version:2,freed:f.freed},{version:1,freed:[1,2]},{version:1,freed:FRIEND_CAST.map(()=>-1)},'x'])assert.equal(validateFriends(bad),false);assert.equal(new Friends({version:1,freed:[1]}).size,0);
+});
+test('meadow friends stroll inside the safe meadow, around the building lot',()=>{
+ const g=new Game();g.friends=new Friends();for(let k=0;k<FOREST_FRIENDS;k++)assert.equal(meadowVisitor(g,k),false);
+ g.friends.add(1);assert.equal(meadowVisitor(g,1),true);assert.equal(meadowVisitor(g,5),false);g.build.place({x:1,y:0,z:1,kind:1});assert.equal(meadowVisitor(g,5),true);g.build.undo();
+ for(let k=0;k<FOREST_FRIENDS;k++)for(let t=0;t<400;t+=1.7){const p=visitorSpot(k,t);assert.ok(distance(p,CREATIVE_MEADOW)<CREATIVE_MEADOW.r);assert.ok(meadowSanctuary(p));assert.equal(lotContains(p),false);}
+});

@@ -18,7 +18,7 @@ function release(g:Game,e:Roamer,amount:number){
  if(e.kind===1&&!e.air&&amount===1){const front=Math.cos(Math.atan2(g.player.x-e.x,g.player.z-e.z)-e.yaw);if(front>.35){amount=.35;e.guard=.5;}else if(front<-.25)amount=2;}
  g.emitSound(e.guard>0?'shield':'impact');
  e.hp=Math.max(0,e.hp-amount);e.hit=.28;e.rush=0;e.stun=.3;e.windup=0;e.cooldown=6;
- if(e.hp===0){e.freed=5;releaseCurse(g,e,e.kind,e.air);g.react('joy',1.5);g.wolfMood='happy';g.wolfMoodTime=1.5;g.burst(e,'#ffd5e8',12);if(e.air)g.particles.slice(-12).forEach(p=>p.y=g.flightPlane+1);g.health=Math.min(5,g.health+.12);g.emitSound('defeat');g.emitSound('animal',g.desert&&e.kind<3?e.kind+7:e.kind);}
+ if(e.hp===0){e.freed=5;releaseCurse(g,e,e.kind,e.air);g.react('joy',1.5);g.wolfMood='happy';g.wolfMoodTime=1.5;g.burst(e,'#ffd5e8',12);if(e.air)g.particles.slice(-12).forEach(p=>p.y=g.flightPlane+1);g.health=Math.min(5,g.health+.12);g.emitSound('defeat');g.emitSound('animal',g.desert&&e.kind<3?e.kind+7:e.kind);g.befriend(e.kind);}
  else{g.burst(e,e.guard>0?'#abd9ee':'#fff0ae',5);if(e.air)g.particles.slice(-5).forEach(p=>p.y=g.flightPlane+1);}
 }
 export function attackCrowd(g:Game,radius:number,amount:number){if(g.inCave)return;g.crowd.filter(e=>!e.air&&e.hp>0&&distance(e,g.player)<radius).sort((a,b)=>distance(a,g.player)-distance(b,g.player)).slice(0,amount===1?2:12).forEach(e=>release(g,e,amount));}

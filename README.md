@@ -86,3 +86,14 @@ Dětská testovací verze zůstává na **WebGL2**. `qa/engine-check.html` je sa
 `qa/playtest.html?qa=1` nabízí místní kontrolní stanoviště bez změn skutečných uložených her. Obě QA stránky jsou určeny vývojovému serveru a nejsou produkčními vstupními stránkami. `?qa=1` v hlavní hře zapíná pouze opt-in textový výpis FPS a počtů vykreslení. Běžná dětská adresa jej neobsahuje.
 
 Cílová mobilní rychlost je stabilních 30 FPS; skutečný iPhone/iPad se Safari a delší zahřívání musí potvrdit test na zařízení. Responzivní náhled na stolním Chrome není náhradou tohoto měření. Po této verzi se mají řešit chyby a zkušenosti z dětského hraní, nikoli přidávat další povinné úkoly.
+
+## Kamarádi 3.2.0
+
+Každé osvobozené zvířátko zůstává natrvalo kamarádem. Sbírka má deset míst: sedm lesních zvířátek a tři pouštní (velbloud, pouštní liška, skarabeus). Ukládá se samostatně pod `vikousek-friends-v1`, takže ji nesmaže dokončení příběhu, restart levelu ani nové dobrodružství.
+
+- První osvobození každého druhu ohlásí cedulka „Nový kamarád" a český hlas. Další zvířátka téhož druhu jen zvyšují počet v albu.
+- Album Kamarádi je v hlavním menu i v pauze. Chybějící kamarádi jsou vidět jako siluety s otazníkem.
+- Lesní kamarádi se trvale procházejí po tvořivé louce kolem stavební plochy. Dřívější tři návštěvníci stavby (zajíček, ovečka, kočička) přicházejí k postavené stavbě stejně jako dříve.
+- Pouštní kamarádi jsou zatím jen v albu; na louku nechodí.
+
+Příběh, souboje, počty obyvatel ani uložené hry se nemění. `npm test` ověřuje 126 scénářů. Cedulka byla v prohlížeči ověřena přímým voláním herní logiky, ne skutečným soubojem; hraní dítětem na telefonu zůstává nutné.

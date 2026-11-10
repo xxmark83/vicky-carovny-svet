@@ -11,6 +11,8 @@ import type {LevelId} from './levelConfig';
 import {standingHeight} from './terrain';
 import {DESERT_PATH,DESERT_GEMS,DESERT_SHRINES,DESERT_CHEST,DESERT_HOMES,DESERT_HEALS,DESERT_ROOTS,DESERT_RINGS,DESERT_SCENES,DESERT_STORIES,DESERT_ZONES,DESERT_SECRET,DESERT_OBSTACLES,desertHeight,desertBlocked} from './desert';
 import {CreativeBuild,meadowSanctuary} from './building';
+import {SHARED_FRIENDS,FRIEND_CAST,friendId} from './friends';
+import type {Friends} from './friends';
 import {CREATIVE_MEADOW} from './map';
 import {newGuide,updateGuidance} from './guidance';
 import {updateMoments,revealPassage,releaseCurse,momentSanctuary} from './moments';
@@ -59,6 +61,9 @@ export class Game {
  get layout(){return this.desert?{path:DESERT_PATH,gems:DESERT_GEMS,shrines:DESERT_SHRINES,chest:DESERT_CHEST,homes:DESERT_HOMES,heals:DESERT_HEALS,roots:DESERT_ROOTS,rings:DESERT_RINGS,scenes:DESERT_SCENES,stories:DESERT_STORIES,zones:DESERT_ZONES,obstacles:DESERT_OBSTACLES}:{path:PATH,gems:GEMS,shrines:SHRINES,chest:CHEST,homes:ENEMY_HOMES,heals:HEALS,roots:ROOTS,rings:FLIGHT_RINGS,scenes:SCENES,stories:SHRINE_STORIES,zones:['Světlušková mýtina','Háje starých dubů','Stříbrný potok','Šeptající les','Zahrada pokladů'],obstacles:OBSTACLES};}
  standing(p:Vec){return this.desert?desertHeight(p):standingHeight(p);}
 
+ friends:Friends=SHARED_FRIENDS;newFriend:{id:number;until:number}|null=null;
+ // A freed animal joins the lasting collection; only the first of its kind is announced.
+ befriend(kind:number){const id=friendId(kind,this.desert);if(!this.friends.add(id))return false;this.newFriend={id,until:this.elapsed+6};this.voiceHint=`Nový kamarád! ${FRIEND_CAST[id].name}.`;this.voiceHintId++;this.revision++;return true;}
  build=new CreativeBuild();buildReturn:{mode:Mode;player:Game['player'];wolf:Game['wolf'];yaw:number;pitch:number}|null=null;
  enterBuild(){if(this.desert)return false;if(this.mode!=='menu'&&(this.mode!=='playing'||this.flying||this.landing||this.inCave||distance(this.player,CREATIVE_MEADOW)>20))return false;this.buildReturn={mode:this.mode,player:{...this.player},wolf:{...this.wolf},yaw:this.cameraYaw,pitch:this.cameraPitch};this.cancelSword();this.attackTime=0;this.velocity={x:0,z:0};this.walking=false;this.player={...this.player,x:-17,z:14,y:0,vy:0,yaw:-Math.PI/2};this.wolf={x:-17,z:17,yaw:-Math.PI/2};this.cameraYaw=0;this.mode='building';this.build.hover=null;return true;}
  leaveBuild(){const back=this.buildReturn;if(!back)return;this.mode=back.mode;this.player=back.player;this.wolf=back.wolf;this.cameraYaw=back.yaw;this.cameraPitch=back.pitch;this.build.hover=null;this.buildReturn=null;this.ensureBuildExit();}
@@ -98,7 +103,7 @@ export class Game {
   this.emitSound(e.guard>0?'shield':'impact');
   e.hp=Math.max(e.type===2&&this.bossPhase===1?e.maxHp/2:0,e.hp-amount);e.hit=.3;if(e.type!==2||e.hp===0){e.windup=0;e.cooldown=1.2;}if(e.type!==2){const a=Math.atan2(e.x-this.player.x,e.z-this.player.z);this.move(e,Math.sin(a)*.35,Math.cos(a)*.35);}
   if(e.type===2&&e.hp>0&&e.hp<=e.maxHp/2&&this.bossPhase===1){this.bossPhase=2;this.roots.forEach(r=>r.hp=2);e.windup=0;e.cooldown=2;this.say(this.desert?'Auri: Tři sluneční pečeti drží štít! Rozbij je zlatým mečem.':'Auri: Strážce se ukryl za kořeny! Rozbij všechny tři zlatým mečem. Vlk ti ukáže bezpečné místo.','boss');this.messageUntil=this.elapsed+8;}
-  this.burst(e,e.type===2?'#f5cf71':'#c4a5ff',e.hp===0?22:8);if(e.hp===0){e.guard=0;e.charge=0;e.impact=0;e.freed=5;releaseCurse(this,e,e.id<12&&e.id%3===1?Math.floor(e.id/3)%3:undefined);this.react('joy',1.6);this.wolfMood='happy';this.wolfMoodTime=1.6;this.say(e.type===2?'Strážce pokladu je svobodný!':'Vikoušek: Kouzlo se rozpadlo! Strážce je opět svobodný.','defeat');this.emitSound('animal',e.id<12&&e.id%3===1?Math.floor(e.id/3)%3+(this.desert?7:0):2);this.health=Math.min(5,this.health+.25);}
+  this.burst(e,e.type===2?'#f5cf71':'#c4a5ff',e.hp===0?22:8);if(e.hp===0){e.guard=0;e.charge=0;e.impact=0;e.freed=5;releaseCurse(this,e,e.id<12&&e.id%3===1?Math.floor(e.id/3)%3:undefined);this.react('joy',1.6);this.wolfMood='happy';this.wolfMoodTime=1.6;this.say(e.type===2?'Strážce pokladu je svobodný!':'Vikoušek: Kouzlo se rozpadlo! Strážce je opět svobodný.','defeat');this.emitSound('animal',e.id<12&&e.id%3===1?Math.floor(e.id/3)%3+(this.desert?7:0):2);if(e.id<12&&e.id%3===1)this.befriend(Math.floor(e.id/3)%3);this.health=Math.min(5,this.health+.25);}
  }
  hitRoot(index:number,amount=1){const r=this.roots[index];if(!r||r.hp<=0)return;r.hp=Math.max(0,r.hp-amount);this.emitSound('root');this.burst(r,'#ffdb8a',14);if(!this.rootsActive){const boss=this.enemies[12];boss.stunned=2.8;boss.cooldown=1.8;boss.windup=0;boss.impact=0;this.say('Vikoušek: Štít zmizel! Teď mávni mečem!','shrine');}}
 
