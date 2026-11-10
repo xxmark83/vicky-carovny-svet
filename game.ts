@@ -28,6 +28,7 @@ import type {Vec} from './map';
 import {groundHeight} from './terrain';
 export * from './map';
 export {groundHeight} from './terrain';
+export const SHAKE:Partial<Record<SoundKind,number>>={impact:.1,gem:.12,chargedShot:.2,charged:.22,land:.25,root:.3,defeat:.35,shrine:.4,win:.5,boss:.6};
 export type Mode = 'menu'|'intro'|'playing'|'paused'|'lost'|'won'|'building';
 export type Input = { x: number; z: number; attack: boolean; jump: boolean; magic: boolean; interact: boolean; attackTap?:boolean; attackCancel?:boolean; jumpTap?:boolean; magicTap?:boolean; rise?:boolean; fall?:boolean; turn?:number; tilt?:number };
 export type Enemy = Vec & { id:number; home:Vec; hp:number; maxHp:number; type:number; gait:number; cooldown:number; windup:number; windupMax:number; attackKind:'strike'|'wave'|'charge'|'bolt'; aim:Vec;charge:number;guard:number;stunned:number; cycle:number; impact:number; hit:number; freed:number; yaw:number };
@@ -92,7 +93,9 @@ export class Game {
  get defeated(){return this.enemies.filter(e=>e.hp<=0).length;}
  get ready(){return this.gems.size===10 && this.shrines.size===3 && this.defeated===13;}
  soundQueue=new SoundQueue();
- emitSound(kind:SoundKind,animal?:number){this.soundEvent=kind;this.eventId++;this.soundQueue.emit(kind,animal);}
+ shake=0;
+ // Camera kick strength for the moments that should be felt, not only heard.
+ emitSound(kind:SoundKind,animal?:number){this.shake=Math.max(this.shake,SHAKE[kind]??0);this.soundEvent=kind;this.eventId++;this.soundQueue.emit(kind,animal);}
  say(message:string,sound:SoundKind|''=''){this.message=message;this.messageUntil=this.elapsed+4;if(sound)this.emitSound(sound);if(milestoneSpeech(sound,this.gems.size)){this.voiceHint=message;this.voiceHintId++;}this.revision++;}
  burst(p:Vec,color:string,count=18){for(let i=0;i<count;i++){const a=Math.random()*Math.PI*2,s=1+Math.random()*3,life=.6+Math.random()*.6;this.particles.push({...p,y:this.floor(p)+.5,vx:Math.cos(a)*s,vz:Math.sin(a)*s,vy:2+Math.random()*4,life,max:life,color,size:.08+Math.random()*.15});}if(this.particles.length>160)this.particles.splice(0,this.particles.length-160);}
  canMove(p:Vec){if(this.inCave)return p.x>=9&&p.x<=25&&p.z>=-62&&p.z<=-45;if(p.x<this.bounds.minX||p.x>this.bounds.maxX||p.z>this.bounds.maxZ||p.z<this.bounds.minZ)return false;if(!this.desert&&Math.abs(p.z-BRIDGE.z)<7&&Math.abs(p.x-BRIDGE.x)>5.3)return false;return (this.desert||valleyWaterSurface(p)===undefined||!!onValleyFootbridge(p))&&!(this.desert?desertBlocked(p):obstacleBlocked(p))&&(this.desert||!this.build.blocksWalking(p));}
@@ -133,7 +136,7 @@ export class Game {
  this.layout.rings.forEach((r,i)=>{if(!this.flightRings.has(i)&&Math.hypot(this.player.x-r.x,this.player.z-r.z,this.flightY+1-r.y)<3){this.flightRings.add(i);this.say(this.flightRings.size===3?'Vikoušek: Všechny tři oblouky! Mám zlatou letovou jiskru.':`Vikoušek: Kouzelný oblouk ${this.flightRings.size} z 3!`,'ring');}});}}
  this.animateParticles(dt);
  }
- animateParticles(dt:number){for(const p of this.particles){p.life-=dt;p.x+=p.vx*dt;p.z+=p.vz*dt;p.y+=p.vy*dt;p.vy-=(p.gravity??7)*dt;}this.particles=this.particles.filter(p=>p.life>0);}
+ animateParticles(dt:number){this.shake=Math.max(0,this.shake-dt*2.4);for(const p of this.particles){p.life-=dt;p.x+=p.vx*dt;p.z+=p.vz*dt;p.y+=p.vy*dt;p.vy-=(p.gravity??7)*dt;}this.particles=this.particles.filter(p=>p.life>0);}
  continue(){this.guide=newGuide();this.auriLanding=null;this.passageReveal=0;this.shrinePulse=[0,0,0];this.cancelSword();this.attackTime=0;this.attackCooldown=0;this.crowdAttacks=[];this.inCave=false;this.projectiles=[];this.swordBalls=[];this.landingGoal=null;this.wolfPath=[];this.flying=false;this.landing=false;this.health=5;this.velocity={x:0,z:0};this.hurtFlash=0;this.player={...this.player,...this.checkpoint,y:0,vy:0};this.wolf.x=this.player.x-2;this.wolf.z=this.player.z+2;this.invulnerable=3;this.enemies.forEach(e=>{if(e.hp>0){e.x=e.home.x;e.z=e.home.z;e.windup=0;e.impact=0;e.cycle=0;e.cooldown=2;e.charge=0;e.stunned=0;e.guard=0;e.hit=0;}});this.ensureBuildExit();this.heroSpeed=0;this.mode='playing';this.say('Vlk tě hlídá. Diamanty i oslabená kouzla zůstaly!','heal');}
  toggleFlight(){if(this.mode!=='playing'||this.landing)return;if(this.inCave){this.say('Nejdřív vyjdeme z jeskyně.');return;}this.cancelSword();this.crowdAttacks=[];this.swordBalls=[];if(this.flying){let goal:Vec={x:this.player.x,z:this.player.z};if(!this.canMove(goal)||!this.desert&&this.build.blocksColumn(goal)){let free:Vec|undefined;for(let r=.5;r<=12&&!free;r+=.5)for(let a=0;a<24;a++){const p={x:goal.x+Math.sin(a*Math.PI/12)*r,z:goal.z+Math.cos(a*Math.PI/12)*r};if(this.canMove(p)&&(this.desert||!this.build.blocksColumn(p))){free=p;break;}}if(!free){this.say('Popoleťme kousek dál nad mýtinu.');return;}goal=free;}this.landingGoal=goal;this.flying=false;this.landing=true;this.velocity={x:0,z:0};this.say('Vikoušek: Vlku, už jdu!');}else{this.flying=true;this.landing=false;this.flightY=this.floor(this.player)+this.player.y;this.flightTargetY=this.flightPlane;this.invulnerable=3;this.say('Vikoušek: Letíme! Meč teď střílí zlaté koule.','takeoff');}}
 

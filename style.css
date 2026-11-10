@@ -142,3 +142,21 @@
 .friend-toast em .cube-swatch{width:24px;height:24px;font-size:14px}
 .album-gift{margin-top:10px;padding:9px 12px;border-radius:14px;background:#fff8d82e;color:#fff5b6;font:800 12px 'Trebuchet MS',sans-serif;text-align:center}
 @media(prefers-reduced-motion:reduce){.build-palette .gift-teaser .cube-swatch{animation:none}}
+
+/* Fast start: a big play-now button on the film and picture cards instead of a wall of text */
+.cinema-top .skip-film{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:10px 20px;border-radius:26px;border:3px solid #fff6cf;background:#f29fc4;color:#fff;font:800 16px 'Trebuchet MS',sans-serif;box-shadow:0 5px 0 #b9628a;cursor:pointer}
+.how.film{margin-left:8px}
+.help-cards{list-style:none;margin:16px 0 10px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.help-cards li{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border-radius:18px;background:#fff8d83d;border:2px solid #ffe48f;color:#fff5b6;font:800 12px 'Trebuchet MS',sans-serif;text-align:center;line-height:1.25}
+.help-cards span{font-size:38px;line-height:1}
+.help-tip{margin:0 0 12px;padding:9px 12px;border-radius:14px;background:#fff8d82e;color:#fff5b6;font:800 13px 'Trebuchet MS',sans-serif;text-align:center}
+.more-help{margin:0 0 14px;text-align:left}.more-help summary{cursor:pointer;padding:9px 12px;border-radius:12px;background:#0000001f;color:#d9e1c1;font:700 12px 'Trebuchet MS',sans-serif;min-height:24px}
+.more-help[open] summary{margin-bottom:10px}
+@media(max-width:560px){.help-cards{grid-template-columns:repeat(2,1fr)}.help-cards span{font-size:32px}}
+@media(max-height:500px){.help-cards{grid-template-columns:repeat(4,1fr);margin:8px 0}.help-cards li{padding:6px 4px;font-size:10px}.help-cards span{font-size:24px}.cinema-top .skip-film{min-height:44px;padding:6px 14px;font-size:14px}}
+
+/* Touch: the whole lower-left corner starts the joystick; the ring follows the thumb */
+.joy-zone{display:none}
+.joystick{position:relative;z-index:1}
+.joystick.floating{background:#1b4a3b66;border-color:#fff3b0}
+@media(pointer:coarse){.joy-zone{display:block;position:fixed;left:0;bottom:0;width:40vw;height:44vh;height:44dvh;touch-action:none;pointer-events:auto;z-index:0}}

@@ -361,3 +361,15 @@ test('the first new friend announces its gift cube and the desert treasure unloc
  const d=new Game(undefined,'desert');d.friends=new Friends();d.mode='playing';d.enemies.forEach(e=>e.hp=0);d.layout.gems.forEach((_,i)=>d.gems.add(i));[0,1,2].forEach(i=>d.shrines.add(i));Object.assign(d.player,d.layout.chest);d.interact();
  assert.equal(d.mode,'won');assert.equal(d.build.sunUnlocked,true);assert.equal(d.build.starUnlocked,false);
 });
+import {introSeen,markIntroSeen} from './levelConfig.ts';
+import {SHAKE,segmentDistance} from './game.ts';
+test('the film is remembered per world and its last shot stands clear of tree crowns',()=>{
+ assert.equal(introSeen(null,'forest'),false);const a=markIntroSeen(null,'forest');assert.equal(introSeen(a,'forest'),true);assert.equal(introSeen(a,'desert'),false);
+ const b=markIntroSeen(a,'desert');assert.equal(introSeen(b,'forest'),true);assert.equal(introSeen(b,'desert'),true);assert.equal(markIntroSeen(b,'desert'),b);assert.equal(markIntroSeen('junk,forest','forest'),'forest');
+ const cam=introCameraAt(60),hero=introHeroAt(60),c={x:cam.position[0],z:cam.position[2]},h={x:hero.position[0],z:hero.position[2]};
+ for(const o of OBSTACLES.filter(o=>o.kind==='tree'))assert.ok(distance(o,c)>4.5);for(const o of OBSTACLES)assert.ok(segmentDistance(o,c,h)>2);assert.ok(distance(c,h)>6&&distance(c,h)<14);
+});
+test('felt moments kick the camera and the kick always settles',()=>{
+ const g=new Game();g.mode='playing';assert.equal(g.shake,0);g.emitSound('swing');assert.equal(g.shake,0);g.emitSound('gem');assert.equal(g.shake,SHAKE.gem);g.emitSound('defeat');g.emitSound('gem');assert.equal(g.shake,SHAKE.defeat);
+ for(let i=0;i<30;i++)g.update(.05,idle());assert.equal(g.shake,0);for(const v of Object.values(SHAKE))assert.ok(v>0&&v<=.6);
+});

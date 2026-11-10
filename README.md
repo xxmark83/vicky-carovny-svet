@@ -118,4 +118,22 @@ Kamarádi nosí na tvořivou louku nové kostky, takže dobrodružství přímo 
 - Na telefonu má paleta šest kostek v řadě, nejvýše dvě řady.
 - Sluneční kostka se odemkne i hráčům, kteří poušť dokončili dříve. Dříve uložené stavby zůstávají platné.
 
-`npm test` ověřuje 128 scénářů. Paleta byla v prohlížeči zkontrolována na počítači a v mobilní šířce na výšku i na šířku s předvyplněnou sbírkou; skutečný telefon a hraní dítětem zůstávají nutné.
+Verze 3.3.0 ověřovala 128 scénářů. Paleta byla v prohlížeči zkontrolována na počítači a v mobilní šířce na výšku i na šířku s předvyplněnou sbírkou; skutečný telefon a hraní dítětem zůstávají nutné.
+
+## Rychlý start, dotykové ovládání a otřesy 3.4.0
+
+**Rychlý start**
+- Tlačítko „Hrát hned" na úvodním filmu spustí hru okamžitě, bez mezikroku „Připravená?".
+- Úvodní film se přehraje jen při první návštěvě každého světa (`vikousek-intro-seen-v1`). Další nové hry začínají rovnou hraním; film je dál dostupný tlačítkem „Úvodní film" v menu.
+- Když film doběhne sám, dál čeká na tlačítko Hrát. Jeho poslední záběr stál 2,6 m od dvou kmenů uvnitř korun; nový stojí na cestě s 5 m volného místa.
+- Návod začíná čtyřmi obrázkovými kartami a jednou radou. Původní podrobný text a klávesy zůstaly pod „Podrobný návod pro rodiče".
+
+**Dotykové ovládání**
+- Na dotykových zařízeních spouští joystick celý levý dolní roh (40 % šířky, 44 % výšky). Kroužek se objeví pod palcem a následuje ho, když palec ujede. Na počítači s myší se nic nemění.
+- Telefony s podporou vibrací (Android) krátce zavibrují při zásahu, zranění, diamantu, osvobození, svatyni a výhře. iOS Safari vibrace nepodporuje.
+
+**Dojem ze hry**
+- Kamera se krátce zachvěje při osvobození, silném úderu, rozbití kořene, svatyni, proměně strážce, výhře, dopadu a jemně při diamantu. Otřes vždy do půl sekundy odezní.
+- Otřesy i vibrace se vypnou, když má zařízení zapnuté omezení pohybu.
+
+`npm test` ověřuje 130 scénářů. V prohlížeči byl ověřen návod, okamžitý start, druhý start bez filmu a plovoucí joystick simulovaným dotykem v mobilní šířce. Otřes kamery, vibrace a skutečný dotyk na telefonu ověřeny nebyly.

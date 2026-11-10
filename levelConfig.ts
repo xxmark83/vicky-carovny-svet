@@ -5,5 +5,9 @@ export const DESERT_LEVEL:LevelPresentation={id:'desert',number:2,title:'Zlatá 
 export const levelInfo=(id:LevelId)=>id==='desert'?DESERT_LEVEL:FOREST_LEVEL;
 export const storySaveKey=(id:LevelId)=>id==='desert'?'vicky-desert-save-v1':'vicky-forest-save-v1';
 export const DEFAULT_PREFERENCES={sound:true,music:true,quality:'high' as 'high'|'low',volume:.5};
+// The minute-long film plays on the first visit to a world; later starts go straight to play.
+export const INTRO_SEEN_SAVE='vikousek-intro-seen-v1';
+export function introSeen(raw:string|null,level:LevelId){return (raw??'').split(',').includes(level);}
+export function markIntroSeen(raw:string|null,level:LevelId){return [...new Set([...(raw??'').split(',').filter(v=>v==='forest'||v==='desert'),level])].join(',');}
 export const REWARD_SAVE='vicky-forest-reward-v1';
 export const DESERT_REWARD_SAVE='vicky-desert-reward-v1';
