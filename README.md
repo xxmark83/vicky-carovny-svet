@@ -137,3 +137,14 @@ Verze 3.3.0 ověřovala 128 scénářů. Paleta byla v prohlížeči zkontrolov�
 - Otřesy i vibrace se vypnou, když má zařízení zapnuté omezení pohybu.
 
 `npm test` ověřuje 130 scénářů. V prohlížeči byl ověřen návod, okamžitý start, druhý start bez filmu a plovoucí joystick simulovaným dotykem v mobilní šířce. Otřes kamery, vibrace a skutečný dotyk na telefonu ověřeny nebyly.
+
+## Počasí a atmosféra 3.5.0
+
+Les teď žije počasím. Vše je jen ozdoba: kolize, příběh, souboje ani uložené hry se nemění.
+
+- **Jemný déšť** padá jen pod nejtěžšími mraky, asi minutu z každých pěti. Poprvé zhruba po minutě a čtvrt hraní. Neprší v poušti, v jeskyni, v menu, v úvodním filmu ani na tvořivé louce. K dešti patří tichý šum.
+- **Duha** se objeví nad cestou před Vikouškem, když se déšť vyčasí a svítí slunce, a zůstane necelou minutu. Po výhře se malá duha vždy rozklene nad pokladem.
+- **Večerní světlušky**: za denního světla poletuje kolem hrdinky šedesát světýlek jako dřív; za šera jich přibude čtyřicet, zvětší se a dostanou měkkou zář. Platí i v poušti.
+- Na slabších zařízeních padá méně než polovina kapek.
+
+`npm test` ověřuje 132 scénářů. V prohlížeči na počítači byl na stránce `qa/playtest.html` s ručně posunutým herním časem vidět déšť, duha nad lesem, světlušky za šera, malá duha nad pokladem a poušť bez deště. Neověřeno: zvuk deště poslechem, mobilní šířka na výšku, rychlost na skutečném telefonu a přirozený průběh počasí při běžném hraní bez posunu času.

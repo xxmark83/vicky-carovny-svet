@@ -4,3 +4,10 @@ export function weatherAt(time:number){const phase=(time%360)/360,angle=phase*Ma
 export function weatherForWorld(g:{mode:string;elapsed:number;introTime:number;portalTime:number;level?:string}){const base=weatherAt((g.mode==='intro'?g.introTime*.9:g.elapsed)+(g.level==='forest'?45:0));if(g.mode!=='won')return base;const p=Math.min(1,Math.max(0,g.portalTime/3)),clear={...weatherAt(60),overcast:0,intensity:3.6,sky:'#acdff3',sun:'#fff2bf'};
  const blendColor=(a:string,b:string)=>{const av=parseInt(a.slice(1),16),bv=parseInt(b.slice(1),16);return '#'+[16,8,0].map(shift=>Math.round(((av>>shift)&255)*(1-p)+((bv>>shift)&255)*p).toString(16).padStart(2,'0')).join('');};
  return {...base,daylight:base.daylight+(clear.daylight-base.daylight)*p,overcast:base.overcast*(1-p),intensity:base.intensity+(clear.intensity-base.intensity)*p,sunX:base.sunX+(clear.sunX-base.sunX)*p,sunY:base.sunY+(clear.sunY-base.sunY)*p,sky:blendColor(base.sky,clear.sky),sun:blendColor(base.sun,clear.sun)};}
+// 3.5.0 atmosphere: a gentle shower under the heaviest cloud, a rainbow while it clears, fireflies in low light.
+const ramp=(v:number)=>{const x=Math.min(1,Math.max(0,v));return x*x*(3-2*x);};
+export const RAINBOW_LAG=40;
+export function rainAt(time:number){return ramp((weatherAt(time).overcast-.8)/.15);}
+export function atmosphereAt(time:number){const w=weatherAt(time),rain=rainAt(time);return {rain,rainbow:(1-rain)*rainAt(time-RAINBOW_LAG)*ramp((w.daylight-.15)/.25),glow:ramp((.5-w.daylight)/.3)};}
+// Rain belongs to the open forest only: never in the desert, the cave, the menu or the building meadow. Victory always ends with a rainbow.
+export function atmosphereForWorld(g:{mode:string;elapsed:number;introTime:number;portalTime:number;level?:string;inCave?:boolean}){const base=atmosphereAt((g.mode==='intro'?g.introTime*.9:g.elapsed)+(g.level==='forest'?45:0));const open=g.level!=='desert'&&!g.inCave,wet=open&&(g.mode==='playing'||g.mode==='paused'||g.mode==='won');const p=g.mode==='won'?Math.min(1,Math.max(0,g.portalTime/3)):0;return {rain:wet?base.rain*(1-p):0,rainbow:open?Math.max(wet?base.rainbow:0,p):0,glow:g.inCave?0:base.glow*(1-p)};}

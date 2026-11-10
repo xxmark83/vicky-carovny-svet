@@ -373,3 +373,20 @@ test('felt moments kick the camera and the kick always settles',()=>{
  const g=new Game();g.mode='playing';assert.equal(g.shake,0);g.emitSound('swing');assert.equal(g.shake,0);g.emitSound('gem');assert.equal(g.shake,SHAKE.gem);g.emitSound('defeat');g.emitSound('gem');assert.equal(g.shake,SHAKE.defeat);
  for(let i=0;i<30;i++)g.update(.05,idle());assert.equal(g.shake,0);for(const v of Object.values(SHAKE))assert.ok(v>0&&v<=.6);
 });
+import {atmosphereAt,atmosphereForWorld,rainAt,RAINBOW_LAG} from './weather.ts';
+test('gentle rain falls only under the heaviest cloud and a rainbow follows while it clears',()=>{
+ const samples=Array.from({length:1300},(_,t)=>({t,w:weatherAt(t),a:atmosphereAt(t)}));
+ for(const {w,a} of samples){for(const v of [a.rain,a.rainbow,a.glow])assert.ok(v>=0&&v<=1);if(w.overcast<.8)assert.equal(a.rain,0);if(a.rainbow>.05)assert.ok(a.rain<.95&&w.daylight>.15);if(a.glow>.5)assert.ok(w.daylight<.4);if(w.daylight>.5)assert.equal(a.glow,0);}
+ for(let i=1;i<samples.length;i++)for(const k of ['rain','rainbow','glow'] as const)assert.ok(Math.abs(samples[i].a[k]-samples[i-1].a[k])<.12);
+ const rainy=samples.filter(s=>s.a.rain>.05).length/samples.length;assert.ok(rainy>.1&&rainy<.3);assert.ok(samples.some(s=>s.a.rain===1));assert.ok(samples.some(s=>s.a.rainbow>.9));assert.ok(samples.some(s=>s.a.glow===1));
+ const first=samples.find(s=>s.a.rainbow>.5)!;assert.ok(rainAt(first.t-RAINBOW_LAG)>.5&&first.a.rain<.5);
+});
+test('rain stays out of the desert, cave, menu and building meadow, and victory ends with a rainbow',()=>{
+ const wet=Array.from({length:400},(_,t)=>t).find(t=>atmosphereAt(t+45).rain===1)!,dusk=Array.from({length:400},(_,t)=>t).find(t=>atmosphereAt(t+45).glow===1)!;
+ const g=new Game();g.mode='playing';g.elapsed=wet;assert.equal(atmosphereForWorld(g).rain,1);const before=g.save(),walkable=g.canMove(g.player);
+ for(const mode of ['menu','building','intro'] as const){g.mode=mode;assert.equal(atmosphereForWorld(g).rain,0);}g.mode='paused';assert.equal(atmosphereForWorld(g).rain,1);
+ g.mode='playing';g.inCave=true;assert.deepEqual(atmosphereForWorld(g),{rain:0,rainbow:0,glow:0});g.inCave=false;
+ g.mode='won';g.portalTime=0;assert.equal(atmosphereForWorld(g).rain,1);g.portalTime=3;assert.deepEqual(atmosphereForWorld(g),{rain:0,rainbow:1,glow:0});
+ g.mode='playing';g.portalTime=0;assert.deepEqual(g.save(),before);assert.equal(g.canMove(g.player),walkable);
+ const d=new Game(undefined,'desert');d.mode='playing';for(let t=0;t<700;t+=5){d.elapsed=t;const a=atmosphereForWorld(d);assert.equal(a.rain,0);assert.equal(a.rainbow,0);}d.elapsed=dusk+45;assert.equal(atmosphereForWorld(d).glow,1);
+});
