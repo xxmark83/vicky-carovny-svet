@@ -3,7 +3,8 @@ import {useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 import {random} from './game';
 import type {Game} from './game';
-import {atmosphereForWorld} from './weather';
+import {atmosphereForWorld,weatherForWorld} from './weather';
+import {skyGradient} from './ambienceRates';
 // 3.5.0 decoration only: nothing here touches collisions, the story clock or saved games.
 const RAIN_BOX=26,RAIN_HEIGHT=17;
 function Rain({game,low}:{game:Game;low:boolean}){
@@ -12,8 +13,9 @@ function Rain({game,low}:{game:Game;low:boolean}){
  const material=useMemo(()=>new THREE.MeshBasicMaterial({color:'#e3f1ff',transparent:true,opacity:0,depthWrite:false}),[]);useEffect(()=>()=>material.dispose(),[material]);
  useFrame(({camera,clock},dt)=>{const m=mesh.current;if(!m)return;strength.current=THREE.MathUtils.damp(strength.current,atmosphereForWorld(game).rain,1.5,Math.min(dt,.1));const s=strength.current;m.visible=s>.02;if(!m.visible)return;
   const t=clock.elapsedTime,count=Math.max(1,Math.round(total*Math.min(1,s*1.3))),wrap=(v:number,c:number)=>((v-c)%RAIN_BOX+RAIN_BOX)%RAIN_BOX-RAIN_BOX/2+c;
+  // Drops right in front of the lens would look like thick bars, so the nearest ones are hidden.
   // Drops keep their place in the world while the box of rain travels with the camera.
-  for(let i=0;i<count;i++){const d=drops[i],fall=(t*d.speed+d.phase)%RAIN_HEIGHT;o.position.set(wrap(d.x,camera.position.x)+fall*.07,camera.position.y+RAIN_HEIGHT*.55-fall,wrap(d.z,camera.position.z));o.rotation.set(0,0,.07);o.scale.set(.028,.7,.028);o.updateMatrix();m.setMatrixAt(i,o.matrix);}
+  for(let i=0;i<count;i++){const d=drops[i],fall=(t*d.speed+d.phase)%RAIN_HEIGHT;o.position.set(wrap(d.x,camera.position.x)+fall*.07,camera.position.y+RAIN_HEIGHT*.55-fall,wrap(d.z,camera.position.z));o.rotation.set(0,0,.07);const near=Math.hypot(o.position.x-camera.position.x,o.position.z-camera.position.z);o.scale.set(near<4.5?0:.028,.7,.028);o.updateMatrix();m.setMatrixAt(i,o.matrix);}
   m.count=count;m.instanceMatrix.needsUpdate=true;material.opacity=.5*Math.min(1,s*1.5);});
  return <instancedMesh ref={mesh} args={[undefined,undefined,total]} material={material} frustumCulled={false} visible={false}><boxGeometry/></instancedMesh>;
 }
@@ -35,4 +37,20 @@ function Rainbow({game}:{game:Game}){
   material.opacity=strength.current*.78;});
  return <mesh ref={mesh} geometry={geometry} material={material} frustumCulled={false} visible={false} renderOrder={-1}/>;
 }
-export function SkyWeather({game,low}:{game:Game;low:boolean}){return <><Rain game={game} low={low}/><Rainbow game={game}/></>;}
+// 3.6.0: the flat sky colour becomes a dome that deepens overhead and glows softly around the sun. Its horizon is the fog colour.
+function SkyDome({game}:{game:Game}){
+ const mesh=useRef<THREE.Mesh>(null),target=useMemo(()=>new THREE.Color(),[]);
+ const material=useMemo(()=>new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,fog:false,uniforms:{horizon:{value:new THREE.Color('#acd8ed')},zenith:{value:new THREE.Color('#5d9fe0')},sunColor:{value:new THREE.Color('#fff1c1')},sunDir:{value:new THREE.Vector3(0,.4,-1)},glow:{value:.3}},
+  vertexShader:'varying vec3 dir;void main(){dir=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
+  fragmentShader:`varying vec3 dir;uniform vec3 horizon;uniform vec3 zenith;uniform vec3 sunColor;uniform vec3 sunDir;uniform float glow;
+void main(){vec3 d=normalize(dir);float h=smoothstep(0.02,0.62,d.y);vec3 c=mix(horizon,zenith,h*h*(3.0-2.0*h)*0.9);float s=max(dot(d,sunDir),0.0);c+=sunColor*(pow(s,10.0)*0.35+pow(s,90.0)*0.9)*glow;gl_FragColor=vec4(c,1.0);
+#include <tonemapping_fragment>
+#include <colorspace_fragment>
+}`}),[]);
+ useEffect(()=>()=>material.dispose(),[material]);
+ useFrame(({camera,scene},dt)=>{const m=mesh.current;if(!m)return;m.position.copy(camera.position);const w=weatherForWorld(game),g=skyGradient(w),u=material.uniforms,ease=Math.min(1,dt*1.5);
+  if(scene.background instanceof THREE.Color)u.horizon.value.copy(scene.background);u.zenith.value.lerp(target.set(g.zenith),ease);u.sunColor.value.set(w.sun);u.glow.value=THREE.MathUtils.damp(u.glow.value,g.glow,1.5,dt);
+  u.sunDir.value.set(game.player.x+w.sunX*4-camera.position.x,230+w.daylight*80-camera.position.y,game.player.z-600-camera.position.z).normalize();});
+ return <mesh ref={mesh} material={material} frustumCulled={false} renderOrder={-1000}><sphereGeometry args={[900,24,12]}/></mesh>;
+}
+export function SkyWeather({game,low}:{game:Game;low:boolean}){return <><SkyDome game={game}/><Rain game={game} low={low}/><Rainbow game={game}/></>;}

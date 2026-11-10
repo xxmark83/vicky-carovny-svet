@@ -148,3 +148,14 @@ Les teď žije počasím. Vše je jen ozdoba: kolize, příběh, souboje ani ulo
 - Na slabších zařízeních padá méně než polovina kapek.
 
 `npm test` ověřuje 132 scénářů. V prohlížeči na počítači byl na stránce `qa/playtest.html` s ručně posunutým herním časem vidět déšť, duha nad lesem, světlušky za šera, malá duha nad pokladem a poušť bez deště. Neověřeno: zvuk deště poslechem, mobilní šířka na výšku, rychlost na skutečném telefonu a přirozený průběh počasí při běžném hraní bez posunu času.
+
+## Obloha, barvy a drobné efekty 3.6.0
+
+První krok ke krásnější grafice. Vše je jen ozdoba: kolize, terén, příběh, souboje ani uložené hry se nemění.
+
+- **Obloha s hloubkou** (les): místo jedné barvy se nebe nad hlavou prohlubuje do modré, za šera do fialové a pod mraky šedne. U slunce je měkká záře. Obzor má dál barvu mlhy, takže se do něj vzdálené hory rozplývají jako dřív.
+- **Pohádkové barvy** (jen podrobná grafika): o něco sytější obraz a jemné ztmavení k rohům. Bez rozostření.
+- **Drobné částice**: prach od nohou při běhu a kroužek prachu po doskoku (podle povrchu: cesta, tráva, písek, kámen), šplíchance kapek na zemi za deště, jiskřičky nad diamanty a probuzenými svatyněmi, pyl ve slunci a padající lístky v lese. Nejvýše 240 částic najednou, v úsporné grafice polovina.
+- **Déšť**: kapky těsně před kamerou se už nekreslí, takže nepůsobí jako tlusté bílé čáry.
+
+`npm test` ověřuje 134 scénářů. V prohlížeči na počítači byla na stránce `qa/playtest.html` vidět obloha ve dne, za šera, při letu i v úsporné grafice, sytější barvy, prach od nohou a déšť bez tlustých čar. Neověřeno: šplíchance, jiskřičky, pyl a lístky nebyly na snímcích spolehlivě rozeznat; prach v poušti a v jeskyni; mobilní šířka a rychlost na skutečném telefonu. Skutečně členitější terén a nové modely tato verze nepřináší.

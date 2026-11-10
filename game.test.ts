@@ -390,3 +390,21 @@ test('rain stays out of the desert, cave, menu and building meadow, and victory 
  g.mode='playing';g.portalTime=0;assert.deepEqual(g.save(),before);assert.equal(g.canMove(g.player),walkable);
  const d=new Game(undefined,'desert');d.mode='playing';for(let t=0;t<700;t+=5){d.elapsed=t;const a=atmosphereForWorld(d);assert.equal(a.rain,0);assert.equal(a.rainbow,0);}d.elapsed=dusk+45;assert.equal(atmosphereForWorld(d).glow,1);
 });
+import {ambienceRates,skyGradient,AMBIENCE_CAP} from './ambienceRates.ts';
+test('ambient particles appear only where they belong and stay within a small budget',()=>{
+ const base={mode:'playing',walking:true,grounded:true,speed:4,rain:0,daylight:.8,forestAir:true,low:false};const r=ambienceRates(base);
+ assert.ok(r.dust>0&&r.pollen>0&&r.leaf>0&&r.sparkle>0);assert.equal(r.splash,0);
+ assert.equal(ambienceRates({...base,walking:false}).dust,0);assert.equal(ambienceRates({...base,grounded:false}).dust,0);
+ const wet=ambienceRates({...base,rain:1});assert.ok(wet.splash>0);assert.equal(wet.pollen,0);
+ const cave=ambienceRates({...base,forestAir:false});assert.equal(cave.pollen,0);assert.equal(cave.leaf,0);assert.ok(cave.dust>0);
+ for(const mode of ['paused','building','intro','won']){const q=ambienceRates({...base,rain:1,mode});assert.deepEqual([q.dust,q.splash,q.leaf,q.sparkle],[0,0,0,0]);}
+ const low=ambienceRates({...base,rain:1,low:true});for(const k of ['dust','splash','leaf','sparkle'] as const)assert.equal(low[k],wet[k]/2);
+ // Every kind lives at most six seconds, so the busiest moment must fit the instance budget.
+ const busiest=ambienceRates({...base,speed:99,rain:.5});assert.ok(busiest.dust*.55+busiest.splash*.4+busiest.pollen*5+busiest.leaf*6+busiest.sparkle*.9+12<AMBIENCE_CAP);
+});
+test('the sky deepens overhead by day, turns violet at dusk and greys under cloud without jumps',()=>{
+ const hex=(c:string)=>[1,3,5].map(i=>parseInt(c.slice(i,i+2),16));const day=skyGradient({daylight:1,overcast:0}),dusk=skyGradient({daylight:0,overcast:0}),grey=skyGradient({daylight:1,overcast:1});
+ assert.ok(hex(day.zenith)[2]>hex(day.zenith)[0]+100);assert.ok(hex(dusk.zenith)[0]>hex(day.zenith)[0]);const g=hex(grey.zenith);assert.ok(Math.max(...g)-Math.min(...g)<Math.max(...hex(day.zenith))-Math.min(...hex(day.zenith)));
+ assert.ok(grey.glow<day.glow&&day.glow<dusk.glow&&dusk.glow<=.5);
+ let prev=hex(skyGradient(weatherAt(0)).zenith);for(let t=1;t<720;t++){const now=hex(skyGradient(weatherAt(t)).zenith);for(let i=0;i<3;i++)assert.ok(Math.abs(now[i]-prev[i])<6);prev=now;}
+});
