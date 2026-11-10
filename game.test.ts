@@ -343,3 +343,21 @@ test('meadow friends stroll inside the safe meadow, around the building lot',()=
  g.friends.add(1);assert.equal(meadowVisitor(g,1),true);assert.equal(meadowVisitor(g,5),false);g.build.place({x:1,y:0,z:1,kind:1});assert.equal(meadowVisitor(g,5),true);g.build.undo();
  for(let k=0;k<FOREST_FRIENDS;k++)for(let t=0;t<400;t+=1.7){const p=visitorSpot(k,t);assert.ok(distance(p,CREATIVE_MEADOW)<CREATIVE_MEADOW.r);assert.ok(meadowSanctuary(p));assert.equal(lotContains(p),false);}
 });
+import {BUILD_KINDS,FRIEND_GIFTS,giftAt,STAR_KIND,SUN_KIND} from './building.ts';
+test('friends bring new cubes as gifts and the palette always shows one next present',()=>{
+ const b=new CreativeBuild();b.friends=new Friends();
+ for(let k=0;k<5;k++)assert.equal(b.unlocked(k),true);for(let k=5;k<BUILD_KINDS.length;k++)assert.equal(b.unlocked(k),false);assert.equal(b.unlocked(99),false);
+ assert.deepEqual(b.nextGift(),{kind:6,missing:1});assert.equal(b.place({x:1,y:0,z:1,kind:6}),false);assert.match(b.notice,/kamarád/);assert.equal(b.cells.length,0);
+ b.friends.add(4);assert.equal(b.unlocked(6),true);assert.equal(b.place({x:1,y:0,z:1,kind:6}),true);assert.deepEqual(b.nextGift(),{kind:7,missing:1});
+ for(const id of [0,1,2,3,5,6])b.friends.add(id);for(const g of FRIEND_GIFTS)assert.equal(b.unlocked(g.kind),true);assert.equal(b.nextGift(),null);
+ assert.equal(b.unlocked(STAR_KIND),false);assert.equal(b.unlocked(SUN_KIND),false);assert.match(b.lockedNotice(SUN_KIND),/pouště/);b.sunUnlocked=true;assert.equal(b.place({x:2,y:0,z:1,kind:SUN_KIND}),true);
+ assert.ok(validateBuild(JSON.parse(JSON.stringify(b.save()))));assert.deepEqual(FRIEND_GIFTS.map(g=>giftAt(g.friends)),FRIEND_GIFTS.map(g=>g.kind));assert.equal(giftAt(4),-1);
+ assert.equal(new Set(BUILD_KINDS.map(k=>k.name)).size,BUILD_KINDS.length);
+});
+test('the first new friend announces its gift cube and the desert treasure unlocks the sun cube',()=>{
+ const g=new Game();g.friends=new Friends();g.build.friends=g.friends;g.mode='playing';
+ assert.equal(g.befriend(4),true);assert.equal(g.newFriend?.gift,6);assert.match(g.voiceHint,/Voda/);
+ assert.equal(g.befriend(4),false);assert.equal(g.befriend(3),true);assert.equal(g.newFriend?.gift,7);assert.equal(g.befriend(5),true);assert.equal(g.newFriend?.gift,8);assert.equal(g.befriend(6),true);assert.equal(g.newFriend?.gift,-1);
+ const d=new Game(undefined,'desert');d.friends=new Friends();d.mode='playing';d.enemies.forEach(e=>e.hp=0);d.layout.gems.forEach((_,i)=>d.gems.add(i));[0,1,2].forEach(i=>d.shrines.add(i));Object.assign(d.player,d.layout.chest);d.interact();
+ assert.equal(d.mode,'won');assert.equal(d.build.sunUnlocked,true);assert.equal(d.build.starUnlocked,false);
+});

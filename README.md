@@ -96,4 +96,26 @@ Každé osvobozené zvířátko zůstává natrvalo kamarádem. Sbírka má dese
 - Lesní kamarádi se trvale procházejí po tvořivé louce kolem stavební plochy. Dřívější tři návštěvníci stavby (zajíček, ovečka, kočička) přicházejí k postavené stavbě stejně jako dříve.
 - Pouštní kamarádi jsou zatím jen v albu; na louku nechodí.
 
-Příběh, souboje, počty obyvatel ani uložené hry se nemění. `npm test` ověřuje 126 scénářů. Cedulka byla v prohlížeči ověřena přímým voláním herní logiky, ne skutečným soubojem; hraní dítětem na telefonu zůstává nutné.
+Příběh, souboje, počty obyvatel ani uložené hry se nemění. Verze 3.2.0 ověřovala 126 scénářů. Cedulka byla v prohlížeči ověřena přímým voláním herní logiky, ne skutečným soubojem; hraní dítětem na telefonu zůstává nutné.
+
+## Dárky od kamarádů 3.3.0
+
+Kamarádi nosí na tvořivou louku nové kostky, takže dobrodružství přímo rozšiřuje stavění.
+
+| Kostka | Jak ji dítě získá |
+| :--- | :--- |
+| 💧 Voda | 1 kamarád |
+| 🧱 Cihla | 2 kamarádi |
+| ☁️ Mráček | 3 kamarádi |
+| 🔮 Kouzlo | 5 kamarádů |
+| 🪙 Zlato | 7 kamarádů |
+| ☀️ Slunce | poklad Zlaté pouště |
+| ⭐ Hvězda | Auriho poklad (beze změny) |
+
+- Počítá se počet různých druhů v albu, ne počet osvobozených zvířátek.
+- Cedulka „Nový kamarád" ukáže i darovanou kostku a český hlas ji pojmenuje.
+- Paleta ukazuje jen odemčené kostky a jeden zabalený dárek s počtem chybějících kamarádů. Album říká, kolik kamarádů chybí do dalšího dárku.
+- Na telefonu má paleta šest kostek v řadě, nejvýše dvě řady.
+- Sluneční kostka se odemkne i hráčům, kteří poušť dokončili dříve. Dříve uložené stavby zůstávají platné.
+
+`npm test` ověřuje 128 scénářů. Paleta byla v prohlížeči zkontrolována na počítači a v mobilní šířce na výšku i na šířku s předvyplněnou sbírkou; skutečný telefon a hraní dítětem zůstávají nutné.
