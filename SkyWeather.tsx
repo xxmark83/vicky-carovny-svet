@@ -40,17 +40,28 @@ function Rainbow({game}:{game:Game}){
 // 3.6.0: the flat sky colour becomes a dome that deepens overhead and glows softly around the sun. Its horizon is the fog colour.
 function SkyDome({game}:{game:Game}){
  const mesh=useRef<THREE.Mesh>(null),target=useMemo(()=>new THREE.Color(),[]);
- const material=useMemo(()=>new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,fog:false,uniforms:{horizon:{value:new THREE.Color('#acd8ed')},zenith:{value:new THREE.Color('#5d9fe0')},sunColor:{value:new THREE.Color('#fff1c1')},sunDir:{value:new THREE.Vector3(0,.4,-1)},glow:{value:.3}},
+ const material=useMemo(()=>new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,fog:false,uniforms:{horizon:{value:new THREE.Color('#acd8ed')},zenith:{value:new THREE.Color('#5d9fe0')},sunColor:{value:new THREE.Color('#fff1c1')},sunDir:{value:new THREE.Vector3(0,.4,-1)},glow:{value:.3},dusk:{value:0}},
   vertexShader:'varying vec3 dir;void main(){dir=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',
-  fragmentShader:`varying vec3 dir;uniform vec3 horizon;uniform vec3 zenith;uniform vec3 sunColor;uniform vec3 sunDir;uniform float glow;
-void main(){vec3 d=normalize(dir);float h=smoothstep(0.02,0.62,d.y);vec3 c=mix(horizon,zenith,h*h*(3.0-2.0*h)*0.9);float s=max(dot(d,sunDir),0.0);c+=sunColor*(pow(s,10.0)*0.35+pow(s,90.0)*0.9)*glow;gl_FragColor=vec4(c,1.0);
+  fragmentShader:`varying vec3 dir;uniform vec3 horizon;uniform vec3 zenith;uniform vec3 sunColor;uniform vec3 sunDir;uniform float glow;uniform float dusk;
+void main(){vec3 d=normalize(dir);float h=smoothstep(0.02,0.62,d.y);vec3 c=mix(horizon,zenith,h*h*(3.0-2.0*h)*0.9);float low=1.0-smoothstep(0.0,0.42,d.y);c+=vec3(1.0,0.52,0.18)*dusk*low*low*0.55;float s=max(dot(d,sunDir),0.0);c+=sunColor*(pow(s,10.0)*0.35+pow(s,90.0)*0.9)*glow;gl_FragColor=vec4(c,1.0);
 #include <tonemapping_fragment>
 #include <colorspace_fragment>
 }`}),[]);
  useEffect(()=>()=>material.dispose(),[material]);
  useFrame(({camera,scene},dt)=>{const m=mesh.current;if(!m)return;m.position.copy(camera.position);const w=weatherForWorld(game),g=skyGradient(w),u=material.uniforms,ease=Math.min(1,dt*1.5);
-  if(scene.background instanceof THREE.Color)u.horizon.value.copy(scene.background);u.zenith.value.lerp(target.set(g.zenith),ease);u.sunColor.value.set(w.sun);u.glow.value=THREE.MathUtils.damp(u.glow.value,g.glow,1.5,dt);
+  if(scene.background instanceof THREE.Color)u.horizon.value.copy(scene.background);u.zenith.value.lerp(target.set(g.zenith),ease);u.sunColor.value.set(w.sun);u.glow.value=THREE.MathUtils.damp(u.glow.value,g.glow,1.5,dt);u.dusk.value=THREE.MathUtils.damp(u.dusk.value,g.dusk,1.2,dt);
   u.sunDir.value.set(game.player.x+w.sunX*4-camera.position.x,230+w.daylight*80-camera.position.y,game.player.z-600-camera.position.z).normalize();});
  return <mesh ref={mesh} material={material} frustumCulled={false} renderOrder={-1000}><sphereGeometry args={[900,24,12]}/></mesh>;
 }
-export function SkyWeather({game,low}:{game:Game;low:boolean}){return <><SkyDome game={game}/><Rain game={game} low={low}/><Rainbow game={game}/></>;}
+// 3.16.0: stars, a moon and now and then a shooting star, only while the sun is at its lowest.
+function NightSky({game,low}:{game:Game;low:boolean}){
+ const group=useRef<THREE.Group>(null),moon=useRef<THREE.Group>(null),streak=useRef<THREE.Mesh>(null),night=useRef(0),shot=useRef({wait:14,t:9,x:0,y:0,z:0});
+ const stars=useMemo(()=>{const r=random(1602),n=low?140:320,p=new Float32Array(n*3);for(let i=0;i<n;i++){const a=r()*Math.PI*2,e=Math.asin(.12+r()*.86);p[i*3]=Math.cos(a)*Math.cos(e)*820;p[i*3+1]=Math.sin(e)*820;p[i*3+2]=Math.sin(a)*Math.cos(e)*820;}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.BufferAttribute(p,3));return g;},[low]);
+ const dots=useMemo(()=>new THREE.PointsMaterial({color:'#fff8e2',size:2.4,sizeAttenuation:false,transparent:true,opacity:0,depthWrite:false,fog:false,toneMapped:false}),[]),pale=useMemo(()=>new THREE.MeshBasicMaterial({color:'#fff6d8',transparent:true,opacity:0,fog:false,toneMapped:false,depthWrite:false}),[]),halo=useMemo(()=>new THREE.MeshBasicMaterial({color:'#cfd8ff',transparent:true,opacity:0,fog:false,blending:THREE.AdditiveBlending,depthWrite:false,toneMapped:false}),[]);
+ useEffect(()=>()=>{stars.dispose();dots.dispose();pale.dispose();halo.dispose();},[stars,dots,pale,halo]);
+ useFrame(({camera,clock},dt)=>{const g=group.current;if(!g)return;const w=weatherForWorld(game);night.current=THREE.MathUtils.damp(night.current,skyGradient(w).night,1.2,Math.min(dt,.1));const n=night.current;g.visible=n>.02;if(!g.visible)return;g.position.copy(camera.position);
+  dots.opacity=n*(.75+Math.sin(clock.elapsedTime*1.7)*.12);pale.opacity=n;halo.opacity=n*.16;moon.current!.position.set(-w.sunX*5-140,300,-560);
+  const s=shot.current;s.wait-=dt;if(s.wait<=0&&n>.7){s.wait=18+Math.random()*26;s.t=0;s.x=-300+Math.random()*500;s.y=330+Math.random()*120;s.z=-600;}s.t+=dt;const m=streak.current!;m.visible=s.t<.9;if(m.visible){m.position.set(s.x+s.t*260,s.y-s.t*110,s.z);(m.material as THREE.MeshBasicMaterial).opacity=Math.sin(s.t/.9*Math.PI)*n;}});
+ return <group ref={group} visible={false} renderOrder={-900}><points geometry={stars} material={dots} frustumCulled={false}/><group ref={moon}><mesh material={pale}><sphereGeometry args={[26,20,14]}/></mesh><mesh material={halo}><sphereGeometry args={[60,16,12]}/></mesh></group><mesh ref={streak} visible={false} rotation={[0,0,-.4]}><boxGeometry args={[46,1.4,1.4]}/><meshBasicMaterial color="#ffffff" transparent opacity={0} fog={false} depthWrite={false} toneMapped={false}/></mesh></group>;
+}
+export function SkyWeather({game,low}:{game:Game;low:boolean}){return <><SkyDome game={game}/><NightSky game={game} low={low}/><Rain game={game} low={low}/><Rainbow game={game}/></>;}

@@ -263,3 +263,15 @@ Jen ozdoba, kolize ani uložené hry se nemění. Motýli a ptáčci jsou jen v 
 Jen ozdoba, platí pro les i poušť. Úsporná grafika má polovinu částic.
 
 `npm test` ověřuje 138 scénářů (beze změny) a sestavení prošlo. **Tato verze byla na přání autora nasazena bez kontroly v prohlížeči**, nic z ní tedy nebylo vidět v běžící hře. Přiběhnutí všech kamarádů k pokladu přidáno nebylo.
+
+## Pohádkové světlo a noc 3.16.0
+
+Jen Kouzelný les. Šestiminutový koloběh dne teď má i zlatou hodinku a noc.
+
+- **Zlatá hodinka**: kolem západu a východu slunce svítí nad obzorem oranžový pruh a sluneční paprsky mezi stromy jsou až skoro dvakrát silnější.
+- **Noc**: když je slunce nejníž, nebe ztmavne do indigové, vyjdou hvězdy a měsíc a občas přeletí padající hvězda. Svět je chladnější a asi o třetinu tmavší – cesta, postavy i varovné kruhy zůstávají vidět. Pod mraky je noc slabší.
+- **Noční záře**: z domečků se line teplé světlo, probuzené svatyně září, velké houby na mýtinách svítí růžově a tyrkysově. Lucerny a světlušky svítily už dřív.
+
+Hodiny hry, počasí, kolize ani uložené hry se nemění; noc je jen jiné vykreslení téhož času. V poušti a v jeskyni se nic nemění.
+
+`npm test` ověřuje 138 scénářů a sestavení prošlo. **Tato verze byla na přání autora nasazena bez kontroly v prohlížeči.** Neověřeno je tedy všechno viditelné, hlavně jestli není noc příliš tmavá nebo naopak nevýrazná a jestli hvězdy, měsíc a záře sedí na svých místech. Odlesky na vodě a měkčí stíny přidány nebyly.
