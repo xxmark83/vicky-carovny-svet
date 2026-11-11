@@ -275,3 +275,14 @@ Jen Kouzelný les. Šestiminutový koloběh dne teď má i zlatou hodinku a noc.
 Hodiny hry, počasí, kolize ani uložené hry se nemění; noc je jen jiné vykreslení téhož času. V poušti a v jeskyni se nic nemění.
 
 `npm test` ověřuje 138 scénářů a sestavení prošlo. **Tato verze byla na přání autora nasazena bez kontroly v prohlížeči.** Neověřeno je tedy všechno viditelné, hlavně jestli není noc příliš tmavá nebo naopak nevýrazná a jestli hvězdy, měsíc a záře sedí na svých místech. Odlesky na vodě a měkčí stíny přidány nebyly.
+
+## Staré stromy a brány s růžemi 3.17.0
+
+Jen Kouzelný les, podle pohádkové předlohy.
+
+- **Staré stromy přes cestu**: na devíti místech se nad cestou klene mohutná větev mezi dvěma tlustými kmeny s kořeny. Na větvi jsou listy a květy, visí z ní kvetoucí liány a dvě lucerny, které za šera a v noci září.
+- **Brány s růžemi**: asi jedenáct metrů před každou svatyní stojí přes cestu kamenný oblouk obrostlý růžemi.
+- **Nic nového nepřekáží**: tlusté kmeny jsou nakreslené kolem stromů, které chůzi blokovaly už dřív. Sloupky bran jsou štíhlé jako sloupky luceren a stojí mimo dlažbu. Větve jsou nejméně 5,5 m nad zemí, lucerny nejméně 3,6 m.
+- Úsporná grafika má polovinu listí a květů.
+
+`npm test` ověřuje 139 scénářů a sestavení prošlo. **Tato verze byla na přání autora nasazena bez kontroly v prohlížeči.** Neověřeno je všechno viditelné: tvar větví a kmenů, jestli listí nezakrývá výhled kamery, jestli brány sedí napříč cestou, i rychlost. Zvonky a lupiny v popředí přidány nebyly.

@@ -461,3 +461,12 @@ test('knolls and hollows reshape the open forest floor without moving a tree, a 
  const g=new Game();assert.equal(g.layout.obstacles,RELIEF_OBSTACLES);assert.equal(RELIEF_OBSTACLES.length,3697);
  const saved=g.save(),again=new Game(JSON.parse(JSON.stringify(saved)));assert.deepEqual(again.save(),saved);assert.ok(again.canMove(again.player));
 });
+import {archLayout,gateLayout,boughPoint,GATE_HALF_WIDTH} from './archLayout.ts';
+test('old trees arch over the trail only from trees that already block walking, and shrine gates leave the path open',()=>{
+ const g=new Game(),arches=archLayout(g.layout.obstacles),trees=g.layout.obstacles.filter(o=>o.kind==='tree');assert.ok(arches.length>=6&&arches.length<=14);assert.deepEqual(archLayout(g.layout.obstacles),arches);
+ for(const a of arches){for(const t of [a.a,a.b]){assert.ok(trees.some(o=>o.x===t.x&&o.z===t.z));assert.ok(!g.canMove(t));assert.ok(bloomPathDistance(t)>=4.8);}
+  // The bough and its lanterns hang well above the heroine and the walking camera.
+  for(let t=0;t<=1;t+=.1){const p=boughPoint(a,t);assert.ok(p.y-bloomGround(p)>5.5);}assert.equal(a.lanterns.length,2);for(const l of a.lanterns)assert.ok(l.y-bloomGround(l)>3.6);}
+ const gates=gateLayout();assert.equal(gates.length,3);for(const q of gates){assert.ok(bloomPathDistance(q)<.01&&g.canMove(q));for(const side of [-1,1]){const col={x:q.x+Math.cos(q.yaw)*GATE_HALF_WIDTH*side,z:q.z-Math.sin(q.yaw)*GATE_HALF_WIDTH*side};assert.ok(bloomPathDistance(col)>2.6);}assert.ok(BLOOM_SHRINES.some(s=>Math.hypot(s.x-q.x,s.z-q.z)<16&&Math.hypot(s.x-q.x,s.z-q.z)>6));}
+ assert.equal(g.layout.obstacles.length,3697);
+});
