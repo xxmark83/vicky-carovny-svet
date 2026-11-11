@@ -196,3 +196,14 @@ Jen Kouzelný les. Vše je ozdoba: kolize, terén, příběh, souboje ani ulože
 - **Kamenný most**: most přes rokli má po stranách kamenné zídky, pod mostovkou tři kamenné oblouky a v rozích čtyři lucerny se září. Dřevěná mostovka i zábradlí zůstaly, šířka pro chůzi je stejná.
 
 `npm test` ověřuje 137 scénářů. V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět skála s oběma vodopády z letu, vodopád ze země, kamenné zídky a lucerny mostu; konzole bez chyb. Na stolním počítači v panelu prohlížeče ukázalo měření u mostu 81 FPS při 347 voláních vykreslení a 1,7 milionu trojúhelníků – to nic neříká o telefonu. Neověřeno: praporky a oblouky pod mostem jsem na snímcích nerozeznal, mlha u vodopádů zblízka, mobilní šířka a skutečný telefon. Stávající čtyři vodopády v údolí, vesnička a model zámku se neměnily.
+
+## Oblejší postavy 3.10.0
+
+Vikoušek, vlk a dráček Auri mají měkčí, pohádkovější tvary. Postavy jsou společné pro les i poušť, takže se změna projeví v obou světech. Pohyb, animace, kolize, souboje ani uložené hry se nemění.
+
+- **Vikoušek**: ruce, nohy a trup jsou zaoblené téměř do válečků, hlava je o 14 % větší a oči o něco větší.
+- **Vlk**: zaoblené tělo, tlapky a čenich, hlava o 12 % větší.
+- **Auri**: tělo z oblých tvarů místo kostek, světlé bříško, velké přátelské oči a nozdry.
+- Slepičí hrdinka, osvobozená zvířátka a strážci se neměnili.
+
+`npm test` ověřuje 137 scénářů (beze změny; tvar postav testy nepokrývají). V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět Vikoušek a vlk zepředu a Auri u pokladu; konzole bez chyb. Okno aplikace nebylo při kontrole otevřené, proto byly snímky pořízeny ručně spouštěným vykreslováním bez běžící hry – animace chůze, útoku a letu s novými tvary tedy ověřeny nebyly. Neověřeno také: postavy v poušti, mobilní šířka a skutečný telefon. Srst, vlasy z pramenů navíc ani nové modely zvířátek tato verze nepřináší.

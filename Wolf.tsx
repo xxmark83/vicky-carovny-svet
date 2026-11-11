@@ -9,7 +9,8 @@ import type {Game} from './game';
 import type {Block} from './world';
 import {Cubes} from './Voxel';
 const furGeometry=new THREE.ConeGeometry(.6,1,5);
-const wolfGeometry=new RoundedBoxGeometry(1,1,1,3,.23);
+// 3.10.0: a rounder, softer companion with a slightly larger head.
+const wolfGeometry=new RoundedBoxGeometry(1,1,1,5,.42);
 function Box({p=[0,0,0],s=[1,1,1],c}:{p?:[number,number,number];s?:[number,number,number];c:string}){return <mesh position={p} scale={s} geometry={wolfGeometry} castShadow receiveShadow><meshStandardMaterial color={c} roughness={.95}/></mesh>;}
 export function Wolf({game,hero=false}:{game:Game;hero?:boolean}){
  const root=useRef<THREE.Group>(null),tail=useRef<THREE.Group>(null),head=useRef<THREE.Group>(null),legs=useRef<(THREE.Group|null)[]>([]);const previous=useRef({x:game.wolf.x,z:game.wolf.z}),gait=useRef(0),pace=useRef(0),target=useMemo(()=>new THREE.Vector3(),[]);useEffect(()=>{previous.current={x:game.wolf.x,z:game.wolf.z};if(root.current)root.current.position.set(game.wolf.x,game.floor(game.wolf),game.wolf.z);},[game]);
@@ -22,7 +23,7 @@ export function Wolf({game,hero=false}:{game:Game;hero?:boolean}){
  {game.wolfMood==='pet'&&<mesh position={[0,1.9,0]} rotation={[0,0,Math.PI/4]}><boxGeometry args={[.2,.2,.07]}/><meshBasicMaterial color="#ffb4d5"/></mesh>}
  <Box p={[0,.72,-.05]} s={[.6,.53,1.15]} c="#b9c7c5"/><Box p={[0,.63,.32]} s={[.62,.64,.42]} c="#d1d9cf"/><Cubes blocks={fur} geometry={furGeometry}/>
  {[-.2,.2].flatMap((x,xi)=>[-.4,.35].map((z,zi)=><group key={`${x}${z}`} ref={el=>{legs.current[xi*2+zi]=el;}} position={[x,.59,z]}><Box p={[0,-.12,0]} s={[.2,.3,.24]} c="#b6c5c2"/><Box p={[0,-.34,.015]} s={[.15,.25,.17]} c="#dce2d7"/><Box p={[0,-.48,.08]} s={[.23,.14,.32]} c="#eef0e2"/>{[-.055,.055].map(dx=><Box key={dx} p={[dx,-.48,.245]} s={[.018,.06,.025]} c="#b5beb2"/>)}</group>))}
- <group ref={head} position={[0,1.02,.4]}><Box p={[0,.05,.18]} s={[.55,.48,.51]} c="#c4d0ca"/><Box p={[0,.2,.12]} s={[.42,.2,.39]} c="#91a5a6"/><Box p={[0,-.09,.49]} s={[.35,.24,.42]} c="#edf0df"/><Box p={[0,-.04,.7]} s={[.22,.13,.11]} c="#324345"/><Box p={[0,-.19,.53]} s={[.28,.035,.29]} c="#566763"/>
+ <group ref={head} position={[0,1.04,.4]} scale={1.12}><Box p={[0,.05,.18]} s={[.55,.48,.51]} c="#c4d0ca"/><Box p={[0,.2,.12]} s={[.42,.2,.39]} c="#91a5a6"/><Box p={[0,-.09,.49]} s={[.35,.24,.42]} c="#edf0df"/><Box p={[0,-.04,.7]} s={[.22,.13,.11]} c="#324345"/><Box p={[0,-.19,.53]} s={[.28,.035,.29]} c="#566763"/>
  {[-1,1].map(side=><group key={side}><group position={[side*.2,.3,.12]} rotation={[0,0,-side*.13]}><mesh position={[0,.14,0]} rotation={[0,Math.PI/4,0]} castShadow><coneGeometry args={[.15,.43,4]}/><meshStandardMaterial color="#93a7a7"/></mesh><mesh position={[0,.13,.105]} rotation={[0,0,0]}><coneGeometry args={[.077,.25,3]}/><meshStandardMaterial color="#d9b6ba"/></mesh></group><Box p={[side*.235,.04,.43]} s={[.13,.15,.06]} c="#f4f0dc"/><Box p={[side*.235,.055,.468]} s={[.08,.095,.025]} c="#69552e"/><Box p={[side*.235,.065,.485]} s={[.033,.064,.015]} c="#263c3c"/><Box p={[side*.224,.088,.495]} s={[.025,.025,.01]} c="#fff9db"/>{[0,1,2].map(i=><Box key={i} p={[side*(.27+i*.025),-.11-i*.04,.13]} s={[.13,.11,.19]} c={i%2?'#e1e6d9':'#c1d0c9'}/>)}</group>)}
  <Box p={[0,-.24,.63]} s={[.12,.1,.12]} c="#e8a1ad"/></group>
  <Box p={[0,.87,.39]} s={[.65,.115,.17]} c="#e68db8"/><Box p={[0,.81,.49]} s={[.12,.15,.04]} c="#eec970"/>
