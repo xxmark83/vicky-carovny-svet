@@ -230,3 +230,14 @@ Jen Kouzelný les. Lesní půda mimo cestu už není hladká: zvlní ji kopečky
 Kolize, dosah úderů, souboje, příběh ani uložené hry se nemění. Platí pro les i poušť, protože postavy a kamera jsou společné.
 
 `npm test` ověřuje 138 scénářů (beze změny; vzhled a kameru testy nepokrývají). V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět: bližší kamera s celou hrdinkou, hustší srst vlka, slepičí hrdinka vedle lesního strážce a Vikoušek před oblým strážcem pokladu; konzole bez chyb. Okno aplikace nebylo otevřené, snímky jsou ze stojící scény. Neověřeno: odlesk a hvězdička meče (na snímku jsem je nezachytil), vlasy zblízka, bližší kamera při chůzi, v souboji a mezi stromy, zobrazení na výšku, poušť a skutečný telefon. Nové modely osvobozených zvířátek a lesních strážců tato verze nepřináší.
+
+## Pohádkový obrázek na uvítanou 3.13.0
+
+Vygenerovaná ilustrace Kouzelného lesa (dodaná autorem hry, oříznutá tak, aby na ní nebyla tlačítka) je teď první věc, kterou dítě uvidí.
+
+- **Načítání**: místo zelené plochy „Svět se probouzí…" je ilustrace, která se pomalu přibližuje; text je dole na ztmaveném pruhu. Při omezení pohybu stojí.
+- **Než se hra stáhne**: stejný obrázek je pozadím stránky, takže se ukáže ještě před spuštěním hry.
+- **Sdílení odkazu**: náhled s obrázkem a popisem (Open Graph).
+- Soubor `public/art/pohadkovy-les.jpg`, 1080 × 941, asi 430 kB. Na běh hry nemá vliv; menu se živou 3D hrdinkou zůstává.
+
+`npm test` ověřuje 138 scénářů (beze změny). V prohlížeči na počítači byla načítací obrazovka vidět na šířku: zámek, drak i Vikoušek jsou v záběru, konzole bez chyb. Neověřeno: načítací obrazovka na výšku (výřez je nastaven výpočtem), skutečný telefon, rychlost stažení obrázku na pomalém připojení a náhled při sdílení v konkrétních aplikacích.
