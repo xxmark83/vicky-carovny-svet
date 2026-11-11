@@ -207,3 +207,13 @@ Vikoušek, vlk a dráček Auri mají měkčí, pohádkovější tvary. Postavy j
 - Slepičí hrdinka, osvobozená zvířátka a strážci se neměnili.
 
 `npm test` ověřuje 137 scénářů (beze změny; tvar postav testy nepokrývají). V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět Vikoušek a vlk zepředu a Auri u pokladu; konzole bez chyb. Okno aplikace nebylo při kontrole otevřené, proto byly snímky pořízeny ručně spouštěným vykreslováním bez běžící hry – animace chůze, útoku a letu s novými tvary tedy ověřeny nebyly. Neověřeno také: postavy v poušti, mobilní šířka a skutečný telefon. Srst, vlasy z pramenů navíc ani nové modely zvířátek tato verze nepřináší.
+
+## Členitější terén 3.11.0
+
+Jen Kouzelný les. Lesní půda mimo cestu už není hladká: zvlní ji kopečky a prohlubně o šířce několika metrů a výšce do 3 m.
+
+- **Co se mění**: jen výška země. Hrdinka, vlk, zvířátka, stromy, květy i kamera ji sledují automaticky.
+- **Co zůstává**: kam se dá dojít. Sklon chůzi v této hře nikdy neblokoval a všech 3 697 stromů a skal stojí přesně tam, kde stály (rozmístění se dál řídí původním terénem). Uložené hry proto nepotřebují žádný převod.
+- **Kde zůstává rovina**: cesta a pruh 4 m kolem ní, diamanty, svatyně, poklad, osm luk, stanoviště strážců, domečky a jejich pěšiny, jeskyně, tvořivá louka, most, vodopády a zámek.
+
+`npm test` ověřuje 138 scénářů. Před změnou a po ní bylo porovnáno 24 339 bodů celé mapy: průchodnost se nezměnila v žádném z nich, výška ve třech čtvrtinách, nejvýše o 2,9 m. V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět zvlněná půda mimo cestu se stromy správně na zemi a rovná cesta se svahem po straně. Okno aplikace nebylo otevřené, snímky jsou ze stojící scény – chůze přes kopečky, chování kamery ve svahu a zvířátka v pohybu ověřeny nebyly. Neověřeno také: drobné stavby mimo cestu (vyhlídky, kruhy kamenů na mýtinách) na nové půdě, mobilní šířka a skutečný telefon. Terasy, skalní stěny a rokle, které by chůzi omezovaly, tato verze nepřidává.

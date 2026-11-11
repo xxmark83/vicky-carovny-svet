@@ -446,3 +446,18 @@ test('the castle crag and its waterfalls stand beyond the walkable world and the
  // The deck is exactly as walkable as before the stone was added.
  for(let dx=-4;dx<=4;dx+=2)for(let dz=-9;dz<=9;dz+=3)assert.ok(g.canMove({x:CRAG_BRIDGE.x+dx,z:CRAG_BRIDGE.z+dz}));
 });
+import {forestRelief,legacyGroundHeight,RELIEF_HEIGHT} from './terrain.ts';
+import {MEADOWS as RELIEF_MEADOWS,PATH as RELIEF_PATH,GEMS as RELIEF_GEMS,SHRINES as RELIEF_SHRINES,CHEST as RELIEF_CHEST,ENEMY_HOMES as RELIEF_HOMES} from './map.ts';
+import {FOREST_COTTAGES as RELIEF_COTTAGES} from './forestPlaces.ts';
+import {OBSTACLES as RELIEF_OBSTACLES} from './game.ts';
+test('knolls and hollows reshape the open forest floor without moving a tree, a goal or the trail',()=>{
+ let changed=0,up=0,down=0,steepest=0;for(let x=-196;x<198;x+=4)for(let z=10;z>-518;z-=4){const p={x,z},r=forestRelief(p),d=groundHeight(p)-legacyGroundHeight(p);assert.ok(Math.abs(r)<=RELIEF_HEIGHT);assert.ok(Math.abs(d)<=RELIEF_HEIGHT+.01);if(Math.abs(d)>.3){changed++;if(d>0)up++;else down++;}steepest=Math.max(steepest,Math.abs(groundHeight({x:x+1,z})-groundHeight({x:x-1,z}))/2-Math.abs(legacyGroundHeight({x:x+1,z})-legacyGroundHeight({x:x-1,z}))/2);}
+ assert.ok(changed>3000);assert.ok(up>changed*.3&&down>changed*.3);assert.ok(steepest<.75);
+ // The trail, every goal, the meadows, cottages and the cave keep the ground they had.
+ for(let i=1;i<RELIEF_PATH.length;i++)for(let t=0;t<=1;t+=.05){const a=RELIEF_PATH[i-1],b=RELIEF_PATH[i],p={x:a.x+(b.x-a.x)*t,z:a.z+(b.z-a.z)*t};for(const off of [-3,0,3])assert.ok(Math.abs(groundHeight({x:p.x+off,z:p.z})-legacyGroundHeight({x:p.x+off,z:p.z}))<.05);}
+ for(const p of [...RELIEF_GEMS,...RELIEF_SHRINES,RELIEF_CHEST,...RELIEF_MEADOWS,...RELIEF_COTTAGES,{x:17,z:-46},{x:17,z:-59},{x:-28,z:7}])for(const [dx,dz] of [[0,0],[3,0],[0,3],[-3,-3]])assert.ok(Math.abs(forestRelief({x:p.x+dx,z:p.z+dz}))<.05);
+ for(const h of RELIEF_HOMES)for(const [dx,dz] of [[0,0],[5,0],[0,-5]])assert.ok(Math.abs(forestRelief({x:h.x+dx,z:h.z+dz}))<.05);
+ // Obstacles are still placed by the old ground, so walking and old saves are untouched.
+ const g=new Game();assert.equal(g.layout.obstacles,RELIEF_OBSTACLES);assert.equal(RELIEF_OBSTACLES.length,3697);
+ const saved=g.save(),again=new Game(JSON.parse(JSON.stringify(saved)));assert.deepEqual(again.save(),saved);assert.ok(again.canMove(again.player));
+});
