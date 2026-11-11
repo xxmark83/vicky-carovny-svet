@@ -252,3 +252,14 @@ Vygenerovaná ilustrace Kouzelného lesa (dodaná autorem hry, oříznutá tak, 
 Jen ozdoba, kolize ani uložené hry se nemění. Motýli a ptáčci jsou jen v lese; ohýbání květů, světlušky a stopy jsou společné.
 
 `npm test` ověřuje 138 scénářů (beze změny) a sestavení prošlo. **Tato verze byla na přání autora nasazena bez kontroly v prohlížeči.** Nic z ní tedy nebylo vidět v běžící hře: ani ohýbání květů (nový kód v shaderu, který se ověří až v prohlížeči), ani motýli, světlušky či stopy. Kruhy na vodě přidány nebyly, protože hrdinka do vody vstoupit nemůže.
+
+## Odměna, kterou je vidět 3.15.0
+
+- **Osvobození zvířátka nebo strážce**: záblesk světla, sprška barevných jisker a kolem dokola vyroste kroužek květin, které po pár vteřinách zase zmizí.
+- **Diamant**: po sebrání přeletí obloukem z místa, kde ležel, do počítadla v rohu a počítadlo poskočí.
+- **Výhra**: z truhly se sypou mince a odskakují po zemi, padají konfety a nad pokladem rozkvétá ohňostroj.
+- **Meč**: zlatá stopa za čepelí trvá asi dvakrát déle, takže švih nakreslí celý oblouk.
+
+Jen ozdoba, platí pro les i poušť. Úsporná grafika má polovinu částic.
+
+`npm test` ověřuje 138 scénářů (beze změny) a sestavení prošlo. **Tato verze byla na přání autora nasazena bez kontroly v prohlížeči**, nic z ní tedy nebylo vidět v běžící hře. Přiběhnutí všech kamarádů k pokladu přidáno nebylo.
