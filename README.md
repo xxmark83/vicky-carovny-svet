@@ -241,3 +241,14 @@ Vygenerovaná ilustrace Kouzelného lesa (dodaná autorem hry, oříznutá tak, 
 - Soubor `public/art/pohadkovy-les.jpg`, 1080 × 941, asi 430 kB. Na běh hry nemá vliv; menu se živou 3D hrdinkou zůstává.
 
 `npm test` ověřuje 138 scénářů (beze změny). V prohlížeči na počítači byla načítací obrazovka vidět na šířku: zámek, drak i Vikoušek jsou v záběru, konzole bez chyb. Neověřeno: načítací obrazovka na výšku (výřez je nastaven výpočtem), skutečný telefon, rychlost stažení obrázku na pomalém připojení a náhled při sdílení v konkrétních aplikacích.
+
+## Svět, který reaguje 3.14.0
+
+- **Květy a tráva se rozhrnují**: když jimi Vikoušek nebo slepice proběhne, květy u cesty se ohnou od ní a přikrčí, za ní se zase narovnají.
+- **Motýli a ptáčci**: mezi květy v lese sedí až deset motýlů a ptáčků (v úsporné grafice pět). Když se hrdinka přiblíží na necelé 3,5 m, vzlétnou a odletí.
+- **Světlušky**: za šera se slétají blíž k hrdince.
+- **Stopy v trávě**: při chůzi po trávě zůstávají za hrdinkou otisky, které za pár vteřin zmizí.
+
+Jen ozdoba, kolize ani uložené hry se nemění. Motýli a ptáčci jsou jen v lese; ohýbání květů, světlušky a stopy jsou společné.
+
+`npm test` ověřuje 138 scénářů (beze změny) a sestavení prošlo. **Tato verze byla na přání autora nasazena bez kontroly v prohlížeči.** Nic z ní tedy nebylo vidět v běžící hře: ani ohýbání květů (nový kód v shaderu, který se ověří až v prohlížeči), ani motýli, světlušky či stopy. Kruhy na vodě přidány nebyly, protože hrdinka do vody vstoupit nemůže.
