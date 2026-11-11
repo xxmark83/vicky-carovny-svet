@@ -286,3 +286,18 @@ Jen Kouzelný les, podle pohádkové předlohy.
 - Úsporná grafika má polovinu listí a květů.
 
 `npm test` ověřuje 139 scénářů a sestavení prošlo. **Tato verze byla na přání autora nasazena bez kontroly v prohlížeči.** Neověřeno je všechno viditelné: tvar větví a kmenů, jestli listí nezakrývá výhled kamery, jestli brány sedí napříč cestou, i rychlost. Zvonky a lupiny v popředí přidány nebyly.
+
+## Živé nebe a pouštní počasí 3.18.0
+
+Oba světy. Jen podívaná: pravidla, mapa, kolize ani uložené hry se nemění.
+
+- **Živé nebe v lese i v poušti**: po obloze plují měkké mraky, které s počasím houstnou a při západu růžoví. Slunce má kotouč se září. Staré placaté mraky nad lesem jsou kulatější a světlejší.
+- **Polární záře**: za jasné lesní noci se na severu pomalu vlní zelenofialová záře.
+- **Poušť má hladké duny** místo schodovitých sloupců: jeden souvislý povrch s vlnkami od větru a třpytem písku. Nakreslený povrch se od země, po které se chodí, neliší o víc než 10 cm.
+- **Pouštní počasí**: stálý vánek nese písek nad dunami a asi každé dvě minuty zesílí v měkký poryv, který zahalí dálku do teplého oparu. Hra začíná v klidu, první poryv přijde po víc než půl minutě. Za letu je opar slabší.
+- **Písečné víry a stepní běžci**: tři malé víry bloudí vedle cesty a suché keře se kutálejí po větru kolem hrdinky. Jsou to jen ozdoby, dá se jimi projít.
+- **Západ slunce a noc v poušti**: nebe zlátne a fialoví, vyjdou hvězdy a měsíc, lucerny podél cesty se rozsvítí. Voda v obnovených oázách se třpytí.
+- **Duhová stopa**: za letu za hrdinkou zůstává stužka barevných hvězdiček, pár jich letí i za rychlým během.
+- Úsporná grafika má méně písku, jednodušší mraky a řidší duny.
+
+`npm test` ověřuje 141 scénářů a sestavení prošlo. V prohlížeči na počítači byly zkontrolovány: poušť ve dne, při poryvu, při západu a v noci, písečný vír zblízka, les ve dne a v noci s polární září. Neověřeno: fyzický iPhone/iPad a Safari, rychlost na slabším zařízení, úsporná grafika, úvodní film pouště a hraní dítětem.

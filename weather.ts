@@ -11,3 +11,7 @@ export function rainAt(time:number){return ramp((weatherAt(time).overcast-.8)/.1
 export function atmosphereAt(time:number){const w=weatherAt(time),rain=rainAt(time);return {rain,rainbow:(1-rain)*rainAt(time-RAINBOW_LAG)*ramp((w.daylight-.15)/.25),glow:ramp((.5-w.daylight)/.3)};}
 // Rain belongs to the open forest only: never in the desert, the cave, the menu or the building meadow. Victory always ends with a rainbow.
 export function atmosphereForWorld(g:{mode:string;elapsed:number;introTime:number;portalTime:number;level?:string;inCave?:boolean}){const base=atmosphereAt((g.mode==='intro'?g.introTime*.9:g.elapsed)+(g.level==='forest'?45:0));const open=g.level!=='desert'&&!g.inCave,wet=open&&(g.mode==='playing'||g.mode==='paused'||g.mode==='won');const p=g.mode==='won'?Math.min(1,Math.max(0,g.portalTime/3)):0;return {rain:wet?base.rain*(1-p):0,rainbow:open?Math.max(wet?base.rainbow:0,p):0,glow:g.inCave?0:base.glow*(1-p)};}
+// 3.18.0 desert weather, view only: a warm breeze that swells into a soft sand gust about every two minutes, and a sunset sky.
+export function sandAt(time:number){return ramp((Math.sin(time/19-1.5)-.55)/.3);}
+export function sandForWorld(g:{mode:string;elapsed:number;portalTime:number;level?:string;inCave?:boolean}){if(g.level!=='desert'||g.inCave||(g.mode!=='playing'&&g.mode!=='paused'&&g.mode!=='won'))return 0;return sandAt(g.elapsed)*(1-(g.mode==='won'?Math.min(1,Math.max(0,g.portalTime/3)):0));}
+export function desertSky(daylight:number){return daylight>.45?'#9ddce8':daylight<.22?'#e2a48f':'#f1cfa4';}

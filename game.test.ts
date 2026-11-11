@@ -470,3 +470,16 @@ test('old trees arch over the trail only from trees that already block walking, 
  const gates=gateLayout();assert.equal(gates.length,3);for(const q of gates){assert.ok(bloomPathDistance(q)<.01&&g.canMove(q));for(const side of [-1,1]){const col={x:q.x+Math.cos(q.yaw)*GATE_HALF_WIDTH*side,z:q.z-Math.sin(q.yaw)*GATE_HALF_WIDTH*side};assert.ok(bloomPathDistance(col)>2.6);}assert.ok(BLOOM_SHRINES.some(s=>Math.hypot(s.x-q.x,s.z-q.z)<16&&Math.hypot(s.x-q.x,s.z-q.z)>6));}
  assert.equal(g.layout.obstacles.length,3697);
 });
+import {sandAt,sandForWorld,desertSky} from './weather.ts';
+import {desertDune} from './desert.ts';
+test('desert sand gusts stay in the open desert during play, start calm and fade for the victory',()=>{
+ assert.equal(sandAt(0),0);let calm=0,full=0,prev=sandAt(0);for(let t=1;t<720;t++){const s=sandAt(t);assert.ok(s>=0&&s<=1&&Math.abs(s-prev)<.2);if(s===0)calm++;if(s>.95)full++;prev=s;}assert.ok(calm>360&&full>60);
+ const gust=[...Array(720).keys()].find(t=>sandAt(t)===1)!;assert.ok(gust>35);
+ const d=new Game(undefined,'desert');d.elapsed=gust;for(const mode of ['menu','intro','building'] as const){d.mode=mode;assert.equal(sandForWorld(d),0);}d.mode='playing';assert.equal(sandForWorld(d),1);d.mode='paused';assert.equal(sandForWorld(d),1);
+ d.mode='won';d.portalTime=0;assert.equal(sandForWorld(d),1);d.portalTime=3;assert.equal(sandForWorld(d),0);
+ const f=new Game();f.mode='playing';f.elapsed=gust;assert.equal(sandForWorld(f),0);
+ assert.equal(desertSky(1),'#9ddce8');assert.equal(desertSky(.5),'#9ddce8');assert.notEqual(desertSky(.3),desertSky(.1));
+});
+test('the drawn dunes never stray more than a tenth of a metre from the ground the heroine walks on',()=>{
+ for(let x=-85;x<=85;x+=3.7)for(let z=-315;z<=25;z+=3.7){const smooth=desertDune({x,z});assert.ok(smooth>=0&&Math.abs(smooth-desertHeight({x,z}))<=.1+1e-9);}
+});
