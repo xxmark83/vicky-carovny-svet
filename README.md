@@ -217,3 +217,16 @@ Jen Kouzelný les. Lesní půda mimo cestu už není hladká: zvlní ji kopečky
 - **Kde zůstává rovina**: cesta a pruh 4 m kolem ní, diamanty, svatyně, poklad, osm luk, stanoviště strážců, domečky a jejich pěšiny, jeskyně, tvořivá louka, most, vodopády a zámek.
 
 `npm test` ověřuje 138 scénářů. Před změnou a po ní bylo porovnáno 24 339 bodů celé mapy: průchodnost se nezměnila v žádném z nich, výška ve třech čtvrtinách, nejvýše o 2,9 m. V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět zvlněná půda mimo cestu se stromy správně na zemi a rovná cesta se svahem po straně. Okno aplikace nebylo otevřené, snímky jsou ze stojící scény – chůze přes kopečky, chování kamery ve svahu a zvířátka v pohybu ověřeny nebyly. Neověřeno také: drobné stavby mimo cestu (vyhlídky, kruhy kamenů na mýtinách) na nové půdě, mobilní šířka a skutečný telefon. Terasy, skalní stěny a rokle, které by chůzi omezovaly, tato verze nepřidává.
+
+## Hrdinka v měřítku, lesk meče, srst a vlasy 3.12.0
+
+- **Měřítko hrdinek**: Vikoušek i slepičí hrdinka jsou teď stejně vysoké, asi 1,9 m (slepice byla o desetinu menší). Lesní strážci mají asi 2,3 m a velký strážce pokladu asi 4 m, takže hrdinka je vždy o něco menší než ti, které osvobozuje. Vysoké květy u cesty jsou nižší (nejvýše asi 1 m), aby hrdince nesahaly po ramena.
+- **Bližší kamera**: při chůzi stojí kamera asi o pětinu blíž a níž a dívá se víc dolů. Hrdinka zabírá zhruba čtvrtinu výšky obrazu místo šestiny a celá se vejde do záběru. Platí na výšku i na šířku; let, jeskyně, stavění a úvodní film se nemění.
+- **Lesk meče**: čepel je lesklejší, každé dvě a půl vteřiny po ní přeběhne odlesk a na hrotu se třpytí hvězdička, při švihu trvale.
+- **Srst vlka**: hustší kožich na hřbetě, límec kolem krku a chomáče na bocích.
+- **Vlasy Vikouška**: téměř dvojnásobek tenčích pramenů na hlavě, v ofině i v culíku.
+- **Strážce pokladu**: oblé tvary místo ostrých kostek.
+
+Kolize, dosah úderů, souboje, příběh ani uložené hry se nemění. Platí pro les i poušť, protože postavy a kamera jsou společné.
+
+`npm test` ověřuje 138 scénářů (beze změny; vzhled a kameru testy nepokrývají). V prohlížeči na počítači byly na stránce `qa/playtest.html` vidět: bližší kamera s celou hrdinkou, hustší srst vlka, slepičí hrdinka vedle lesního strážce a Vikoušek před oblým strážcem pokladu; konzole bez chyb. Okno aplikace nebylo otevřené, snímky jsou ze stojící scény. Neověřeno: odlesk a hvězdička meče (na snímku jsem je nezachytil), vlasy zblízka, bližší kamera při chůzi, v souboji a mezi stromy, zobrazení na výšku, poušť a skutečný telefon. Nové modely osvobozených zvířátek a lesních strážců tato verze nepřináší.

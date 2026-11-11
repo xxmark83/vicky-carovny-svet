@@ -13,7 +13,8 @@ export function ChickenHero({game,hero=false}:{game:Game;hero?:boolean}){
  useFrame(({clock},delta)=>{
   const dt=Math.min(delta,.08),t=game.mode==='menu'?clock.elapsedTime:game.mode==='intro'?game.introTime:game.elapsed+game.portalTime,pose=heroPose(game),speed=pose.speed,phase=game.heroGait,joy=game.mode==='won'||game.heroReaction==='joy',shot=game.mode==='intro'?introHeroAt(t,window.innerWidth/window.innerHeight<.9,game.level):null,air=game.flying||game.landing||!!shot?.flying;
   const compression=Math.sin(Math.min(1,game.landingTime/.45)*Math.PI)*.12;
-  root.current!.scale.set(.72*(1+compression),.72*(1-compression),.72*(1+compression));
+  // 3.12.0: the hen stands as tall as Vikoušek (both about 1.9 m; forest guardians about 2.3 m).
+  root.current!.scale.set(.82*(1+compression),.82*(1-compression),.82*(1+compression));
   if(shot){root.current!.position.set(...shot.position);root.current!.rotation.set(.1,shot.yaw,0);root.current!.visible=introCastIndex(t)<0;}
   else if(hero){root.current!.position.set(4.8,.05,9.8);root.current!.scale.setScalar(1.25);root.current!.rotation.set(0,.4,0);root.current!.visible=true;}
   else{const floor=game.inCave?0:air?game.floor(game.player):game.standing(game.player);root.current!.position.set(game.player.x,floor+game.player.y+Math.abs(Math.sin(phase))*.06*speed+(joy?Math.abs(Math.sin(t*5))*.18:0),game.player.z);const yaw=game.mode==='won'?Math.sin(t*2)*.5:game.player.yaw,diff=Math.atan2(Math.sin(yaw-root.current!.rotation.y),Math.cos(yaw-root.current!.rotation.y));root.current!.rotation.y+=diff*(1-Math.exp(-dt*14));root.current!.rotation.x=air?.18:-speed*.05;root.current!.rotation.z=game.hurtFlash>0?Math.sin(t*30)*.05:Math.sin(phase)*speed*.035;root.current!.visible=game.invulnerable===0||air||game.mode!=='playing'||Math.sin(t*25)>-.6;}

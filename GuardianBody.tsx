@@ -2,7 +2,10 @@ import {useRef} from 'react';
 import {useFrame} from '@react-three/fiber';
 import * as THREE from 'three';
 import type {Game,Enemy} from './game';
-import {Box} from './Voxel';
+import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js';
+// 3.12.0: the forest guardian is built from rounded volumes, like the heroine and Auri.
+const roundGeometry=new RoundedBoxGeometry(1,1,1,4,.34);
+function Box({p=[0,0,0],s=[1,1,1],c,glow=0}:{p?:[number,number,number];s?:[number,number,number];c:string;glow?:number}){return <mesh position={p} scale={s} geometry={roundGeometry} castShadow receiveShadow><meshStandardMaterial color={c} roughness={.8} emissive={c} emissiveIntensity={glow}/></mesh>;}
 export function GuardianBody({game,enemy:e}:{game:Game;enemy:Enemy}){const arms=useRef<(THREE.Group|null)[]>([]),legs=useRef<(THREE.Group|null)[]>([]),head=useRef<THREE.Group>(null),crown=useRef<THREE.Group>(null),chest=useRef<THREE.Mesh>(null);
  useFrame((_,dt)=>{const wind=e.windup>0?1-e.windup/e.windupMax:0,open=e.stunned>0,phase=game.bossPhase===2,impact=e.impact/.45;
  arms.current.forEach((a,i)=>{if(!a)return;const lift=e.windup>0?e.attackKind==='wave'?-1.4*wind:-2.35*wind:e.impact>0?.35*impact:open?.5:Math.sin(e.gait+(i?Math.PI:0))*.14;a.rotation.x=THREE.MathUtils.damp(a.rotation.x,lift,15,dt);a.rotation.z=THREE.MathUtils.damp(a.rotation.z,(i?1:-1)*(open?.62:e.attackKind==='wave'&&e.windup>0?.25+wind*.75:.1),12,dt);});
