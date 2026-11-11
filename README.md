@@ -301,3 +301,17 @@ Oba světy. Jen podívaná: pravidla, mapa, kolize ani uložené hry se nemění
 - Úsporná grafika má méně písku, jednodušší mraky a řidší duny.
 
 `npm test` ověřuje 141 scénářů a sestavení prošlo. V prohlížeči na počítači byly zkontrolovány: poušť ve dne, při poryvu, při západu a v noci, písečný vír zblízka, les ve dne a v noci s polární září. Neověřeno: fyzický iPhone/iPad a Safari, rychlost na slabším zařízení, úsporná grafika, úvodní film pouště a hraní dítětem.
+
+## Oblá poušť 3.19.0
+
+Jen Zlatá poušť. Jen podívaná: každý kaktus, skála i palma stojí přesně tam, kde stály, a překážejí stejně jako dřív.
+
+- **Kaktusy** jsou oblé žebrované sloupy s rameny do pravého úhlu a květem na každém vrcholku místo zelených kvádrů.
+- **Skály** jsou vrstvené pískovcové balvany s barevnými pruhy.
+- **Palmy** mají nakloněný kroužkovaný kmen, korunu z prohnutých listů a kokosy. Koruny se kolébají ve větru, při poryvu víc. Vyschlá oáza má palmy svěšené, voda je zase narovná.
+- **Hory na obzoru** jsou terasovité pískovcové stolové hory místo věží z kostek. Stojí na stejných místech a jsou stejně vysoké.
+- **Voda v oázách**: jezírko s vlnitým břehem, kruhy na hladině, pěnou u kraje a odlesky. Po obnovení oázy kolem něj vyroste rákosí. Vyschlé jezírko je skvrna vlhkého písku.
+- **Ohně a pyramida**: na šesti sloupech chrámu hoří ohňové mísy a špička pyramidy září; za šera obojí zesílí. Plameny se jen pomalu vlní, neblikají.
+- Úsporná grafika má jednodušší kaktusy a listy.
+
+`npm test` ověřuje 141 scénářů a sestavení prošlo; nové testy nepřibyly, protože jde jen o kreslení. V prohlížeči na počítači byly zkontrolovány: kaktusy a hory u vstupu, první oáza po obnovení s vodou a rákosím, skála zblízka a chrám s ohni za šera. Neověřeno: pyramida zblízka, zbylé dvě oázy, úsporná grafika, úvodní film pouště, fyzický iPhone/iPad a Safari.
